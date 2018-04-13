@@ -1,0 +1,15 @@
+.CorpAccount {
+    width: 70%;
+
+    @mixin form-button {
+        width: 10%;
+    }
+    .login-x {
+        @include form-button
+        margin-left: 20%;
+    }
+    .register-x {
+        @include form-button
+        margin-left: 40%;
+    }
+}

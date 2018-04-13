@@ -1,0 +1,18 @@
+.LoginForm {
+  display: flex; }
+  .LoginForm .form-content-left {
+    width: 55vw;
+    color: #46A1ED; }
+  .LoginForm .form-content-right {
+    width: 43vw;
+    padding-right: 2vw; }
+    .LoginForm .form-content-right #vcode {
+      width: 21vw; }
+  .LoginForm .login {
+    width: 20vw; }
+  .LoginForm .register {
+    width: 20vw;
+    margin-left: 1vw; }
+  .LoginForm .forgetPwd {
+    float: right;
+    margin-top: 1vh; }

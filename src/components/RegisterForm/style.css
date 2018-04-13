@@ -1,0 +1,8 @@
+.RegisterForm {
+  width: 70%; }
+  .RegisterForm .login-x {
+    width: 10%;
+    margin-left: 20%; }
+  .RegisterForm .register-x {
+    width: 10%;
+    margin-left: 40%; }

@@ -1,0 +1,30 @@
+@import '../../config/style.scss';
+
+.LoginForm {
+    @mixin form-button {
+        width: 20vw;
+    }
+    display: flex;
+    .form-content-left {
+        width: 55vw;
+        color: $theme-color;
+    }
+    .form-content-right {
+        width: 43vw;
+        padding-right: 2vw;
+        #vcode {
+            width: 21vw;
+        }
+    }
+    .login {
+        @include form-button
+    }
+    .register {
+        @include form-button
+        margin-left: 1vw;
+    }
+    .forgetPwd {
+        float: right;
+        margin-top: 1vh;
+    }
+}

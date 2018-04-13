@@ -1,0 +1,6 @@
+.VerifyCode {
+  display: flex; }
+  .VerifyCode button {
+    margin-left: 10%;
+    width: 60%;
+    background-color: orange; }

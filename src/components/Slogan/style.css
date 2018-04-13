@@ -1,0 +1,7 @@
+.Slogan {
+  display: flex; }
+  .Slogan .box {
+    text-align: center; }
+    .Slogan .box .image {
+      height: 10vh;
+      width: 33.33vw; }

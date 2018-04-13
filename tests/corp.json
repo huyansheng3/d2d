@@ -1,0 +1,44 @@
+{
+    "query": {
+        "body": {
+            "pageNum": 0,
+            "pageSize": 0,
+            "records": [{
+                "biddingDate": "2018-02-20T06:17:03.879Z",
+                "biddingMode": "string",
+                "capitalAmount": 0,
+                "capitalNo": "string",
+                "creditRate": "string",
+                "creditorCorpId": 0,
+                "creditorCorpName": 0,
+                "d2dId": 0,
+                "debtorCorpId": 0,
+                "debtorCorpName": 0,
+                "flowName": "string",
+                "flowState": "string",
+                "flowType": "string",
+                "invoiceNo": "string",
+                "invoiceUrl": "string",
+                "issueAmount": 0,
+                "issueDate": "2018-02-20T06:17:03.879Z",
+                "issueExpiry": "2018-02-20T06:17:03.879Z",
+                "issueStatus": "string",
+                "jobberCorpId": 0,
+                "jobberCorpName": "string",
+                "periodExpiry": "2018-02-20T06:17:03.879Z",
+                "privacyLevel": "string",
+                "remark": "string",
+                "repaymentStatus": "string",
+                "resultMessage": "string",
+                "transStatus": "string",
+                "type": "string"
+            }],
+            "totalCounts": 0
+        },
+        "status": {
+            "code": "000000",
+            "msg": "string"
+        },
+        "traceId": "string"
+    }
+}
