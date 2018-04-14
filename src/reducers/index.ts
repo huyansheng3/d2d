@@ -7,10 +7,9 @@ import { default as assets } from './assets';
 import { default as enterprise } from './enterprise';
 
 export default combineReducers({
-    user,
-    market,
-    assets,
-    enterprise,
-
-    router
-})
+  user,
+  market,
+  assets,
+  enterprise,
+  router,
+});

@@ -1,3 +1,22 @@
-.WorkBench {
-    display: flex;
+.layout {
+  min-width: 800px;
+  background: #fefefe;
+
+  .header {
+    vertical-align: middle;
+    display: inline-block;
+    width: 100%;
+
+    .header__settings {
+      float: right;
+    }
+  }
+
+  .ant-layout-header {
+    padding: 0 5%;
+  }
+  .ant-layout-content {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
