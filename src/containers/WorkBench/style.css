@@ -1,14 +1,30 @@
 .layout {
   min-width: 800px;
   background: #fefefe; }
-  .layout .header {
+  .layout .layout__header {
     vertical-align: middle;
     display: inline-block;
     width: 100%; }
-    .layout .header .header__settings {
+    .layout .layout__header .header__settings {
       float: right; }
   .layout .ant-layout-header {
     padding: 0 5%; }
   .layout .ant-layout-content {
     width: 90%;
     margin: 0 auto; }
+  .layout .lcontent__content {
+    padding: 10px; }
+  .layout .layout__footer {
+    padding: 24px 5%; }
+    .layout .layout__footer .lfooter__info ul {
+      padding-left: 0; }
+    .layout .layout__footer .lfooter__info ul li {
+      list-style: none; }
+    .layout .layout__footer .lfooter__wechat img {
+      height: 80px;
+      float: right; }
+    .layout .layout__footer .lfooter__company {
+      text-align: center; }
+      .layout .layout__footer .lfooter__company p {
+        margin-top: 20px;
+        margin-bottom: 0; }

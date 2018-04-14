@@ -2,7 +2,7 @@
   min-width: 800px;
   background: #fefefe;
 
-  .header {
+  .layout__header {
     vertical-align: middle;
     display: inline-block;
     width: 100%;
@@ -15,8 +15,38 @@
   .ant-layout-header {
     padding: 0 5%;
   }
+
   .ant-layout-content {
     width: 90%;
     margin: 0 auto;
+  }
+
+  .lcontent__content {
+    padding: 10px;
+  }
+
+  .layout__footer {
+    padding: 24px 5%;
+    .lfooter__info {
+      ul {
+        padding-left: 0;
+      }
+      ul li {
+        list-style: none;
+      }
+    }
+    .lfooter__wechat {
+      img {
+        height: 80px;
+        float: right;
+      }
+    }
+    .lfooter__company {
+      text-align: center;
+      p {
+        margin-top: 20px;
+        margin-bottom: 0;
+      }
+    }
   }
 }

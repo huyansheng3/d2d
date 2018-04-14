@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Row, Col } from 'antd';
 import { LoginPage } from 'containers';
 import { getMenuItems, getMenuContent } from 'config/workbench';
 import { LogoutMenuItem } from 'components/WrapMenuItem';
+import { wechat } from 'images';
 import './style.css';
 
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu, Item } = Menu;
-
 interface Props {
   user: any;
   match: any;
@@ -67,7 +67,7 @@ class WorkBench extends React.Component<Props, {}> {
     return (
       <Layout className="layout">
         <Header>
-          <Menu theme="dark" className="header" mode="horizontal">
+          <Menu theme="dark" className="layout__header" mode="horizontal">
             <Item key="home">易工程</Item>
             <SubMenu
               title={<span>欢迎您，黄先生</span>}
@@ -80,7 +80,7 @@ class WorkBench extends React.Component<Props, {}> {
           </Menu>
         </Header>
 
-        <Content>
+        <Content className="layout__content">
           <Layout>
             <Sider width={200}>
               <Menu
@@ -90,13 +90,43 @@ class WorkBench extends React.Component<Props, {}> {
                 {getMenuItems(identity).map(item => this.renderMenu(item))}
               </Menu>
             </Sider>
-            <Content>
+            <Content className="lcontent__content">
               {getMenuContent(identity).map(doc => this.renderContent(doc))}
             </Content>
           </Layout>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2016 Created by Ant UED
+
+        <Footer className="layout__footer">
+          <Row type="flex" justify="space-between" align="middle">
+            <Col span={4} className="lfooter__info lfooter__help">
+              <h2>帮助</h2>
+              <ul>
+                <li>
+                  <a href="">易工程链接</a>
+                </li>
+                <li>
+                  <a href="">文档</a>
+                </li>
+              </ul>
+            </Col>
+            <Col span={16} className="lfooter__info lfooter__service">
+              <h2>客服支持</h2>
+              <ul>
+                <li>
+                  邮箱地址: <a href="mailto:">XXXXXXXXXXXX</a>
+                </li>
+                <li>
+                  电话: <a href="tel:">XXXXXXXXXXXX</a>
+                </li>
+              </ul>
+            </Col>
+            <Col span={4} className="lfooter__wechat">
+              <img src={wechat} alt="wechat" />
+            </Col>
+          </Row>
+          <div className="lfooter__company">
+            <p> ©2018 公司名称 XXXX</p>
+          </div>
         </Footer>
       </Layout>
     );
