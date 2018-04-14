@@ -96,11 +96,6 @@ export const accountManager = {
       id: 'resetPassword',
       title: '修改密码',
     },
-    {
-      id: 'logout',
-      title: <LogoutMenuItem />,
-      noLink: true,
-    },
   ],
 };
 

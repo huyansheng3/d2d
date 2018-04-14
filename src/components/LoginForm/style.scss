@@ -1,30 +1,25 @@
 @import '../../config/style.scss';
 
-.LoginForm {
-    @mixin form-button {
-        width: 20vw;
+.login-form {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .fcontent__right {
+    width: 300px;
+    max-width: 100%;
+    .fcright__title h1 {
+      text-align: center;
+      margin-bottom: 50px;
+      color: $white;
     }
-    display: flex;
-    .form-content-left {
-        width: 55vw;
-        color: $theme-color;
+    .fcright__btn {
+      width: 45%;
     }
-    .form-content-right {
-        width: 43vw;
-        padding-right: 2vw;
-        #vcode {
-            width: 21vw;
-        }
+    .fcright__register {
+      margin-left: 10%;
     }
-    .login {
-        @include form-button
-    }
-    .register {
-        @include form-button
-        margin-left: 1vw;
-    }
-    .forgetPwd {
-        float: right;
-        margin-top: 1vh;
-    }
+  }
 }

@@ -6,3 +6,5 @@ export { default as UploadForm } from './UploadForm';
 export { default as Banner } from './Banner';
 export { default as Shop } from './Shop';
 export { default as Slogan } from './Slogan';
+export { default as HomeLayout } from './HomeLayout';
+export { default as BgBubble } from './BgBubble';

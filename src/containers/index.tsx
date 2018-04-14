@@ -10,3 +10,4 @@ export { default as LoginPage } from './LoginPage';
 
 export { default as WorkBench } from './WorkBench';
 
+export { default as BlockQuery } from './BlockQuery';

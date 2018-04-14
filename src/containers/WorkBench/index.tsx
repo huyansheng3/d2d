@@ -4,6 +4,7 @@ import { Route, Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import { LoginPage } from 'containers';
 import { getMenuItems, getMenuContent } from 'config/workbench';
+import { LogoutMenuItem } from 'components/WrapMenuItem';
 import './style.css';
 
 const { Content, Sider, Header, Footer } = Layout;
@@ -51,15 +52,6 @@ class WorkBench extends React.Component<Props, {}> {
     return <Route key={id} path={`${match.url}/${id}`} component={dom} />;
   }
 
-  handleClick = e => {
-    if (e.key === 'logout') {
-      //   Cookies.remove('review-login-string')
-      //   window.location.href = app.api.logout
-    } else {
-      this.setState({ current: e.key });
-    }
-  };
-
   render() {
     let { user = {} } = this.props;
     let { identity } = user;
@@ -75,19 +67,14 @@ class WorkBench extends React.Component<Props, {}> {
     return (
       <Layout className="layout">
         <Header>
-          <Menu
-            theme="dark"
-            onClick={this.handleClick}
-            className="header"
-            mode="horizontal">
-            <Item key="home">
-              <Link to="/">易工程</Link>
-            </Item>
+          <Menu theme="dark" className="header" mode="horizontal">
+            <Item key="home">易工程</Item>
             <SubMenu
               title={<span>欢迎您，黄先生</span>}
               className="header__settings">
               <Item key="logout">
-                <Icon type="logout" />退出登录
+                <Icon type="logout" />
+                <LogoutMenuItem />
               </Item>
             </SubMenu>
           </Menu>

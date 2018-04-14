@@ -1,15 +1,19 @@
 @import './config/style.scss';
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 .head {
-    position: fixed;
-    width: 100vw;
-    z-index: 2;
+  position: fixed;
+  width: 100vw;
+  z-index: 2;
 }
 .content {
-    margin-top: 64px;
+  margin-top: 64px;
 }
 
 .form-header {
-    border-bottom: 1px solid $theme-color;
+  border-bottom: 1px solid $theme-color;
 }
-

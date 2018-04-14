@@ -1,15 +1,23 @@
-.RegisterForm {
-    width: 70%;
+@import 'src/config/style.scss';
 
-    @mixin form-button {
-        width: 10%;
+.regitser-form {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  .rform__content {
+    width: 300px;
+    max-width: 100%;
+    .rfcontent__title h1 {
+      text-align: center;
+      margin-bottom: 50px;
+      color: $white;
     }
-    .login-x {
-        @include form-button
-        margin-left: 20%;
+    .rfcontent__btn {
+      width: 45%;
     }
-    .register-x {
-        @include form-button
-        margin-left: 40%;
+    .rfcontent__back {
+      margin-left: 10%;
     }
+  }
 }

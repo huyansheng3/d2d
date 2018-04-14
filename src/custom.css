@@ -1,3 +1,7 @@
+html,
+body {
+  overflow-x: hidden; }
+
 .head {
   position: fixed;
   width: 100vw;
@@ -7,4 +11,4 @@
   margin-top: 64px; }
 
 .form-header {
-  border-bottom: 1px solid #46A1ED; }
+  border-bottom: 1px solid #46a1ed; }
