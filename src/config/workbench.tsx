@@ -8,7 +8,7 @@ import {
   QueryModule,
   BlockQuery,
   AccountManager,
-  OpManager,
+  OpMonitor,
   LogManager,
 } from 'containers/WorkBench/D2D';
 
@@ -61,29 +61,10 @@ export const queryModule = {
   ],
 };
 
-export const blockQuery = {
-  id: 'blockQuery',
-  title: '区块查询',
-  subItems: [
-    {
-      id: 'blockList',
-      title: '区块列表',
-    },
-    {
-      id: 'blockDetail',
-      title: '区块明细',
-    },
-  ],
-};
-
 export const accountManager = {
   id: 'accountManager',
   title: '账号管理',
   subItems: [
-    {
-      id: 'authManage',
-      title: '权限管理',
-    },
     {
       id: 'userManage',
       title: '用户管理',
@@ -137,14 +118,7 @@ export const getMenuItems = role => {
     case USER_TYPE.FUND:
       return [myReceive, searchTx, accountManager, messages];
     case USER_TYPE.CORE:
-      return [
-        dashboard,
-        queryModule,
-        blockQuery,
-        accountManager,
-        opMonitor,
-        logManager,
-      ];
+      return [dashboard, queryModule, accountManager, opMonitor, logManager];
     default:
       return [accountManager, messages];
   }
@@ -173,8 +147,8 @@ export const getMenuContent = role => {
           dom: AccountManager,
         },
         {
-          id: 'opManager',
-          dom: OpManager,
+          id: 'opMonitor',
+          dom: OpMonitor,
         },
         {
           id: 'logManager',

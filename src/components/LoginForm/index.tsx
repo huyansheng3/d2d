@@ -115,7 +115,7 @@ class LoginForm extends React.Component<Props, any> {
       <div className="form-content login-form">
         <div className="fcontent__right">
           <div className="fcright__title">
-            <h1>XX公司 D2D系统</h1>
+            <h1>链平方 D2D系统</h1>
           </div>
           <Form>{configs.map(config => this.parseConfig(config))}</Form>
           <Button

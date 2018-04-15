@@ -18,9 +18,8 @@ interface Props {
   match: any;
 }
 
-class AccountManager extends React.Component<Props, {}> {
+class OpMonitor extends React.Component<Props, {}> {
   render() {
-    console.log(this.props);
     const { match } = this.props;
     return (
       <React.Fragment>
@@ -32,4 +31,4 @@ class AccountManager extends React.Component<Props, {}> {
   }
 }
 
-export default AccountManager;
+export default OpMonitor;

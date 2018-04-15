@@ -18,9 +18,9 @@ export default class App extends React.Component {
       <Provider store={store}>
         <Router>
           <Switch>
-            <Route path="/" exact component={Home} />
             <Route path="/blockQuery" component={BlockQuery} />
             <Route path="/d2d" component={WorkBench} />
+            <Route path="/" component={Home} />
             <Redirect to="/d2d" />
           </Switch>
         </Router>

@@ -2,21 +2,20 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import QueryForm from './QueryForm';
 
-interface Props {
-}
+interface Props {}
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({});
 
-const mapStateToProps = () => ({})
+const mapStateToProps = () => ({});
 
 class QueryRecord extends React.Component<Props, {}> {
-    render() {
-        return (
-            <div>
-                <QueryForm />
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <QueryForm />
+      </div>
+    );
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryRecord);

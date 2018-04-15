@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table, Button } from 'antd';
+import { Table } from 'antd';
 import { query } from 'actions/assets';
 import { columns } from 'config/bi-query';
 import QueryForm from './QueryForm';
@@ -23,14 +23,10 @@ class PackAsset extends React.Component<Props, {}> {
 
   render() {
     let { assets } = this.props;
+
     return (
-      <div className="user-manager">
+      <div>
         <QueryForm />
-        <div className="operate">
-          <Button type="primary">创建</Button>
-          <Button type="primary">编辑</Button>
-          <Button type="primary">重置密码</Button>
-        </div>
         <Table
           columns={columns}
           dataSource={assets.map(({ state: { data: { asset } } }) => asset)}

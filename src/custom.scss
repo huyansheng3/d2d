@@ -17,3 +17,8 @@ body {
 .form-header {
   border-bottom: 1px solid $theme-color;
 }
+
+.query-form {
+  border: 1px solid $gray;
+  padding: 8px 10px;
+}

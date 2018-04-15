@@ -27,7 +27,7 @@ class HomeLayout extends Component<Props, any> {
     return (
       <Layout className="layout">
         <Header>
-          <Menu theme="dark" className="header" mode="horizontal">
+          <Menu theme="dark" className="layout__header" mode="horizontal">
             <Item key="home">
               <Link to="/">区块浏览器</Link>
             </Item>

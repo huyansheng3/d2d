@@ -12,3 +12,7 @@ body {
 
 .form-header {
   border-bottom: 1px solid #46a1ed; }
+
+.query-form {
+  border: 1px solid #797d7f;
+  padding: 8px 10px; }

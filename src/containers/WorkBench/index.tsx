@@ -5,6 +5,7 @@ import { Layout, Menu, Icon, Row, Col } from 'antd';
 import { LoginPage } from 'containers';
 import { getMenuItems, getMenuContent } from 'config/workbench';
 import { LogoutMenuItem } from 'components/WrapMenuItem';
+import { tail } from 'lodash';
 import { wechat } from 'images';
 import './style.css';
 
@@ -13,6 +14,7 @@ const { SubMenu, Item } = Menu;
 interface Props {
   user: any;
   match: any;
+  location: any;
 }
 
 const mapDispatchToProps = dispatch => ({});
@@ -52,8 +54,13 @@ class WorkBench extends React.Component<Props, {}> {
     return <Route key={id} path={`${match.url}/${id}`} component={dom} />;
   }
 
+  handleMenuClick = params => {
+    console.log(params);
+  };
+
   render() {
-    let { user = {} } = this.props;
+    let { user = {}, location } = this.props;
+
     let { identity } = user;
     if (!identity) {
       return (
@@ -86,6 +93,7 @@ class WorkBench extends React.Component<Props, {}> {
               <Menu
                 mode="inline"
                 defaultSelectedKeys={['dashboard']}
+                onClick={this.handleMenuClick}
                 style={{ height: '100%', borderRight: 0 }}>
                 {getMenuItems(identity).map(item => this.renderMenu(item))}
               </Menu>

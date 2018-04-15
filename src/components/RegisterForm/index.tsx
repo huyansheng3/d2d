@@ -87,7 +87,6 @@ class RegisterForm extends React.Component<Props, any> {
   };
 
   handleConfirmBlur = e => {
-    debugger;
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
@@ -207,7 +206,7 @@ class RegisterForm extends React.Component<Props, any> {
       <div className="regitser-form">
         <div className="rform__content">
           <div className="rfcontent__title">
-            <h1>欢迎使用 链平方 D2D 数据网关系统</h1>
+            <h1>欢迎使用链平方 D2D 数据网关系统</h1>
           </div>
           <Form>
             {configs.map(config => this.parseConfig(config))}
