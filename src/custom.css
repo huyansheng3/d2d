@@ -1,3 +1,4 @@
+@import url(./icons/iconfont.css);
 html,
 body {
   overflow-x: hidden; }
@@ -16,3 +17,7 @@ body {
 .query-form {
   border: 1px solid #797d7f;
   padding: 8px 10px; }
+  .query-form .query-form-select {
+    min-width: 180px; }
+  .query-form .query-form-btn {
+    float: right; }

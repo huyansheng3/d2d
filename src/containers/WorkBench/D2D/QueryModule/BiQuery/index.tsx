@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'antd';
-import { query } from 'actions/assets';
-import { columns } from 'config/bi-query';
-import QueryForm from './QueryForm';
+import { queryBi, ACTION_TYPE } from 'actions/query-module';
+import { biColumns } from 'config/query-module';
 
 interface Props {
   query: (data: any) => any;
-  assets: any;
+  queryModule: any;
 }
 
 const mapDispatchToProps = dispatch => ({
-  query: value => dispatch(query(value)),
+  query: value => dispatch(queryBi(value)),
 });
 
-const mapStateToProps = ({ assets }) => ({ assets });
+const mapStateToProps = ({ queryModule }) => ({ queryModule });
 
 class BiQuery extends React.Component<Props, {}> {
   componentDidMount() {
@@ -22,13 +21,14 @@ class BiQuery extends React.Component<Props, {}> {
   }
 
   render() {
-    let { assets } = this.props;
+    let { queryModule } = this.props;
+    const { biList, loading } = queryModule;
     return (
       <div>
-        <QueryForm />
         <Table
-          columns={columns}
-          dataSource={assets.map(({ state: { data: { asset } } }) => asset)}
+          loading={loading[ACTION_TYPE.QUERY]}
+          columns={biColumns}
+          dataSource={biList}
           rowKey="id"
         />
       </div>

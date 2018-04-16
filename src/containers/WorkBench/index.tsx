@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
-import { Layout, Menu, Icon, Row, Col } from 'antd';
+import { Layout, Menu, Icon, Row, Col, Button } from 'antd';
 import { LoginPage } from 'containers';
 import { getMenuItems, getMenuContent } from 'config/workbench';
 import { LogoutMenuItem } from 'components/WrapMenuItem';
@@ -22,25 +22,43 @@ const mapDispatchToProps = dispatch => ({});
 const mapStateToProps = ({ user }) => ({ user });
 
 class WorkBench extends React.Component<Props, {}> {
+  state = {
+    collapsed: false,
+  };
   renderMenu(config) {
-    let { id, title, subItems = [], parent } = config;
+    let { id, title, subItems = [], parent, MenuIcon } = config;
     let { match } = this.props;
     if (!subItems.length) {
       let { noLink } = config;
       if (noLink) {
-        return <Menu.Item key={id}>{title}</Menu.Item>;
+        return (
+          <Menu.Item key={id}>
+            {MenuIcon}
+            <span>{title}</span>
+          </Menu.Item>
+        );
       }
       const url = parent
         ? `${match.url}/${parent}/${id}`
         : `${match.url}/${id}`;
       return (
         <Menu.Item key={id}>
-          <Link to={url}>{title}</Link>
+          {MenuIcon}
+          <span>
+            <Link to={url}>{title}</Link>
+          </span>
         </Menu.Item>
       );
     }
     return (
-      <SubMenu key={id} title={title}>
+      <SubMenu
+        key={id}
+        title={
+          <span>
+            {MenuIcon}
+            <span>{title}</span>
+          </span>
+        }>
         {subItems.map(subConfig => {
           const newSubConfig = Object.assign({}, subConfig, { parent: id });
           return this.renderMenu(newSubConfig);
@@ -56,6 +74,10 @@ class WorkBench extends React.Component<Props, {}> {
 
   handleMenuClick = params => {
     console.log(params);
+  };
+
+  onCollapse = collapsed => {
+    this.setState({ collapsed });
   };
 
   render() {
@@ -89,12 +111,15 @@ class WorkBench extends React.Component<Props, {}> {
 
         <Content className="layout__content">
           <Layout>
-            <Sider width={200}>
+            <Sider
+              width={200}
+              collapsible
+              collapsed={this.state.collapsed}
+              onCollapse={this.onCollapse}>
               <Menu
                 mode="inline"
-                defaultSelectedKeys={['dashboard']}
-                onClick={this.handleMenuClick}
-                style={{ height: '100%', borderRight: 0 }}>
+                theme="dark"
+                defaultSelectedKeys={['dashboard']}>
                 {getMenuItems(identity).map(item => this.renderMenu(item))}
               </Menu>
             </Sider>

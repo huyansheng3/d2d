@@ -1,0 +1,19 @@
+.home {
+  padding: 10px; }
+  .home .home__container:not(:first-child) {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  .home .home__cards .hcards__card {
+    background-color: #fff;
+    padding: 10px 30px; }
+    .home .home__cards .hcards__card .iconfont {
+      font-size: 50px; }
+    .home .home__cards .hcards__card .hccard__desc {
+      margin: 0;
+      text-align: right; }
+    .home .home__cards .hcards__card .hccard__title {
+      font-size: 18px;
+      color: #797d7f; }
+    .home .home__cards .hcards__card .hccard__count {
+      font-size: 28px;
+      font-weight: bold; }

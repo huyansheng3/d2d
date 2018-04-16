@@ -1,0 +1,33 @@
+@import 'src/config/style.scss';
+
+.home {
+  padding: 10px;
+
+  .home__container:not(:first-child) {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .home__cards {
+    .hcards__card {
+      background-color: $white;
+      padding: 10px 30px;
+      .iconfont {
+        font-size: 50px;
+      }
+
+      .hccard__desc {
+        margin: 0;
+        text-align: right;
+      }
+      .hccard__title {
+        font-size: 18px;
+        color: $gray;
+      }
+      .hccard__count {
+        font-size: 28px;
+        font-weight: bold;
+      }
+    }
+  }
+}

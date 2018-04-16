@@ -1,4 +1,5 @@
 @import './config/style.scss';
+@import './icons/iconfont.css';
 
 html,
 body {
@@ -21,4 +22,12 @@ body {
 .query-form {
   border: 1px solid $gray;
   padding: 8px 10px;
+
+  .query-form-select {
+    min-width: 180px;
+  }
+
+  .query-form-btn {
+    float: right;
+  }
 }

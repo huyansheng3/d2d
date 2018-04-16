@@ -6,11 +6,12 @@ import {
   QueryRecord,
   Dashboard,
   QueryModule,
-  BlockQuery,
   AccountManager,
   OpMonitor,
   LogManager,
 } from 'containers/WorkBench/D2D';
+import { Link } from 'react-router-dom';
+import { Icon } from 'antd';
 
 export enum USER_TYPE {
   UNKNOWN = 'UNKNOWN',
@@ -36,14 +37,24 @@ const myReceive = {
   title: '我的应收',
 };
 
+type subMenuConfig = {
+  id: string;
+  title: string | JSX.Element;
+  MenuIcon?: JSX.Element;
+  noLink?: boolean;
+  subItems?: Array<subMenuConfig>;
+};
+
 // CORE
-const dashboard = {
+const dashboard: subMenuConfig = {
   id: 'dashboard',
+  MenuIcon: <Icon type="dashboard" />,
   title: '工作台',
 };
 
-export const queryModule = {
+export const queryModule: subMenuConfig = {
   id: 'queryModule',
+  MenuIcon: <Icon type="search" />,
   title: '查询模块',
   subItems: [
     {
@@ -61,8 +72,9 @@ export const queryModule = {
   ],
 };
 
-export const accountManager = {
+export const accountManager: subMenuConfig = {
   id: 'accountManager',
+  MenuIcon: <Icon type="user" />,
   title: '账号管理',
   subItems: [
     {
@@ -80,8 +92,9 @@ export const accountManager = {
   ],
 };
 
-export const opMonitor = {
+export const opMonitor: subMenuConfig = {
   id: 'opMonitor',
+  MenuIcon: <Icon type="eye" />,
   title: '运维监控',
   subItems: [
     {
@@ -95,8 +108,9 @@ export const opMonitor = {
   ],
 };
 
-export const logManager = {
+export const logManager: subMenuConfig = {
   id: 'logManager',
+  MenuIcon: <Icon type="inbox" />,
   title: '日志管理',
   subItems: [
     {
@@ -110,6 +124,13 @@ export const logManager = {
   ],
 };
 
+const blockBrowserEntry: subMenuConfig = {
+  id: 'blockBrowserEntry',
+  noLink: true,
+  MenuIcon: <Icon type="link" />,
+  title: <Link to="/">区块浏览器入口</Link>,
+};
+
 export const getMenuItems = role => {
   if (role === null) {
     role = USER_TYPE.ADMIN;
@@ -118,7 +139,14 @@ export const getMenuItems = role => {
     case USER_TYPE.FUND:
       return [myReceive, searchTx, accountManager, messages];
     case USER_TYPE.CORE:
-      return [dashboard, queryModule, accountManager, opMonitor, logManager];
+      return [
+        dashboard,
+        queryModule,
+        accountManager,
+        opMonitor,
+        logManager,
+        blockBrowserEntry,
+      ];
     default:
       return [accountManager, messages];
   }
@@ -137,10 +165,6 @@ export const getMenuContent = role => {
         {
           id: 'queryModule',
           dom: QueryModule,
-        },
-        {
-          id: 'blockQuery',
-          dom: BlockQuery,
         },
         {
           id: 'accountManager',

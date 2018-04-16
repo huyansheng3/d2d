@@ -15,45 +15,53 @@ const formItemLayout = {
   //        sm: { span: 4 },
   //    },
 };
-class QueryForm extends React.Component<FormComponentProps, {}> {
-  state = {
-    visible: false,
-    confirmLoading: false,
-    ModalText: 'Content of the modal',
+
+const projects = [
+  {
+    label: '项目1',
+    value: 1,
+  },
+  {
+    label: '项目2',
+    value: 2,
+  },
+  {
+    label: '项目3',
+    value: 3,
+  },
+];
+
+const projectOptions = projects.map(project => (
+  <Option key={project.value}>{project.label}</Option>
+));
+
+interface Props extends FormComponentProps {
+  isLoading: any;
+  queryApiList: (data: any) => any;
+}
+class QueryForm extends React.Component<Props, {}> {
+  handleClick = e => {
+    const projectName = this.props.form.getFieldValue('projectName');
+    this.props.queryApiList({ id: projectName });
   };
-  query = e => {
-    this.props.form.validateFields((err, values) => {
-      console.log(values);
-    });
-  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { isLoading, queryApiList } = this.props;
     return (
       <div className="query-form">
         <Form layout="inline">
-          <FormItem {...formItemLayout} label="">
-            {getFieldDecorator('mobile', {})(
-              <Input id="mobile" placeholder="账号/手机号" />
-            )}
+          <FormItem {...formItemLayout} label="项目名称">
+            {getFieldDecorator('projectName', {
+              initialValue: '请选择',
+            })(<Select className="query-form-select">{projectOptions}</Select>)}
           </FormItem>
-          <FormItem {...formItemLayout}>
-            {getFieldDecorator('name', {})(
-              <Input id="name" placeholder="用户姓名" />
-            )}
-          </FormItem>
-          <FormItem>
-            {getFieldDecorator('status', {
-              initialValue: 'all',
-            })(
-              <Select style={{ width: 120 }}>
-                <Option value="jack">所有</Option>
-                <Option value="lucy">启用</Option>
-                <Option value="Yiminghe">禁用</Option>
-              </Select>
-            )}
-          </FormItem>
-          <FormItem>
-            <Button type="primary" onClick={this.query}>
+
+          <FormItem className="query-form-btn">
+            <Button
+              loading={isLoading}
+              type="primary"
+              onClick={this.handleClick}>
               查询
             </Button>
           </FormItem>

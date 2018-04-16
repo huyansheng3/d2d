@@ -13,10 +13,6 @@ const routes = [
     title: '首页',
   },
   {
-    id: '/blockQuery',
-    title: '区块查询',
-  },
-  {
     id: '/d2d',
     title: 'D2D入口',
   },

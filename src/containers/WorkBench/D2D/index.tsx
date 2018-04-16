@@ -7,7 +7,6 @@ export { default as QueryRecord } from './Core/QueryRecord';
 
 export { default as Dashboard } from './Dashboard';
 export { default as QueryModule } from './QueryModule';
-export { default as BlockQuery } from './BlockQuery';
 export { default as AccountManager } from './AccountManager';
 export { default as OpMonitor } from './OpMonitor';
 export { default as LogManager } from './LogManager';
