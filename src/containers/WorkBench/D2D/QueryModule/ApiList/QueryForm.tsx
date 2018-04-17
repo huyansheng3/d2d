@@ -52,9 +52,11 @@ class QueryForm extends React.Component<Props, {}> {
       <div className="query-form">
         <Form layout="inline">
           <FormItem {...formItemLayout} label="项目名称">
-            {getFieldDecorator('projectName', {
-              initialValue: '请选择',
-            })(<Select className="query-form-select">{projectOptions}</Select>)}
+            {getFieldDecorator('projectName', {})(
+              <Select placeholder="请选择" className="query-form-select">
+                {projectOptions}
+              </Select>
+            )}
           </FormItem>
 
           <FormItem className="query-form-btn">

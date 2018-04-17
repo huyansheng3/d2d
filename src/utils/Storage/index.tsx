@@ -20,9 +20,13 @@ const clear = key => {
 };
 
 export const initState = key => {
-  let state = localStorage.getItem(key);
+  let state = localStorage.getItem(key) || null;
   if (state) {
-    return JSON.parse(state);
+    try {
+      return JSON.parse(state);
+    } catch (e) {
+      console.error(e);
+    }
   }
   return {};
 };

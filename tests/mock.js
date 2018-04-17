@@ -77,6 +77,26 @@ const routesConfig = [
       ],
     },
   },
+  {
+    path: '/query-module/verify-data',
+    template: {
+      data: [
+        {
+          'primaryKey|100-200': 1,
+          'plaintext|100-200': 1,
+          localHash: '@guid',
+        },
+      ],
+    },
+  },
+  {
+    path: '/query-module/calculate-hash',
+    template: {
+      data: {
+        onlineHash: '@guid',
+      },
+    },
+  },
 ];
 
 routesConfig.map(routeConfig => {

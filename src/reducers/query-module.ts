@@ -5,6 +5,8 @@ export const initState = {
   biList: [],
   loading: {},
   apiList: [],
+  verifyData: [],
+  onlineHash: '',
 };
 
 export default (state = initState, action) => {
@@ -38,6 +40,47 @@ export default (state = initState, action) => {
             loading: {
               ...prevState.loading,
               [ACTION_TYPE.QUERY_API_LIST]: false,
+            },
+          };
+        },
+      });
+    case ACTION_TYPE.QUERY_VERIFY_DATA:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          loading: {
+            ...prevState.loading,
+            [ACTION_TYPE.QUERY_VERIFY_DATA]: true,
+          },
+        }),
+        success: prevState => {
+          return { ...prevState, verifyData: action.payload.data };
+        },
+        finish: prevState => {
+          return {
+            ...prevState,
+            loading: {
+              ...prevState.loading,
+              [ACTION_TYPE.QUERY_VERIFY_DATA]: false,
+            },
+          };
+        },
+      });
+    case ACTION_TYPE.CALCULATE_HASH:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          loading: { ...prevState.loading, [ACTION_TYPE.CALCULATE_HASH]: true },
+        }),
+        success: prevState => {
+          return { ...prevState, onlineHash: action.payload.data.onlineHash };
+        },
+        finish: prevState => {
+          return {
+            ...prevState,
+            loading: {
+              ...prevState.loading,
+              [ACTION_TYPE.CALCULATE_HASH]: false,
             },
           };
         },

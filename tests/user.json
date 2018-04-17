@@ -1,26 +1,20 @@
 {
-    "login": {
-        "body": {
-            "bankApprove": "bank",
-            "corpApprove": "corp",
-            "mobile": 13009112312,
-            "role": "admin",
-            "token": "string-id",
-            "name": "Jason"
-        },
-        "status": {
-            "code": "000000",
-            "msg": ""
-        }
-    },
-    "verifyCode": {
-        "body": {},
-        "status": {
-            "code": "000000",
-            "msg": ""
-        }
-    },
-    "changePassword": {
-
+  "login": {
+    "data": {
+      "bankApprove": "bank",
+      "corpApprove": "corp",
+      "mobile": 13009112312,
+      "role": "core",
+      "token": "string-id",
+      "name": "Jason"
     }
+  },
+  "verifyCode": {
+    "body": {},
+    "status": {
+      "code": "000000",
+      "msg": ""
+    }
+  },
+  "changePassword": {}
 }
