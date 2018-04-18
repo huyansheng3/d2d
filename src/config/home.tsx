@@ -2,40 +2,32 @@ import * as React from 'react';
 import { Divider } from 'antd';
 import mock from 'mockjs';
 
-// "blocknum": 71,
-// "creattime": "2018-04-17 15:03:44",
-// "dataid": "65ADBC821C2F2235044D940E40675AD5E94EB95B39A9568A4554515581748297",
-// "keyfield": "18772companyHonorImage",
-// "datahash": "F2083FE330AEF6DCD1C9D3905B3E2F858C74EBA40B038517C33B7A8D5A3107B3",
-// "partyname": "易工程",
-// "address": "0x6df8c05c902b1048",
-// "enabled": 1
-
 export const columns = [
   {
     title: '所在区块',
-    dataIndex: 'block',
-    key: 'block',
+    dataIndex: 'blocknum',
+    key: 'blocknum',
   },
   {
     title: '时间戳',
-    dataIndex: 'timestamp',
-    key: 'timestamp',
+    dataIndex: 'creattime',
+    key: 'creattime',
   },
   {
     title: '查询主键',
-    dataIndex: 'queryPrimaryKey',
-    key: 'queryPrimaryKey',
+    dataIndex: 'keyfield',
+    key: 'keyfield',
   },
   {
     title: '哈希值',
-    dataIndex: 'hashValue',
-    key: 'hashValue',
+    dataIndex: 'datahash',
+    key: 'datahash',
+    width: 320,
   },
   {
     title: '上传者',
-    dataIndex: 'uploader',
-    key: 'uploader',
+    dataIndex: 'partyname',
+    key: 'partyname',
   },
   {
     title: '地址',
@@ -44,9 +36,9 @@ export const columns = [
   },
   {
     title: '是否有效',
-    dataIndex: 'isValid',
-    key: 'isValid',
-    render: (isValid, record, index) => (isValid ? '是' : '否'),
+    dataIndex: 'enabled',
+    key: 'enabled',
+    render: (enabled, record, index) => (enabled ? '是' : '否'),
   },
 ];
 
@@ -118,27 +110,30 @@ export const nodeListData = [
 export const latestBlockColumns = [
   {
     title: '区块高度',
-    dataIndex: 'blockHeight',
-    key: 'blockHeight',
+    dataIndex: 'blocknum',
+    key: 'blocknum',
   },
   {
     title: '出块时间',
-    dataIndex: 'outputTime',
-    key: 'outputTime',
+    dataIndex: 'creattime',
+    key: 'creattime',
   },
   {
     title: '区块哈希',
-    dataIndex: 'blockHash',
-    key: 'blockHash',
+    dataIndex: 'datahash',
+    key: 'datahash',
   },
   {
     title: '包含交易',
-    dataIndex: 'containExchange',
-    key: 'containExchange',
+    dataIndex: 'enabled',
+    key: 'enabled',
   },
 ];
 
 export const blockDetail = [
+
+
+
   {
     label: '当前区块哈希',
     value: '2XMS8UH7VL2XTPDYKTS0PYZSKV40NJ0OILE6F0L8CWYA4B2K85',

@@ -3,21 +3,20 @@
 .workbench-layout {
   min-width: 800px;
   background: #fefefe;
-
+  .layout__content {
+    min-height: calc(100vh - 64px);
+  }
   .wlayout__menu {
     line-height: 64px;
     .wlmenu__settings {
       float: right;
     }
   }
-
   .wlayout__logo {
     float: left;
-
     .wllogo__img {
       height: 40px;
     }
-
     .wllogo__name {
       background-color: $theme-color;
       padding: 10px 20px;
@@ -26,21 +25,26 @@
       color: $white;
     }
   }
-
   .ant-layout-header {
     padding: 0 15px;
   }
-
   .lcontent__sider {
-    // height: 100vh;
+    height: 100%;
+    .ant-layout-sider-trigger {
+      position: static;
+      background: $white;
+      color: rgba(0, 0, 0, 0.65);
+    }
   }
-
   .lcontent__content {
     padding: 10px;
   }
-
+  .lccontent__dashboard {
+    min-height: calc(100vh - 230px);
+  }
   .layout__footer {
-    padding: 24px 5%;
+    border-top: 1px solid $gray;
+    padding: 15px 0;
     .lfooter__info {
       ul {
         padding-left: 0;

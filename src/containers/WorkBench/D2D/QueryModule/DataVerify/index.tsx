@@ -11,18 +11,15 @@ import {
 } from 'actions/query-module';
 import { verifyColumns } from 'config/query-module';
 import { FormComponentProps } from 'antd/lib/form';
-import { forEach } from 'lodash';
+import { forEach, head } from 'lodash';
 import qs from 'qs';
 
 const Item = Form.Item;
 const TextArea = Input.TextArea;
 
 const formItemLayout = {
-  labelCol: {
-    span: 2,
-  },
   wrapperCol: {
-    span: 10,
+    span: 12,
   },
 };
 
@@ -89,11 +86,17 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
 
   render() {
     let { queryModule, form } = this.props;
-    const { verifyData, loading, onlineHash, tableList } = queryModule;
+    const { verifyData, loading, localHash, tableList, onlineHashs = [] } = queryModule;
     const { getFieldDecorator } = form;
-    const dataSource = verifyData.map(item => item.data);
+
+    const dataSource = verifyData.map((item, index) => ({ ...item, onlineHash: onlineHashs[index] }))
+
+    if (localHash && dataSource && dataSource.length) {
+      dataSource[0] = { ...dataSource[0], localHash: localHash }
+    }
+
     return (
-      <div>
+      <div className="data-verify">
         <div>
           <h2>数据验证</h2>
           <QueryForm
@@ -108,12 +111,14 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
             loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
             columns={verifyColumns}
             dataSource={dataSource}
+            pagination={false}
+            bordered
             rowKey="id"
           />
         </div>
-        <div>
+        <div className="mt20">
           <h2>本地明文哈希值计算</h2>
-          <Form>
+          <Form layout="vertical">
             <Item {...formItemLayout} label="输入">
               {getFieldDecorator('data', {
                 rules: [
@@ -123,10 +128,10 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
                     validator: this.validateJSON,
                   },
                 ],
-              })(<TextArea autosize={{ minRows: 6, maxRows: 30 }} />)}
+              })(<TextArea autosize={{ minRows: 8, maxRows: 30 }} />)}
             </Item>
 
-            <Item wrapperCol={{ span: 10, offset: 2 }}>
+            <Item >
               <Button
                 type="primary"
                 loading={loading[ACTION_TYPE.CALCULATE_HASH]}
@@ -141,7 +146,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
             </Item>
 
             <Item {...formItemLayout} label="计算结果">
-              <div>{onlineHash}</div>
+              <div>{localHash}</div>
             </Item>
           </Form>
         </div>

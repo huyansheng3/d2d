@@ -4,6 +4,7 @@ import api from 'config/api';
 export enum ACTION_TYPE {
   QUERY = 'QUERY_DATA_DETAIL',
   QUERY_CARDS = 'QUERY_CARDS',
+  QUERY_LAST_BLOCK = 'QUERY_LAST_BLOCK'
 }
 
 export const query = data => {
@@ -28,8 +29,15 @@ export const queryCards = data => {
   };
 };
 
-export default {
-  ACTION_TYPE,
-  query,
-  queryCards,
+export const queryLastBlock = data => {
+  return {
+    type: ACTION_TYPE.QUERY_LAST_BLOCK,
+    promise: wrapServer({
+      method: 'post',
+      url: api.getTransByLast,
+      data,
+    }),
+  };
 };
+
+

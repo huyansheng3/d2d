@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Banner, Shop, Slogan, HomeLayout } from 'components';
-import { HOME as HOME_ACTION } from 'actions';
+import { Banner, Shop, Slogan, HomeLayout, ReactInterval } from 'components';
+import { query, queryCards, queryLastBlock, ACTION_TYPE } from 'actions/home';
 import { homeConfig } from 'config';
 import { Row, Col, Card, Table, Icon } from 'antd';
 import classnames from 'classnames';
 import './index.css';
 
-const { query, queryCards, ACTION_TYPE } = HOME_ACTION;
 const {
   columns,
   contractColumns,
@@ -21,12 +20,14 @@ const {
 interface Props {
   query: (value: any) => any;
   queryCards: (value: any) => any;
+  queryLastBlock: (value: any) => any;
   home: any;
 }
 
 const mapDispatchToProps = dispatch => ({
   query: value => dispatch(query(value)),
   queryCards: value => dispatch(queryCards(value)),
+  queryLastBlock: value => dispatch(queryLastBlock(value)),
 });
 
 const mapStateToProps = ({ home }) => ({ home });
@@ -59,13 +60,15 @@ const cardInfos = [
 ];
 
 class Home extends React.Component<Props, any> {
+
   componentDidMount() {
-    this.props.query({});
+    // this.props.query({});
     this.props.queryCards({});
   }
+
   render() {
     let { home } = this.props;
-    const { dataDetail, loading, cards } = home;
+    const { dataDetail, loading, cards, lastBlock } = home;
     return (
       <HomeLayout>
         <div className="home">
@@ -86,8 +89,8 @@ class Home extends React.Component<Props, any> {
                           {loading[ACTION_TYPE.QUERY_CARDS] ? (
                             <Icon type="loading" />
                           ) : (
-                            cards[card.name]
-                          )}
+                              cards[card.name]
+                            )}
                         </p>
                       </Col>
                     </Row>
@@ -98,11 +101,16 @@ class Home extends React.Component<Props, any> {
           </Row>
           <div className="home__container home__data-detail">
             <h2>数据详情</h2>
+            <ReactInterval
+              enabled
+              immediate
+              timeout={60 * 1000}
+              callback={() => this.props.queryLastBlock({ rownum: 10 })} />
             <Table
-              loading={loading[ACTION_TYPE.QUERY]}
+              loading={loading[ACTION_TYPE.QUERY_LAST_BLOCK]}
               columns={columns}
-              dataSource={dataDetail}
-              rowKey="id"
+              dataSource={lastBlock}
+              pagination={false}
             />
           </div>
           <Row
@@ -131,7 +139,13 @@ class Home extends React.Component<Props, any> {
           <div className="home__container">
             <h4>最新区块</h4>
 
-            <Table columns={latestBlockColumns} dataSource={[]} />
+            <Table
+              loading={loading[ACTION_TYPE.QUERY_LAST_BLOCK]}
+              columns={latestBlockColumns}
+              dataSource={lastBlock}
+              pagination={false}
+            />
+
           </div>
 
           <div className="home__container">

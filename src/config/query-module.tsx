@@ -45,28 +45,50 @@ export const apiColumns = [
 export const verifyColumns = [
   {
     title: '主键',
-    dataIndex: 'id',
-    key: 'id',
+    dataIndex: 'keyfield',
+    key: 'keyfield',
   },
   {
     title: '明文数据',
-    dataIndex: 'plaintext',
-    key: 'plaintext',
+    dataIndex: 'data',
+    key: 'data',
+    render: (data, record, index) => {
+      try {
+        const text = JSON.stringify(data, null, 2) || ''
+        return (
+          <div>
+            {
+              text.split('\n').map((item, key) => {
+                return <span key={key}>{item}<br /></span>
+              })
+            }
+          </div>)
+      } catch (e) {
+        console.error(e);
+      }
+      return '-'
+    }
   },
   {
     title: '本地哈希',
     dataIndex: 'localHash',
     key: 'localHash',
+    render: (localHash, record, index) => {
+      if (localHash) {
+        return localHash
+      }
+      return '-';
+    },
   },
   {
     title: '链上哈希',
     dataIndex: 'onlineHash',
     key: 'onlineHash',
     render: (onlineHash, record, index) => {
-      if (!onlineHash) {
-        return '-';
+      if (onlineHash && onlineHash.datahash) {
+        return onlineHash.datahash
       }
-      return onlineHash;
+      return '-';
     },
   },
   {
@@ -74,7 +96,7 @@ export const verifyColumns = [
     dataIndex: 'result',
     key: 'result',
     render: (result, record, index) => {
-      if (!record.onlineHash) {
+      if (!record.onlineHash || !record.localHash) {
         return '-';
       }
       return record.onlineHash === record.localHash ? '匹配' : '不匹配';
@@ -86,7 +108,7 @@ export const verifyColumns = [
     key: 'operate',
     render: (operate, record, index) => {
       return (
-        <Button type="primary" onClick={e => handleCopy(record)}>
+        <Button type="primary" onClick={e => handleCopy(record.data)}>
           复制
         </Button>
       );

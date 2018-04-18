@@ -132,43 +132,45 @@ class WorkBench extends React.Component<Props, {}> {
               </Menu>
             </Sider>
             <Content className="lcontent__content">
-              {getMenuContent(role).map(doc => this.renderContent(doc))}
+              <div className="lccontent__dashboard">
+                {getMenuContent(role).map(doc => this.renderContent(doc))}
+              </div>
+              <Footer className="layout__footer">
+                <Row type="flex" justify="space-between" align="middle">
+                  <Col span={4} className="lfooter__info lfooter__help">
+                    <h2>帮助</h2>
+                    <ul>
+                      <li>
+                        <a href="">易工程链接</a>
+                      </li>
+                      <li>
+                        <a href="">文档</a>
+                      </li>
+                    </ul>
+                  </Col>
+                  <Col span={16} className="lfooter__info lfooter__service">
+                    <h2>客服支持</h2>
+                    <ul>
+                      <li>
+                        邮箱地址: <a href="mailto:">XXXXXXXXXXXX</a>
+                      </li>
+                      <li>
+                        电话: <a href="tel:">XXXXXXXXXXXX</a>
+                      </li>
+                    </ul>
+                  </Col>
+                  <Col span={4} className="lfooter__wechat">
+                    <img src={wechat} alt="wechat" />
+                  </Col>
+                </Row>
+                <div className="lfooter__company">
+                  <p> ©2018 公司名称 XXXX</p>
+                </div>
+              </Footer>
             </Content>
           </Layout>
         </Content>
 
-        <Footer className="layout__footer">
-          <Row type="flex" justify="space-between" align="middle">
-            <Col span={4} className="lfooter__info lfooter__help">
-              <h2>帮助</h2>
-              <ul>
-                <li>
-                  <a href="">易工程链接</a>
-                </li>
-                <li>
-                  <a href="">文档</a>
-                </li>
-              </ul>
-            </Col>
-            <Col span={16} className="lfooter__info lfooter__service">
-              <h2>客服支持</h2>
-              <ul>
-                <li>
-                  邮箱地址: <a href="mailto:">XXXXXXXXXXXX</a>
-                </li>
-                <li>
-                  电话: <a href="tel:">XXXXXXXXXXXX</a>
-                </li>
-              </ul>
-            </Col>
-            <Col span={4} className="lfooter__wechat">
-              <img src={wechat} alt="wechat" />
-            </Col>
-          </Row>
-          <div className="lfooter__company">
-            <p> ©2018 公司名称 XXXX</p>
-          </div>
-        </Footer>
       </Layout>
     );
   }

@@ -27,6 +27,14 @@ export const wrapServer = opt => {
       method: 'post',
       ...opt,
     })
-    .then(response => response.data)
+    .then(response => {
+      const data = response.data
+      if (data.code === 0 || data.code === '0') {
+        return data
+      } else {
+        // message.error(data.msg)
+        return Promise.reject(data)
+      }
+    })
     .catch(info => error(info));
 };

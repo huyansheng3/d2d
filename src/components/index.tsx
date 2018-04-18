@@ -8,3 +8,4 @@ export { default as Shop } from './Shop';
 export { default as Slogan } from './Slogan';
 export { default as HomeLayout } from './HomeLayout';
 export { default as BgBubble } from './BgBubble';
+export { default as ReactInterval } from './Interval';

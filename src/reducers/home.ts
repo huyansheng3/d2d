@@ -5,6 +5,7 @@ const home = {
   dataDetail: [],
   loading: {},
   cards: [],
+  lastBlock: []
 };
 
 export default (state = home, action) => {
@@ -35,6 +36,20 @@ export default (state = home, action) => {
         finish: prevState => ({
           ...prevState,
           loading: { ...prevState.loading, [ACTION_TYPE.QUERY_CARDS]: false },
+        }),
+      });
+    case ACTION_TYPE.QUERY_LAST_BLOCK:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          loading: { ...prevState.loading, [ACTION_TYPE.QUERY_LAST_BLOCK]: true },
+        }),
+        success: prevState => {
+          return { ...prevState, lastBlock: action.payload.data };
+        },
+        finish: prevState => ({
+          ...prevState,
+          loading: { ...prevState.loading, [ACTION_TYPE.QUERY_LAST_BLOCK]: false },
         }),
       });
     default:

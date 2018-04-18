@@ -6,10 +6,10 @@ export const initState = {
   loading: {},
   apiList: [],
   verifyData: [],
-  onlineHash: '',
+  localHash: '',
   tableList: [],
   queryForm: {},
-  queryHash: [],
+  onlineHashs: [],
 };
 
 export default (state = initState, action) => {
@@ -76,7 +76,7 @@ export default (state = initState, action) => {
           loading: { ...prevState.loading, [ACTION_TYPE.CALCULATE_HASH]: true },
         }),
         success: prevState => {
-          return { ...prevState, onlineHash: action.payload.data };
+          return { ...prevState, localHash: action.payload.data };
         },
         finish: prevState => {
           return {
@@ -120,7 +120,7 @@ export default (state = initState, action) => {
           },
         }),
         success: prevState => {
-          return { ...prevState, queryHash: action.payload.data };
+          return { ...prevState, onlineHashs: action.payload.data };
         },
         finish: prevState => {
           return {

@@ -8,7 +8,7 @@ import './index.css';
 
 const Search = Input.Search;
 const Option = Select.Option;
-interface Props {}
+interface Props { }
 
 const routes = [
   {
@@ -16,7 +16,7 @@ const routes = [
     title: '首页',
   },
   {
-    id: '/d2d',
+    id: '/d2d/dashboard',
     title: 'D2D入口',
   },
 ];
