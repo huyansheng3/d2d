@@ -5,10 +5,14 @@ import { Form, Table, Input, Button, Icon, Tooltip } from 'antd';
 import {
   queryVerifyData,
   calculateHash,
+  queryTableList,
+  queryHash,
   ACTION_TYPE,
 } from 'actions/query-module';
 import { verifyColumns } from 'config/query-module';
 import { FormComponentProps } from 'antd/lib/form';
+import { forEach } from 'lodash';
+import qs from 'qs';
 
 const Item = Form.Item;
 const TextArea = Input.TextArea;
@@ -24,35 +28,70 @@ const formItemLayout = {
 
 interface Props extends FormComponentProps {
   queryVerifyData: (data: any) => any;
+  queryHash: (data: any) => any;
+  queryTableList: (data: any) => any;
   calculateHash: (data: any) => any;
   queryModule: any;
 }
 
 const mapDispatchToProps = dispatch => ({
+  queryHash: value => dispatch(queryHash(value)),
   queryVerifyData: value => dispatch(queryVerifyData(value)),
+  queryTableList: value => dispatch(queryTableList(value)),
   calculateHash: value => dispatch(calculateHash(value)),
 });
 
 const mapStateToProps = ({ queryModule }) => ({ queryModule });
 
-class DataVerify extends React.Component<Props, {}> {
+class DataVerify extends React.Component<Props, { queryFileds: {} }> {
+  state = { queryFileds: {} };
+
+  handleQueryFormChange = changedFields => {
+    this.setState(({ queryFileds }) => ({
+      queryFileds: { ...queryFileds, ...changedFields },
+    }));
+  };
+
   handleCalculate = e => {
-    this.props.form.validateFieldsAndScroll((errors, values) => {
+    const { form } = this.props;
+    form.validateFieldsAndScroll((errors, values) => {
       if (!errors) {
-        this.props.calculateHash({ data: values });
+        const queryData = {};
+        forEach(this.state.queryFileds, (filed, key) => {
+          queryData[key] = filed.value;
+        });
+
+        const data = {
+          ...queryData,
+          ...values,
+        };
+
+        this.props.calculateHash({
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          data: qs.stringify(data),
+        });
       }
     });
   };
 
   componentDidMount() {
-    this.props.queryVerifyData({});
+    this.props.queryTableList({});
   }
+
+  validateJSON = (rule, value, callback) => {
+    try {
+      JSON.parse(value);
+    } catch (e) {
+      callback('格式不正确，必须是 JSON 格式');
+    }
+    callback();
+  };
 
   render() {
     let { queryModule, form } = this.props;
-    const { verifyData, loading, onlineHash } = queryModule;
+    const { verifyData, loading, onlineHash, tableList } = queryModule;
     const { getFieldDecorator } = form;
-
+    const dataSource = verifyData.map(item => item.data);
     return (
       <div>
         <div>
@@ -61,21 +100,30 @@ class DataVerify extends React.Component<Props, {}> {
             verifyData={verifyData}
             isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
             queryVerifyData={this.props.queryVerifyData}
+            queryHash={this.props.queryHash}
+            tableList={tableList}
+            onChange={this.handleQueryFormChange}
           />
           <Table
             loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
             columns={verifyColumns}
-            dataSource={verifyData}
-            rowKey="localHash"
+            dataSource={dataSource}
+            rowKey="id"
           />
         </div>
         <div>
           <h2>本地明文哈希值计算</h2>
           <Form>
             <Item {...formItemLayout} label="输入">
-              {getFieldDecorator('plaintext', {
-                rules: [{ required: true, message: '不能为空' }],
-              })(<TextArea />)}
+              {getFieldDecorator('data', {
+                rules: [
+                  { required: true, message: '不能为空' },
+
+                  {
+                    validator: this.validateJSON,
+                  },
+                ],
+              })(<TextArea autosize={{ minRows: 6, maxRows: 30 }} />)}
             </Item>
 
             <Item wrapperCol={{ span: 10, offset: 2 }}>

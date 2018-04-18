@@ -1,10 +1,14 @@
 import { wrapServer } from 'utils/Axios';
+import api from 'config/api';
 
 export enum ACTION_TYPE {
   QUERY = 'QUERY_BI_QUERY',
   QUERY_API_LIST = 'QUERY_API_LIST',
   QUERY_VERIFY_DATA = 'QUERY_VERIFY_DATA',
   CALCULATE_HASH = 'CALCULATE_HASH',
+  QUERY_TABLE_LIST = 'QUERY_TABLE_LIST',
+  SET_QUERY_FORM = 'SET_QUERY_FORM',
+  QUERY_HASH = 'QUERY_HASH',
 }
 
 export const queryBi = data => {
@@ -30,32 +34,47 @@ export const queryApiList = ({ data, id }) => {
   };
 };
 
-export const queryVerifyData = ({ data }) => {
+export const queryVerifyData = ({ data, params }) => {
   return {
     type: ACTION_TYPE.QUERY_VERIFY_DATA,
     promise: wrapServer({
       method: 'get',
-      url: '/query-module/verify-data',
+      url: api.verifyData,
       data,
+      params,
     }),
   };
 };
 
-export const calculateHash = ({ data }) => {
+export const calculateHash = options => {
   return {
     type: ACTION_TYPE.CALCULATE_HASH,
     promise: wrapServer({
+      method: 'post',
+      url: api.calculateHash,
+      ...options,
+    }),
+  };
+};
+
+export const queryTableList = ({ data }) => {
+  return {
+    type: ACTION_TYPE.QUERY_TABLE_LIST,
+    promise: wrapServer({
       method: 'get',
-      url: '/query-module/calculate-hash',
+      url: api.tableList,
       data,
     }),
   };
 };
 
-export default {
-  ACTION_TYPE,
-  queryBi,
-  queryApiList,
-  queryVerifyData,
-  calculateHash,
+export const queryHash = ({ data }) => {
+  return {
+    type: ACTION_TYPE.QUERY_HASH,
+    promise: wrapServer({
+      method: 'post',
+      url: api.getTransByKeyfiled,
+      data,
+    }),
+  };
 };

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Divider } from 'antd';
+import { Button, message } from 'antd';
+import copy from 'copy-to-clipboard';
 
 export const biColumns = [
   {
@@ -44,8 +45,8 @@ export const apiColumns = [
 export const verifyColumns = [
   {
     title: '主键',
-    dataIndex: 'primaryKey',
-    key: 'primaryKey',
+    dataIndex: 'id',
+    key: 'id',
   },
   {
     title: '明文数据',
@@ -79,7 +80,30 @@ export const verifyColumns = [
       return record.onlineHash === record.localHash ? '匹配' : '不匹配';
     },
   },
+  {
+    title: '操作',
+    dataIndex: 'operate',
+    key: 'operate',
+    render: (operate, record, index) => {
+      return (
+        <Button type="primary" onClick={e => handleCopy(record)}>
+          复制
+        </Button>
+      );
+    },
+  },
 ];
+
+function handleCopy(record) {
+  let copyText = '';
+  try {
+    copyText = JSON.stringify(record, null, 4);
+  } catch (e) {
+    console.error(e);
+  }
+  copy(copyText);
+  message.success('复制成功！');
+}
 
 export default {
   biColumns,

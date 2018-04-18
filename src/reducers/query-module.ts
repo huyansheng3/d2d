@@ -7,6 +7,9 @@ export const initState = {
   apiList: [],
   verifyData: [],
   onlineHash: '',
+  tableList: [],
+  queryForm: {},
+  queryHash: [],
 };
 
 export default (state = initState, action) => {
@@ -73,7 +76,7 @@ export default (state = initState, action) => {
           loading: { ...prevState.loading, [ACTION_TYPE.CALCULATE_HASH]: true },
         }),
         success: prevState => {
-          return { ...prevState, onlineHash: action.payload.data.onlineHash };
+          return { ...prevState, onlineHash: action.payload.data };
         },
         finish: prevState => {
           return {
@@ -81,6 +84,50 @@ export default (state = initState, action) => {
             loading: {
               ...prevState.loading,
               [ACTION_TYPE.CALCULATE_HASH]: false,
+            },
+          };
+        },
+      });
+    case ACTION_TYPE.QUERY_TABLE_LIST:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          loading: {
+            ...prevState.loading,
+            [ACTION_TYPE.QUERY_TABLE_LIST]: true,
+          },
+        }),
+        success: prevState => {
+          return { ...prevState, tableList: action.payload.data };
+        },
+        finish: prevState => {
+          return {
+            ...prevState,
+            loading: {
+              ...prevState.loading,
+              [ACTION_TYPE.QUERY_TABLE_LIST]: false,
+            },
+          };
+        },
+      });
+    case ACTION_TYPE.QUERY_HASH:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          loading: {
+            ...prevState.loading,
+            [ACTION_TYPE.QUERY_HASH]: true,
+          },
+        }),
+        success: prevState => {
+          return { ...prevState, queryHash: action.payload.data };
+        },
+        finish: prevState => {
+          return {
+            ...prevState,
+            loading: {
+              ...prevState.loading,
+              [ACTION_TYPE.QUERY_HASH]: false,
             },
           };
         },

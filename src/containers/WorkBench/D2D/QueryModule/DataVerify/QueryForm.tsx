@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormComponentProps } from 'antd/lib/form';
+import { FormComponentProps, FormCreateOption } from 'antd/lib/form';
 import { Form, Input, Select, Button, Row, Col, message } from 'antd';
 import copy from 'copy-to-clipboard';
 
@@ -7,70 +7,58 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const formItemLayout = {
-  //    labelCol: {
-  //        xs: { span: 2 },
-  //        sm: { span: 2 },
-  //    },
-  //    wrapperCol: {
-  //        sm: { span: 4 },
-  //    },
+  // labelCol: {
+  //   span: 4,
+  // },
+  // wrapperCol: {
+  //   span: 20,
+  // },
 };
-
-const projects = [
-  {
-    label: '表1',
-    value: 1,
-  },
-  {
-    label: '表2',
-    value: 2,
-  },
-  {
-    label: '表3',
-    value: 3,
-  },
-];
-
-const projectOptions = projects.map(project => (
-  <Option key={project.value}>{project.label}</Option>
-));
 
 interface Props extends FormComponentProps {
   queryVerifyData: (data: any) => any;
+  queryHash: (data: any) => any;
+  onChange?: (fields) => any;
   verifyData: any;
+  tableList: any;
   isLoading: boolean;
 }
 
 class QueryForm extends React.Component<Props, {}> {
-  state = {
-    visible: false,
-    confirmLoading: false,
-    ModalText: 'Content of the modal',
-  };
   query = e => {
-    this.props.form.validateFields((err, values) => {
-      debugger;
-      this.props.queryVerifyData({ data: values });
+    this.props.form.validateFields((err, fieldValues) => {
+      if (!err) {
+        this.props.queryVerifyData({ params: fieldValues });
+        const data = {
+          keyfield: fieldValues.id + fieldValues.stateName,
+        };
+        this.props.queryHash({ data: data });
+      }
     });
   };
 
-  handleCopy = e => {
-    const { verifyData } = this.props;
-    const { plaintext } = verifyData[0];
-    copy(plaintext);
-    message.success('复制成功！');
-  };
-
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, tableList } = this.props;
     const { getFieldDecorator } = this.props.form;
+
+    const projectOptions = tableList.map(project => (
+      <Option key={project.value}>{project.label}</Option>
+    ));
+
     return (
       <div>
         <Form layout="horizontal">
           <Row gutter={16}>
             <Col span={12}>
               <FormItem {...formItemLayout} label="选择表">
-                {getFieldDecorator('table', {})(
+                {getFieldDecorator('stateName', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '不能为空',
+                    },
+                  ],
+                })(
                   <Select placeholder="请选择" className="query-form-select">
                     {projectOptions}
                   </Select>
@@ -79,9 +67,14 @@ class QueryForm extends React.Component<Props, {}> {
             </Col>
             <Col span={12}>
               <FormItem {...formItemLayout} label="查询条件">
-                {getFieldDecorator('primaryKey', {})(
-                  <Input placeholder="请输入主键" />
-                )}
+                {getFieldDecorator('id', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '不能为空',
+                    },
+                  ],
+                })(<Input placeholder="请输入主键" />)}
               </FormItem>
             </Col>
           </Row>
@@ -90,10 +83,6 @@ class QueryForm extends React.Component<Props, {}> {
             <Button type="primary" loading={isLoading} onClick={this.query}>
               查询
             </Button>
-
-            <Button type="primary" className="ml20" onClick={this.handleCopy}>
-              复制
-            </Button>
           </FormItem>
         </Form>
       </div>
@@ -101,4 +90,8 @@ class QueryForm extends React.Component<Props, {}> {
   }
 }
 
-export default Form.create()(QueryForm);
+export default Form.create({
+  onFieldsChange: (props: { onChange }, changedFields) => {
+    props.onChange(changedFields);
+  },
+})(QueryForm);
