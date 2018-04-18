@@ -128,7 +128,11 @@ const blockBrowserEntry: subMenuConfig = {
   id: 'blockBrowserEntry',
   noLink: true,
   MenuIcon: <Icon type="link" />,
-  title: <Link to="/">区块浏览器入口</Link>,
+  title: (
+    <Link className="block-browser-item" to="/">
+      区块浏览器入口
+    </Link>
+  ),
 };
 
 export const getMenuItems = role => {

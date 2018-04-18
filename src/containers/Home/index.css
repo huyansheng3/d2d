@@ -1,5 +1,6 @@
 .home {
-  padding: 10px; }
+  padding: 10px;
+  padding-bottom: 30px; }
   .home .home__container:not(:first-child) {
     margin-top: 10px;
     margin-bottom: 10px; }

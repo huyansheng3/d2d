@@ -1,0 +1,18 @@
+@import 'src/config/style.scss';
+
+.home-layout {
+  .hlayout__logo {
+    padding: 10px 20px;
+    color: $white;
+    background-color: $theme-color;
+    border-radius: 5px;
+  }
+
+  .hlayout__search {
+    float: right;
+  }
+
+  .ant-layout-header {
+    padding: 0 15px;
+  }
+}

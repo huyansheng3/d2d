@@ -1,24 +1,38 @@
-.layout {
+@import 'src/config/style.scss';
+
+.workbench-layout {
   min-width: 800px;
   background: #fefefe;
 
-  .layout__header {
-    vertical-align: middle;
-    display: inline-block;
-    width: 100%;
-
-    .header__settings {
+  .wlayout__menu {
+    line-height: 64px;
+    .wlmenu__settings {
       float: right;
     }
   }
 
-  .ant-layout-header {
-    padding: 0 5%;
+  .wlayout__logo {
+    float: left;
+
+    .wllogo__img {
+      height: 40px;
+    }
+
+    .wllogo__name {
+      background-color: $theme-color;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-left: 20px;
+      color: $white;
+    }
   }
 
-  .ant-layout-content {
-    width: 90%;
-    margin: 0 auto;
+  .ant-layout-header {
+    padding: 0 15px;
+  }
+
+  .lcontent__sider {
+    // height: 100vh;
   }
 
   .lcontent__content {

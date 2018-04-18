@@ -1,30 +1,35 @@
-.layout {
+.workbench-layout {
   min-width: 800px;
   background: #fefefe; }
-  .layout .layout__header {
-    vertical-align: middle;
-    display: inline-block;
-    width: 100%; }
-    .layout .layout__header .header__settings {
+  .workbench-layout .wlayout__menu {
+    line-height: 64px; }
+    .workbench-layout .wlayout__menu .wlmenu__settings {
       float: right; }
-  .layout .ant-layout-header {
-    padding: 0 5%; }
-  .layout .ant-layout-content {
-    width: 90%;
-    margin: 0 auto; }
-  .layout .lcontent__content {
+  .workbench-layout .wlayout__logo {
+    float: left; }
+    .workbench-layout .wlayout__logo .wllogo__img {
+      height: 40px; }
+    .workbench-layout .wlayout__logo .wllogo__name {
+      background-color: #46a1ed;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-left: 20px;
+      color: #fff; }
+  .workbench-layout .ant-layout-header {
+    padding: 0 15px; }
+  .workbench-layout .lcontent__content {
     padding: 10px; }
-  .layout .layout__footer {
+  .workbench-layout .layout__footer {
     padding: 24px 5%; }
-    .layout .layout__footer .lfooter__info ul {
+    .workbench-layout .layout__footer .lfooter__info ul {
       padding-left: 0; }
-    .layout .layout__footer .lfooter__info ul li {
+    .workbench-layout .layout__footer .lfooter__info ul li {
       list-style: none; }
-    .layout .layout__footer .lfooter__wechat img {
+    .workbench-layout .layout__footer .lfooter__wechat img {
       height: 80px;
       float: right; }
-    .layout .layout__footer .lfooter__company {
+    .workbench-layout .layout__footer .lfooter__company {
       text-align: center; }
-      .layout .layout__footer .lfooter__company p {
+      .workbench-layout .layout__footer .lfooter__company p {
         margin-top: 20px;
         margin-bottom: 0; }

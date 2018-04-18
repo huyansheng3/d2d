@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Input, Select } from 'antd';
 import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu, Item } = Menu;
+import './index.css';
 
+const Search = Input.Search;
+const Option = Select.Option;
 interface Props {}
 
 const routes = [
@@ -21,13 +24,22 @@ const routes = [
 class HomeLayout extends Component<Props, any> {
   render() {
     return (
-      <Layout className="layout">
+      <Layout className="layout home-layout">
         <Header>
-          <Menu theme="dark" className="layout__header" mode="horizontal">
-            <Item key="home">
-              <Link to="/">区块浏览器</Link>
-            </Item>
-          </Menu>
+          <span className="hlayout__logo">区块浏览器</span>
+
+          <div className="hlayout__search">
+            <Select style={{ minWidth: 120 }} defaultValue="blockHeight">
+              <Option key="blockHeight">区块高度</Option>
+              <Option key="primaryKey">主键</Option>
+            </Select>
+            <Search
+              placeholder="请输入查询条件"
+              onSearch={value => console.log(value)}
+              enterButton
+              style={{ width: 200 }}
+            />
+          </div>
         </Header>
 
         <Content>

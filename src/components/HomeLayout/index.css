@@ -1,0 +1,11 @@
+.home-layout .hlayout__logo {
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #46a1ed;
+  border-radius: 5px; }
+
+.home-layout .hlayout__search {
+  float: right; }
+
+.home-layout .ant-layout-header {
+  padding: 0 15px; }

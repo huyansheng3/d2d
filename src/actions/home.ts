@@ -1,4 +1,5 @@
 import { wrapServer } from 'utils/Axios';
+import api from 'config/api';
 
 export enum ACTION_TYPE {
   QUERY = 'QUERY_DATA_DETAIL',

@@ -8,7 +8,15 @@ import classnames from 'classnames';
 import './index.css';
 
 const { query, queryCards, ACTION_TYPE } = HOME_ACTION;
-const { columns } = homeConfig;
+const {
+  columns,
+  contractColumns,
+  contractData,
+  nodeListColumns,
+  nodeListData,
+  latestBlockColumns,
+  blockDetail,
+} = homeConfig;
 
 interface Props {
   query: (value: any) => any;
@@ -88,7 +96,6 @@ class Home extends React.Component<Props, any> {
               );
             })}
           </Row>
-
           <div className="home__container home__data-detail">
             <h2>数据详情</h2>
             <Table
@@ -97,6 +104,49 @@ class Home extends React.Component<Props, any> {
               dataSource={dataDetail}
               rowKey="id"
             />
+          </div>
+          <Row
+            gutter={24}
+            type="flex"
+            align="middle"
+            className="home__container ">
+            <Col span={12}>
+              <h4>智能合约列表</h4>
+              <Table
+                columns={contractColumns}
+                dataSource={contractData}
+                pagination={false}
+              />
+            </Col>
+            <Col span={12}>
+              <h4>节点数据</h4>
+              <Table
+                columns={nodeListColumns}
+                dataSource={nodeListData}
+                pagination={false}
+              />
+            </Col>
+          </Row>
+
+          <div className="home__container">
+            <h4>最新区块</h4>
+
+            <Table columns={latestBlockColumns} dataSource={[]} />
+          </div>
+
+          <div className="home__container">
+            <h2>区块详情</h2>
+
+            <dl className="common-dl">
+              {blockDetail.map(item => {
+                return (
+                  <div key={item.label}>
+                    <dt>{item.label}:</dt>
+                    <dd>{item.value || '-'}</dd>
+                  </div>
+                );
+              })}
+            </dl>
           </div>
         </div>
       </HomeLayout>

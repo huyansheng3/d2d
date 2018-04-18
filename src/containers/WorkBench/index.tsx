@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Redirect } from 'react-router-dom';
 import { Layout, Menu, Icon, Row, Col, Button } from 'antd';
 import { LoginPage } from 'containers';
 import { getMenuItems, getMenuContent } from 'config/workbench';
 import { LogoutMenuItem } from 'components/WrapMenuItem';
 import { tail } from 'lodash';
-import { wechat } from 'images';
+import { wechat, yiLogo } from 'images';
 import './style.css';
 
 const { Content, Sider, Header, Footer } = Layout;
@@ -14,6 +14,7 @@ const { SubMenu, Item } = Menu;
 interface Props {
   user: any;
   match: any;
+  history: any;
   location: any;
 }
 
@@ -42,11 +43,9 @@ class WorkBench extends React.Component<Props, {}> {
         ? `${match.url}/${parent}/${id}`
         : `${match.url}/${id}`;
       return (
-        <Menu.Item key={id}>
+        <Menu.Item key={url}>
           {MenuIcon}
-          <span>
-            <Link to={url}>{title}</Link>
-          </span>
+          <span>{title}</span>
         </Menu.Item>
       );
     }
@@ -72,8 +71,12 @@ class WorkBench extends React.Component<Props, {}> {
     return <Route key={id} path={`${match.url}/${id}`} component={dom} />;
   }
 
-  handleMenuClick = params => {
-    console.log(params);
+  handleMenuClick = ({ key }) => {
+    if (key.match('blockBrowserEntry')) {
+      this.props.history.push('/');
+    } else {
+      this.props.history.push(key);
+    }
   };
 
   onCollapse = collapsed => {
@@ -83,8 +86,8 @@ class WorkBench extends React.Component<Props, {}> {
   render() {
     let { user = {}, location } = this.props;
 
-    let { identity } = user;
-    if (!identity) {
+    let { role } = user;
+    if (!role) {
       return (
         <Layout>
           <Content>
@@ -94,13 +97,17 @@ class WorkBench extends React.Component<Props, {}> {
       );
     }
     return (
-      <Layout className="layout">
+      <Layout className="layout workbench-layout">
         <Header>
-          <Menu theme="dark" className="layout__header" mode="horizontal">
-            <Item key="home">易工程</Item>
+          <div className="wlayout__logo">
+            <img className="wllogo__img" src={yiLogo} alt="logo" />
+            <span className="wllogo__name">易工程</span>
+          </div>
+
+          <Menu theme="dark" className="wlayout__menu" mode="horizontal">
             <SubMenu
               title={<span>欢迎您，黄先生</span>}
-              className="header__settings">
+              className="wlmenu__settings">
               <Item key="logout">
                 <Icon type="logout" />
                 <LogoutMenuItem />
@@ -113,18 +120,19 @@ class WorkBench extends React.Component<Props, {}> {
           <Layout>
             <Sider
               width={200}
+              className="lcontent__sider"
               collapsible
               collapsed={this.state.collapsed}
               onCollapse={this.onCollapse}>
               <Menu
                 mode="inline"
-                theme="dark"
+                onClick={this.handleMenuClick}
                 defaultSelectedKeys={['dashboard']}>
-                {getMenuItems(identity).map(item => this.renderMenu(item))}
+                {getMenuItems(role).map(item => this.renderMenu(item))}
               </Menu>
             </Sider>
             <Content className="lcontent__content">
-              {getMenuContent(identity).map(doc => this.renderContent(doc))}
+              {getMenuContent(role).map(doc => this.renderContent(doc))}
             </Content>
           </Layout>
         </Content>

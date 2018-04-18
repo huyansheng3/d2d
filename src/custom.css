@@ -22,6 +22,22 @@ body {
   .query-form .query-form-btn {
     float: right; }
 
+.common-dl {
+  display: table; }
+  .common-dl > div {
+    display: table-row; }
+  .common-dl dt {
+    display: table-cell;
+    padding-top: 5px;
+    padding-right: 5px; }
+  .common-dl dd {
+    display: table-cell; }
+
+.block-browser-item {
+  color: rgba(0, 0, 0, 0.65); }
+  .block-browser-item:hover {
+    color: #46a1ed; }
+
 .ml10 {
   margin-left: 20px; }
 
