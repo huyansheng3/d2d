@@ -1,5 +1,33 @@
+@import 'src/config/style.scss';
+
 .dashboard {
-    .dashboard__card {
-        min-height: 230px;
+  .dashboard__card {
+    min-height: 230px;
+
+    .dcard__item {
+      padding: 15px;
+      color: $white;
+      background-color: $theme-color;
+
+      h3 {
+        color: $white;
+      }
     }
+
+    .dcard__item--second {
+      background-color: $bright;
+    }
+  }
+
+  .dashboard-list {
+    border: 1px solid $gray;
+    padding: 10px 20px;
+    box-shadow: 2px 2px 10px $gray;
+    ul {
+      padding: 0;
+    }
+    ul > li {
+      list-style: none;
+    }
+  }
 }

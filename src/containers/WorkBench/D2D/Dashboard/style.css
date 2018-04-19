@@ -1,2 +1,19 @@
 .dashboard .dashboard__card {
   min-height: 230px; }
+  .dashboard .dashboard__card .dcard__item {
+    padding: 15px;
+    color: #fff;
+    background-color: #46a1ed; }
+    .dashboard .dashboard__card .dcard__item h3 {
+      color: #fff; }
+  .dashboard .dashboard__card .dcard__item--second {
+    background-color: #ffca00; }
+
+.dashboard .dashboard-list {
+  border: 1px solid #797d7f;
+  padding: 10px 20px;
+  box-shadow: 2px 2px 10px #797d7f; }
+  .dashboard .dashboard-list ul {
+    padding: 0; }
+  .dashboard .dashboard-list ul > li {
+    list-style: none; }
