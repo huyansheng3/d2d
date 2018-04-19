@@ -127,7 +127,7 @@ class WorkBench extends React.Component<Props, {}> {
               <Menu
                 mode="inline"
                 onClick={this.handleMenuClick}
-                defaultSelectedKeys={['dashboard']}>
+                selectedKeys={[location.pathname]}>
                 {getMenuItems(role).map(item => this.renderMenu(item))}
               </Menu>
             </Sider>
@@ -170,7 +170,6 @@ class WorkBench extends React.Component<Props, {}> {
             </Content>
           </Layout>
         </Content>
-
       </Layout>
     );
   }
