@@ -2,6 +2,7 @@
     "name": "react-lab",
     "version": "0.1.0",
     "private": true,
+    "main": "index.js",
     "dependencies": {
         "@types/redux-devtools": "^3.0.42",
         "antd": "^3.1.4",
@@ -23,6 +24,7 @@
         "redux": "^3.7.2",
         "redux-pack": "^0.1.5",
         "redux-thunk": "^2.2.0",
+        "serve-static": "^1.13.2",
         "style-loader": "^0.19.1"
     },
     "scripts": {
