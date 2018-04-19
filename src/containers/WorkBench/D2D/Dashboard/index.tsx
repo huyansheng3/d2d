@@ -13,6 +13,8 @@ import {
 } from 'utils/Form';
 import './style.css';
 
+import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, View, Guide, Shape } from 'bizcharts';
+
 interface Props extends FormComponentProps {
   onSubmit: (value: any) => any;
   sendVerify: (value: {}) => any;
@@ -28,6 +30,38 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = () => ({});
 
+const basicInfos = [{
+  label: '基本信息',
+  value: 'XX公司',
+},
+{
+  label: '姓名',
+  value: '黄 XX',
+},
+{
+  label: '角色',
+  value: '管理员/操作员',
+},
+{
+  label: '上次登录时间',
+  value: 'YYYY-MM-DD HH:MM:SS',
+}]
+
+// 数据源
+const data = [
+  { genre: 'Sports', sold: 275, income: 2300 },
+  { genre: 'Strategy', sold: 115, income: 667 },
+  { genre: 'Action', sold: 120, income: 982 },
+  { genre: 'Shooter', sold: 350, income: 5271 },
+  { genre: 'Other', sold: 150, income: 3710 }
+];
+
+// 定义度量
+const cols = {
+  sold: { alias: '销售量' },
+  genre: { alias: '游戏种类' }
+};
+
 class CorpAccount extends React.Component<Props, any> {
   state = {
     agree: false,
@@ -42,9 +76,9 @@ class CorpAccount extends React.Component<Props, any> {
         err
           ? null
           : sendVerify({
-              ...value,
-              smsType: SMS_TYPE.SIGNUP,
-            })
+            ...value,
+            smsType: SMS_TYPE.SIGNUP,
+          })
     );
   };
 
@@ -97,21 +131,64 @@ class CorpAccount extends React.Component<Props, any> {
   };
 
   render() {
+
     return (
       <div className="dashboard">
         <Row gutter={16}>
           <Col span={12}>
-            <Card title="基本信息" bordered={false}>
-              Card content
+            <Card className="dashboard__card" title="基本信息" hoverable bordered={false}>
+              <dl className="common-dl">
+                {basicInfos.map(item => {
+                  return (
+                    <div key={item.label}>
+                      <dt>{item.label}:</dt>
+                      <dd>{item.value || '-'}</dd>
+                    </div>
+                  );
+                })}
+              </dl>
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="数据统计" bordered={false}>
-              Card content
+            <Card className="dashboard__card" title="数据统计" hoverable bordered={false}>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <p>数据表</p>
+                  <p>10</p>
+                </Col>
+                <Col span={8}>
+                  <p>已授权项目</p>
+                  <p>2</p></Col>
+              </Row>
             </Card>
           </Col>
         </Row>
-      </div>
+
+        <div className="mt20">
+          <h4>权限清单</h4>
+        </div>
+
+        <div className="mt20">
+          <Card title="图表" hoverable bordered={false}>
+            <Row gutter={16}>
+              <Col span={12}>
+
+                <Chart width={600} height={500} data={data} >
+                  <Axis name="genre" />
+                  <Axis name="sold" />
+                  <Legend position="top" />
+                  <Tooltip />
+                  <Geom type="interval" position="genre*sold" color="genre" />
+                </Chart>
+              </Col>
+              <Col span={12}>
+                xxxx
+                </Col>
+            </Row>
+          </Card>
+        </div>
+
+      </div >
     );
   }
 }
