@@ -326,7 +326,7 @@ class CorpAccount extends React.Component<Props, any> {
                 <Chart
                   width={400}
                   height={300}
-                  style={{ maxWidth: 600 }}
+                  style={{ maxWidth: '90%' }}
                   data={data}
                   forceFit>
                   <Axis name="year" />
