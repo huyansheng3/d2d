@@ -1,5 +1,6 @@
 {
   "login": {
+    "code": 0,
     "data": {
       "bankApprove": "bank",
       "corpApprove": "corp",

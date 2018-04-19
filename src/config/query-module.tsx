@@ -54,20 +54,24 @@ export const verifyColumns = [
     key: 'data',
     render: (data, record, index) => {
       try {
-        const text = JSON.stringify(data, null, 2) || ''
+        const text = JSON.stringify(data, null, 2) || '';
         return (
           <div>
-            {
-              text.split('\n').map((item, key) => {
-                return <span key={key}>{item}<br /></span>
-              })
-            }
-          </div>)
+            {text.split('\n').map((item, key) => {
+              return (
+                <span key={key}>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
+          </div>
+        );
       } catch (e) {
         console.error(e);
       }
-      return '-'
-    }
+      return '-';
+    },
   },
   {
     title: '本地哈希',
@@ -75,7 +79,7 @@ export const verifyColumns = [
     key: 'localHash',
     render: (localHash, record, index) => {
       if (localHash) {
-        return localHash
+        return localHash;
       }
       return '-';
     },
@@ -86,7 +90,7 @@ export const verifyColumns = [
     key: 'onlineHash',
     render: (onlineHash, record, index) => {
       if (onlineHash && onlineHash.datahash) {
-        return onlineHash.datahash
+        return onlineHash.datahash;
       }
       return '-';
     },
@@ -99,7 +103,9 @@ export const verifyColumns = [
       if (!record.onlineHash || !record.localHash) {
         return '-';
       }
-      return record.onlineHash === record.localHash ? '匹配' : '不匹配';
+      return record.onlineHash.datahash === record.localHash
+        ? '匹配'
+        : '不匹配';
     },
   },
   {
