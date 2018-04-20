@@ -38,29 +38,32 @@ const cardInfos = [
     count: 2,
     name: 'node',
     icon: 'icon-nodejs',
+    color: '#24ae88',
   },
   {
     title: '区块',
     count: 2,
     name: 'block',
     icon: 'icon-blocks_i',
+    color: '#333333',
   },
   {
     title: '交易',
     count: 2,
     name: 'exchange',
     icon: 'icon-exchange',
+    color: '#1c7ebb',
   },
   {
     title: '智能合约',
     count: 2,
     name: 'contract',
     icon: 'icon-contract',
+    color: '#f98d33',
   },
 ];
 
 class Home extends React.Component<Props, any> {
-
   componentDidMount() {
     // this.props.query({});
     this.props.queryCards({});
@@ -79,7 +82,10 @@ class Home extends React.Component<Props, any> {
                   <div className="hcards__card">
                     <Row type="flex" align="middle" justify="space-between">
                       <Col>
-                        <i className={classnames('iconfont', card.icon)} />
+                        <i
+                          style={{ color: card.color }}
+                          className={classnames('iconfont', card.icon)}
+                        />
                       </Col>
                       <Col>
                         <p className="hccard__desc hccard__title">
@@ -89,8 +95,8 @@ class Home extends React.Component<Props, any> {
                           {loading[ACTION_TYPE.QUERY_CARDS] ? (
                             <Icon type="loading" />
                           ) : (
-                              cards[card.name]
-                            )}
+                            cards[card.name]
+                          )}
                         </p>
                       </Col>
                     </Row>
@@ -105,21 +111,19 @@ class Home extends React.Component<Props, any> {
               enabled
               immediate
               timeout={60 * 1000}
-              callback={() => this.props.queryLastBlock({ rownum: 10 })} />
+              callback={() => this.props.queryLastBlock({ rownum: 10 })}
+            />
             <Table
               loading={loading[ACTION_TYPE.QUERY_LAST_BLOCK]}
               columns={columns}
               dataSource={lastBlock}
               pagination={false}
+              rowKey="datahash"
             />
           </div>
-          <Row
-            gutter={24}
-            type="flex"
-            align="middle"
-            className="home__container ">
+          <Row type="flex" align="middle" className="home__container ">
             <Col span={12}>
-              <h4>智能合约列表</h4>
+              <h2>智能合约列表</h2>
               <Table
                 columns={contractColumns}
                 dataSource={contractData}
@@ -127,7 +131,7 @@ class Home extends React.Component<Props, any> {
               />
             </Col>
             <Col span={12}>
-              <h4>节点数据</h4>
+              <h2>节点数据</h2>
               <Table
                 columns={nodeListColumns}
                 dataSource={nodeListData}
@@ -137,15 +141,15 @@ class Home extends React.Component<Props, any> {
           </Row>
 
           <div className="home__container">
-            <h4>最新区块</h4>
+            <h2>最新区块</h2>
 
             <Table
               loading={loading[ACTION_TYPE.QUERY_LAST_BLOCK]}
               columns={latestBlockColumns}
               dataSource={lastBlock}
               pagination={false}
+              rowKey="datahash"
             />
-
           </div>
 
           <div className="home__container">
@@ -154,9 +158,11 @@ class Home extends React.Component<Props, any> {
             <dl className="common-dl">
               {blockDetail.map(item => {
                 return (
-                  <div key={item.label}>
-                    <dt>{item.label}:</dt>
-                    <dd>{item.value || '-'}</dd>
+                  <div className="common-dl-row" key={item.label}>
+                    <dt className="common-dl-item-label">{item.label}:</dt>
+                    <dd className="common-dl-item-value">
+                      {item.value || '-'}
+                    </dd>
                   </div>
                 );
               })}

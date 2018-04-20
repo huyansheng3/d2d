@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Layout, Menu, Input, Select } from 'antd';
 import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
+import { yiLogo } from 'images';
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu, Item } = Menu;
 import './index.css';
 
 const Search = Input.Search;
 const Option = Select.Option;
-interface Props { }
+interface Props {}
 
 const routes = [
   {
@@ -26,12 +27,15 @@ class HomeLayout extends Component<Props, any> {
     return (
       <Layout className="layout home-layout">
         <Header>
-          <span className="hlayout__logo">区块浏览器</span>
+          <div className="home-layout-logo">
+            <img className="hlayout__img" src={yiLogo} alt="logo" />
+            <span className="hlayout__logo ml20">区块浏览器</span>
+          </div>
 
           <div className="hlayout__search">
-            <Select style={{ minWidth: 120 }} defaultValue="blockHeight">
+            <Select style={{ minWidth: 120 }} defaultValue="primaryKey">
+              <Option key="primaryKey">数据主键</Option>
               <Option key="blockHeight">区块高度</Option>
-              <Option key="primaryKey">主键</Option>
             </Select>
             <Search
               placeholder="请输入查询条件"

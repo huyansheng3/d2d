@@ -44,51 +44,51 @@ const mapStateToProps = () => ({});
 const basicInfos = [
   {
     label: '基本信息',
-    value: 'XX公司',
+    value: '厦门易功成信息技术有限公司',
   },
   {
     label: '姓名',
-    value: '黄 XX',
+    value: '陈京鹭',
   },
   {
     label: '角色',
-    value: '管理员/操作员',
+    value: '管理员',
   },
   {
     label: '上次登录时间',
-    value: 'YYYY-MM-DD HH:MM:SS',
+    value: '2018-04-25 10:00:00',
   },
 ];
 
 const data = [
-  { country: 'Asia', year: '1750', value: 502 },
-  { country: 'Asia', year: '1800', value: 635 },
-  { country: 'Asia', year: '1850', value: 809 },
-  { country: 'Asia', year: '1900', value: 5268 },
-  { country: 'Asia', year: '1950', value: 4400 },
-  { country: 'Asia', year: '1999', value: 3634 },
-  { country: 'Asia', year: '2050', value: 947 },
-  { country: 'Africa', year: '1750', value: 106 },
-  { country: 'Africa', year: '1800', value: 107 },
-  { country: 'Africa', year: '1850', value: 111 },
-  { country: 'Africa', year: '1900', value: 1766 },
-  { country: 'Africa', year: '1950', value: 221 },
-  { country: 'Africa', year: '1999', value: 767 },
-  { country: 'Africa', year: '2050', value: 133 },
-  { country: 'Europe', year: '1750', value: 163 },
-  { country: 'Europe', year: '1800', value: 203 },
-  { country: 'Europe', year: '1850', value: 276 },
-  { country: 'Europe', year: '1900', value: 628 },
-  { country: 'Europe', year: '1950', value: 547 },
-  { country: 'Europe', year: '1999', value: 729 },
-  { country: 'Europe', year: '2050', value: 408 },
-  { country: 'Oceania', year: '1750', value: 200 },
-  { country: 'Oceania', year: '1800', value: 200 },
-  { country: 'Oceania', year: '1850', value: 200 },
-  { country: 'Oceania', year: '1900', value: 460 },
-  { country: 'Oceania', year: '1950', value: 230 },
-  { country: 'Oceania', year: '1999', value: 300 },
-  { country: 'Oceania', year: '2050', value: 300 },
+  { country: '中标项目', year: '1750', value: 502 },
+  { country: '中标项目', year: '1800', value: 635 },
+  { country: '中标项目', year: '1850', value: 809 },
+  { country: '中标项目', year: '1900', value: 5268 },
+  { country: '中标项目', year: '1950', value: 4400 },
+  { country: '中标项目', year: '1999', value: 3634 },
+  { country: '中标项目', year: '2050', value: 947 },
+  { country: '公司资质', year: '1750', value: 106 },
+  { country: '公司资质', year: '1800', value: 107 },
+  { country: '公司资质', year: '1850', value: 111 },
+  { country: '公司资质', year: '1900', value: 1766 },
+  { country: '公司资质', year: '1950', value: 221 },
+  { country: '公司资质', year: '1999', value: 767 },
+  { country: '公司资质', year: '2050', value: 133 },
+  { country: '公司荣誉', year: '1750', value: 163 },
+  { country: '公司荣誉', year: '1800', value: 203 },
+  { country: '公司荣誉', year: '1850', value: 276 },
+  { country: '公司荣誉', year: '1900', value: 628 },
+  { country: '公司荣誉', year: '1950', value: 547 },
+  { country: '公司荣誉', year: '1999', value: 729 },
+  { country: '公司荣誉', year: '2050', value: 408 },
+  { country: '采购订单信息', year: '1750', value: 200 },
+  { country: '采购订单信息', year: '1800', value: 200 },
+  { country: '采购订单信息', year: '1850', value: 200 },
+  { country: '采购订单信息', year: '1900', value: 460 },
+  { country: '采购订单信息', year: '1950', value: 230 },
+  { country: '采购订单信息', year: '1999', value: 300 },
+  { country: '采购订单信息', year: '2050', value: 300 },
 ];
 const cols = {
   year: {
@@ -100,11 +100,11 @@ const cols = {
 const { Html } = Guide;
 
 const percentData = [
-  { item: '事例一', count: 40 },
-  { item: '事例二', count: 21 },
-  { item: '事例三', count: 17 },
-  { item: '事例四', count: 13 },
-  { item: '事例五', count: 9 },
+  { item: '中标项目', count: 40 },
+  { item: '公司资质', count: 21 },
+  { item: '采购订单信息', count: 17 },
+  { item: '销售订单信息', count: 13 },
+  { item: '供应商基础信息', count: 9 },
 ];
 const dv = new DataView();
 
@@ -290,14 +290,6 @@ class CorpAccount extends React.Component<Props, any> {
                     showTitle={false}
                     itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"
                   />
-                  <Guide>
-                    <Html
-                      position={['50%', '50%']}
-                      html="<div style=&quot;color:#8c8c8c;font-size:1.16em;text-align: center;width: 10em;&quot;>主机<br><span style=&quot;color:#262626;font-size:2.5em&quot;>200</span>台</div>"
-                      alignX="middle"
-                      alignY="middle"
-                    />
-                  </Guide>
                   <Geom
                     type="intervalStack"
                     position="percent"

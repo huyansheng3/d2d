@@ -5,6 +5,9 @@ export enum ACTION_TYPE {
   LOGOUT = 'LOGOUT',
   REGISTER = 'REGISTER',
   SEND_VERIFY = 'SEND_VERIFY',
+  QUERY_USERS = 'QUERY_USERS',
+  CREATE_USER = 'CREATE_USER',
+  SET_USER = 'SET_USER',
 }
 
 export enum SMS_TYPE {
@@ -85,6 +88,35 @@ export const register = data => {
 };
 
 export const sendVerifyCode = data => ({});
+
+export const queryUsers = ({ data }) => {
+  return {
+    type: ACTION_TYPE.QUERY_USERS,
+    promise: wrapServer({
+      method: 'get',
+      url: '/user/users',
+      data,
+    }),
+  };
+};
+
+export const setUser = data => {
+  return {
+    type: ACTION_TYPE.SET_USER,
+    data: data,
+  };
+};
+
+export const createUser = ({ data }) => {
+  return {
+    type: ACTION_TYPE.CREATE_USER,
+    promise: wrapServer({
+      method: 'post',
+      url: '/user/users',
+      data,
+    }),
+  };
+};
 
 export default {
   ACTION_TYPE,

@@ -16,6 +16,7 @@
     float: left;
     .wllogo__img {
       height: 40px;
+      vertical-align: middle;
     }
     .wllogo__name {
       background-color: $theme-color;
@@ -23,6 +24,7 @@
       border-radius: 5px;
       margin-left: 20px;
       color: $white;
+      vertical-align: middle;
     }
   }
   .ant-layout-header {
