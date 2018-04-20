@@ -1,44 +1,67 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table, Button } from 'antd';
-import { query } from 'actions/assets';
-import { columns } from 'config/bi-query';
+import { Table, Button, Modal } from 'antd';
+import { queryUsers } from 'actions/user';
+import { columns } from 'config/account-manager';
 import QueryForm from './QueryForm';
+import CreateUser from './CreateUser';
 
 interface Props {
-  query: (data: any) => any;
-  assets: any;
+  queryUsers: (data: any) => any;
+  user: any;
 }
 
 const mapDispatchToProps = dispatch => ({
-  query: value => dispatch(query(value)),
+  queryUsers: value => dispatch(queryUsers(value)),
 });
 
-const mapStateToProps = ({ assets }) => ({ assets });
+const mapStateToProps = ({ user }) => ({ user });
 
-class PackAsset extends React.Component<Props, {}> {
+class UserManage extends React.Component<Props, {}> {
+  state = {
+    createUserVisible: false,
+  };
+
   componentDidMount() {
-    this.props.query({});
+    this.props.queryUsers({});
   }
 
+  handleCreateClick = e => {
+    this.setState({ createUserVisible: true });
+  };
+
+  onCancel = e => {
+    this.setState({ createUserVisible: false });
+  };
+
+  onOk = e => {
+    this.setState({ createUserVisible: false });
+  };
+
   render() {
-    let { assets } = this.props;
+    let { user } = this.props;
+    const { users, loading } = user;
+
     return (
       <div className="user-manager">
         <QueryForm />
         <div className="operate">
-          <Button type="primary">创建</Button>
+          <Button type="primary" onClick={this.handleCreateClick}>
+            创建
+          </Button>
           <Button type="primary">编辑</Button>
           <Button type="primary">重置密码</Button>
         </div>
-        <Table
-          columns={columns}
-          dataSource={assets.map(({ state: { data: { asset } } }) => asset)}
-          rowKey="id"
+        <Table columns={columns} dataSource={users} />
+
+        <CreateUser
+          onCancel={this.onCancel}
+          onOK={this.onOk}
+          visible={this.state.createUserVisible}
         />
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PackAsset);
+export default connect(mapStateToProps, mapDispatchToProps)(UserManage);

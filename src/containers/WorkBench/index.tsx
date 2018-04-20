@@ -84,9 +84,9 @@ class WorkBench extends React.Component<Props, {}> {
   };
 
   render() {
-    let { user = {}, location } = this.props;
+    let { user, location } = this.props;
+    let { role } = user.user;
 
-    let { role } = user;
     if (!role) {
       return (
         <Layout>
