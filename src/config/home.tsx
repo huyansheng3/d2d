@@ -131,9 +131,6 @@ export const latestBlockColumns = [
 ];
 
 export const blockDetail = [
-
-
-
   {
     label: '当前区块哈希',
     value: '2XMS8UH7VL2XTPDYKTS0PYZSKV40NJ0OILE6F0L8CWYA4B2K85',

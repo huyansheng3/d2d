@@ -10,13 +10,15 @@
   .workbench-layout .wlayout__logo {
     float: left; }
     .workbench-layout .wlayout__logo .wllogo__img {
-      height: 40px; }
+      height: 40px;
+      vertical-align: middle; }
     .workbench-layout .wlayout__logo .wllogo__name {
       background-color: #46a1ed;
       padding: 10px 20px;
       border-radius: 5px;
       margin-left: 20px;
-      color: #fff; }
+      color: #fff;
+      vertical-align: middle; }
   .workbench-layout .ant-layout-header {
     padding: 0 15px; }
   .workbench-layout .lcontent__sider {

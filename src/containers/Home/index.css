@@ -2,11 +2,16 @@
   padding: 10px;
   padding-bottom: 30px; }
   .home .home__container:not(:first-child) {
-    margin-top: 10px;
-    margin-bottom: 10px; }
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px 10px;
+    border-bottom: 1px solid #797d7f;
+    box-shadow: 2px 2px 5px #797d7f; }
   .home .home__cards .hcards__card {
     background-color: #fff;
     padding: 10px 30px; }
+    .home .home__cards .hcards__card:hover {
+      box-shadow: 1px 1px 5px #797d7f; }
     .home .home__cards .hcards__card .iconfont {
       font-size: 50px; }
     .home .home__cards .hcards__card .hccard__desc {
@@ -18,3 +23,6 @@
     .home .home__cards .hcards__card .hccard__count {
       font-size: 28px;
       font-weight: bold; }
+  .home .common-dl .common-dl-row {
+    line-height: 40px;
+    height: 40px; }
