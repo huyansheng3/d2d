@@ -1,13 +1,13 @@
 // host
 // export const SERVER_HOST = 'http://47.97.195.97:9999/c2mart-server/';
 
-const APP_ENV = process.env.APP_ENV || 'development';
+const NODE_ENV = process.env.NODE_ENV;
 
 // 本地 mock 的服务器
 export const SERVER_HOST =
-  APP_ENV === 'development'
-    ? 'http://localhost:3030'
-    : '//block-browser-mock.herokuapp.com/';
+  NODE_ENV === 'production'
+    ? '//block-browser-mock.herokuapp.com/'
+    : 'http://localhost:3030';
 
 // 区块浏览器的服务器
 export const BLOCK_SERVER_HOST = '//explorer.everchain.net';
