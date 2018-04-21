@@ -1,0 +1,27 @@
+@import 'src/config/style.scss';
+
+.layout__footer {
+  border-top: 1px solid $gray;
+  padding: 15px 0;
+  .lfooter__info {
+    ul {
+      padding-left: 0;
+    }
+    ul li {
+      list-style: none;
+    }
+  }
+  .lfooter__wechat {
+    img {
+      height: 80px;
+      float: right;
+    }
+  }
+  .lfooter__company {
+    text-align: center;
+    p {
+      margin-top: 20px;
+      margin-bottom: 0;
+    }
+  }
+}

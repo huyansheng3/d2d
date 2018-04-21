@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
 import { yiLogo } from 'images';
 import SearchForm from './SearchForm';
+import CustomFooter from 'components/Footer';
 
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu, Item } = Menu;
@@ -56,7 +57,10 @@ class HomeLayout extends Component<Props, any> {
                 })}
               </Menu>
             </Sider>
-            <Content>{this.props.children}</Content>
+            <Content>
+              {this.props.children}
+              <CustomFooter className="home-layout-footer" />
+            </Content>
           </Layout>
         </Content>
       </Layout>
