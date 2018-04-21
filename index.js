@@ -1,22 +1,21 @@
-var finalhandler = require('finalhandler');
-var http = require('http');
-var serveStatic = require('serve-static');
-var port = process.env.PORT || 6773;
-// Serve up public/ftp folder
-var serve = serveStatic('build', {
-  maxAge: '1y',
-  setHeaders: setCustomCacheControl,
-});
-// Create server
-var server = http.createServer(function onRequest(req, res) {
-  serve(req, res, finalhandler(req, res));
-});
+var express = require('express');
+var compression = require('compression');
+var connectHistoryApiFallback = require('connect-history-api-fallback');
 
-function setCustomCacheControl(res, path) {
-  if (serveStatic.mime.lookup(path) === 'text/html') {
-    // Custom Cache-Control for HTML files
-    res.setHeader('Cache-Control', 'public, max-age=0');
-  }
-}
+var port = process.env.PORT || 6773;
+
+var app = express();
+
+app.use(compression());
+app.use(connectHistoryApiFallback());
+
+app.use('/', express.static('./build'));
+
 // Listen
-server.listen(port);
+app.listen(port, err => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('running in the ' + port);
+  }
+});
