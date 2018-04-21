@@ -31,7 +31,13 @@ export default (state = home, action) => {
           loading: { ...prevState.loading, [ACTION_TYPE.QUERY_CARDS]: true },
         }),
         success: prevState => {
-          return { ...prevState, cards: action.payload.data };
+          const [block, trans, queryCardInfo] = action.payload;
+          const cards = {
+            ...queryCardInfo.data,
+            block: block.data || 0,
+            exchange: trans.data || 0,
+          };
+          return { ...prevState, cards: cards };
         },
         finish: prevState => ({
           ...prevState,

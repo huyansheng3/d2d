@@ -19,14 +19,22 @@ export const query = data => {
   };
 };
 
+export const queryBlockNumber = wrapServer({
+  url: api.blockNumber,
+});
+
+export const queryTransNumber = wrapServer({
+  url: api.transNumber,
+});
+
+export const queryCardInfo = wrapServer({
+  url: '/home/cards',
+});
+
 export const queryCards = data => {
   return {
     type: ACTION_TYPE.QUERY_CARDS,
-    promise: wrapServer({
-      method: 'get',
-      url: '/home/cards',
-      data,
-    }),
+    promise: Promise.all([queryBlockNumber, queryTransNumber, queryCardInfo]),
   };
 };
 
