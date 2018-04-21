@@ -166,19 +166,20 @@ class Home extends React.Component<Props, any> {
 
           <div className="home__container">
             <h2>区块详情</h2>
-
-            <dl className="common-dl">
-              {blockDetail.map(item => {
-                return (
-                  <div className="common-dl-row" key={item.label}>
-                    <dt className="common-dl-item-label">{item.label}:</dt>
-                    <dd className="common-dl-item-value">
-                      {item.value || '-'}
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
+            <div className="horizontal-table-container">
+              <table className="horizontal-table">
+                {blockDetail.map(item => {
+                  return (
+                    <tr className="horizontal-table-tr" key={item.label}>
+                      <td className="horizontal-table-td-1">{item.label}:</td>
+                      <td className="horizontal-table-td-2">
+                        {item.value || '-'}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </table>
+            </div>
           </div>
         </div>
       </HomeLayout>
