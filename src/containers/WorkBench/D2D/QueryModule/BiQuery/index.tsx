@@ -110,7 +110,7 @@ class BiQuery extends React.Component<Props, any> {
 
             <p className="mt20">
               {this.state.percent >= 100 &&
-                '导出报表数量220，匹配数据条数150，未匹配数据条数70'}
+                '导出报表数量220，匹配数据条数220，未匹配数据条数0'}
             </p>
 
             {this.state.percent >= 100 && (

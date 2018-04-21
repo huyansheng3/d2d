@@ -1,0 +1,15 @@
+.layout__footer {
+  border-top: 1px solid #797d7f;
+  padding: 15px 0; }
+  .layout__footer .lfooter__info ul {
+    padding-left: 0; }
+  .layout__footer .lfooter__info ul li {
+    list-style: none; }
+  .layout__footer .lfooter__wechat img {
+    height: 80px;
+    float: right; }
+  .layout__footer .lfooter__company {
+    text-align: center; }
+    .layout__footer .lfooter__company p {
+      margin-top: 20px;
+      margin-bottom: 0; }

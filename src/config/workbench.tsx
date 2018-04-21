@@ -59,7 +59,7 @@ export const queryModule: subMenuConfig = {
   subItems: [
     {
       id: 'biQuery',
-      title: '报表查询',
+      title: '明文数据查询',
     },
     {
       id: 'dataVerify',
