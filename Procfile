@@ -1,1 +1,2 @@
-web: node index.js & cd tests/ && node mock.js
+web: node index.js
+mock: cd test/ && node mock.js
