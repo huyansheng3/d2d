@@ -49,7 +49,10 @@ export default (state = initStates, action) => {
           },
         }),
         success: prevState => {
-          return { ...prevState, newUser: action.payload.data };
+          return {
+            ...prevState,
+            users: [...prevState.users, ...action.payload.data],
+          };
         },
         finish: prevState => ({
           ...prevState,
@@ -60,7 +63,7 @@ export default (state = initStates, action) => {
         }),
       });
     case ACTION_TYPE.SET_USER:
-      return { ...state, newUser: action.data };
+      return { ...state, newUser: { ...state.newUser, ...action.data } };
     case ACTION_TYPE.LOGOUT:
       return { ...initStates, user: {} };
     default:

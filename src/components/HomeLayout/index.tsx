@@ -3,13 +3,17 @@ import { Layout, Menu, Input, Select } from 'antd';
 import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
 import { yiLogo } from 'images';
+import SearchForm from './SearchForm';
+
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu, Item } = Menu;
 import './index.css';
 
 const Search = Input.Search;
 const Option = Select.Option;
-interface Props {}
+interface Props {
+  queryBykeyfield?: (data: any) => any;
+}
 
 const routes = [
   {
@@ -24,6 +28,7 @@ const routes = [
 
 class HomeLayout extends Component<Props, any> {
   render() {
+    const { queryBykeyfield } = this.props;
     return (
       <Layout className="layout home-layout">
         <Header>
@@ -32,18 +37,7 @@ class HomeLayout extends Component<Props, any> {
             <span className="hlayout__logo ml20">区块浏览器</span>
           </div>
 
-          <div className="hlayout__search">
-            <Select style={{ minWidth: 120 }} defaultValue="primaryKey">
-              <Option key="primaryKey">数据主键</Option>
-              <Option key="blockHeight">区块高度</Option>
-            </Select>
-            <Search
-              placeholder="请输入查询条件"
-              onSearch={value => console.log(value)}
-              enterButton
-              style={{ width: 200 }}
-            />
-          </div>
+          <SearchForm queryBykeyfield={queryBykeyfield!} />
         </Header>
 
         <Content>

@@ -21,6 +21,17 @@ const formItemLayout = {
   //    },
 };
 
+const options = [
+  {
+    label: '启用',
+    value: 1,
+  },
+  {
+    label: '停用',
+    value: 0,
+  },
+];
+
 interface Props extends FormComponentProps {
   createUser: (value: any) => any;
   setUser: (value: any) => any;
@@ -28,6 +39,7 @@ interface Props extends FormComponentProps {
   onOk: () => any;
   user: any;
   visible: boolean;
+  isLoading?: boolean;
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -38,12 +50,23 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = ({ user }) => ({ user });
 
 class CreateUser extends React.Component<Props, {}> {
+  handleCreate = e => {
+    const { form, onOk } = this.props;
+    form.validateFields((errors, values) => {
+      if (!errors) {
+        this.props.createUser({ data: values }).then(({ payload }) => {
+          onOk && onOk();
+        });
+      }
+    });
+  };
+
   render() {
-    const { visible, form, user, onOk, onCancel } = this.props;
+    const { visible, form, user, onOk, onCancel, isLoading } = this.props;
     const { newUser } = user;
     const { getFieldDecorator } = form;
     return (
-      <Modal visible={visible} onOk={onOk} onCancel={onCancel}>
+      <Modal visible={visible} onOk={onOk} onCancel={onCancel} footer={null}>
         <Form layout="vertical">
           <FormItem {...formItemLayout} label="用户名">
             {getFieldDecorator('userName', {
@@ -55,7 +78,13 @@ class CreateUser extends React.Component<Props, {}> {
             {getFieldDecorator('status', {
               initialValue: newUser.status,
               rules: [{ required: true, message: '不能为空' }],
-            })(<Input />)}
+            })(
+              <Select placeholder="请选择">
+                {options.map(option => (
+                  <Option key={option.value}>{option.label}</Option>
+                ))}
+              </Select>
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="邮箱">
             {getFieldDecorator('email', {
@@ -73,7 +102,12 @@ class CreateUser extends React.Component<Props, {}> {
             })(<Input placeholder="姓名" />)}
           </FormItem>
           <FormItem>
-            <Button type="primary">创建</Button>
+            <Button
+              type="primary"
+              loading={isLoading}
+              onClick={this.handleCreate}>
+              创建
+            </Button>
           </FormItem>
         </Form>
       </Modal>

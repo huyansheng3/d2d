@@ -3,14 +3,6 @@ import { Button, Checkbox } from 'antd';
 
 export const columns = [
   {
-    title: '选中',
-    dataIndex: 'select',
-    key: 'select',
-    render: (select, record, index) => {
-      return <Checkbox />;
-    },
-  },
-  {
     title: '用户名',
     dataIndex: 'userName',
     key: 'userName',
@@ -20,7 +12,7 @@ export const columns = [
     dataIndex: 'status',
     key: 'status',
     render: (status, record, index) => {
-      return status ? '启用' : '停用';
+      return Boolean(status) ? '启用' : '停用';
     },
   },
   {
