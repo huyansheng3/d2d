@@ -5,7 +5,7 @@ const home = {
   dataDetail: [],
   loading: {},
   cards: [],
-  lastBlock: []
+  lastBlock: [],
 };
 
 export default (state = home, action) => {
@@ -42,14 +42,40 @@ export default (state = home, action) => {
       return handle(state, action, {
         start: prevState => ({
           ...prevState,
-          loading: { ...prevState.loading, [ACTION_TYPE.QUERY_LAST_BLOCK]: true },
+          loading: {
+            ...prevState.loading,
+            [ACTION_TYPE.QUERY_LAST_BLOCK]: true,
+          },
         }),
         success: prevState => {
           return { ...prevState, lastBlock: action.payload.data };
         },
         finish: prevState => ({
           ...prevState,
-          loading: { ...prevState.loading, [ACTION_TYPE.QUERY_LAST_BLOCK]: false },
+          loading: {
+            ...prevState.loading,
+            [ACTION_TYPE.QUERY_LAST_BLOCK]: false,
+          },
+        }),
+      });
+    case ACTION_TYPE.QUERY_BY_KEYFIELD:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          loading: {
+            ...prevState.loading,
+            [ACTION_TYPE.QUERY_BY_KEYFIELD]: true,
+          },
+        }),
+        success: prevState => {
+          return { ...prevState, lastBlock: action.payload.data };
+        },
+        finish: prevState => ({
+          ...prevState,
+          loading: {
+            ...prevState.loading,
+            [ACTION_TYPE.QUERY_BY_KEYFIELD]: false,
+          },
         }),
       });
     default:

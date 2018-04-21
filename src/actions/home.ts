@@ -4,7 +4,8 @@ import api from 'config/api';
 export enum ACTION_TYPE {
   QUERY = 'QUERY_DATA_DETAIL',
   QUERY_CARDS = 'QUERY_CARDS',
-  QUERY_LAST_BLOCK = 'QUERY_LAST_BLOCK'
+  QUERY_LAST_BLOCK = 'QUERY_LAST_BLOCK',
+  QUERY_BY_KEYFIELD = 'QUERY_BY_KEYFIELD',
 }
 
 export const query = data => {
@@ -40,4 +41,13 @@ export const queryLastBlock = data => {
   };
 };
 
-
+export const queryBykeyfield = data => {
+  return {
+    type: ACTION_TYPE.QUERY_BY_KEYFIELD,
+    promise: wrapServer({
+      method: 'post',
+      url: api.getTransByKeyfiled,
+      data,
+    }),
+  };
+};

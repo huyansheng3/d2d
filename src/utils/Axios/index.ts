@@ -2,7 +2,11 @@ import axios from 'axios';
 import { SERVER_HOST as HOST, SERVER_TIMEOUT as TIMEOUT } from 'config';
 import { message } from 'antd';
 
-export const error = ({ response = { data: '请求处理错误' } }) => {
+export const error = response => {
+  if (response.data && response.data.msg) {
+    return message.error(response.data.msg);
+  }
+
   switch (typeof response.data) {
     case 'string':
       message.error(response.data);
@@ -28,12 +32,11 @@ export const wrapServer = opt => {
       ...opt,
     })
     .then(response => {
-      const data = response.data
+      const data = response.data;
       if (data.code === 0 || data.code === '0') {
-        return data
+        return data;
       } else {
-        // message.error(data.msg)
-        return Promise.reject(data)
+        return Promise.reject(response);
       }
     })
     .catch(info => error(info));

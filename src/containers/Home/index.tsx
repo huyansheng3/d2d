@@ -1,10 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Banner, Shop, Slogan, HomeLayout, ReactInterval } from 'components';
-import { query, queryCards, queryLastBlock, ACTION_TYPE } from 'actions/home';
+import {
+  query,
+  queryCards,
+  queryLastBlock,
+  queryBykeyfield,
+  ACTION_TYPE,
+} from 'actions/home';
 import { homeConfig } from 'config';
 import { Row, Col, Card, Table, Icon } from 'antd';
 import classnames from 'classnames';
+import ReactTimeout from 'react-timeout';
 import './index.css';
 
 const {
@@ -16,21 +23,6 @@ const {
   latestBlockColumns,
   blockDetail,
 } = homeConfig;
-
-interface Props {
-  query: (value: any) => any;
-  queryCards: (value: any) => any;
-  queryLastBlock: (value: any) => any;
-  home: any;
-}
-
-const mapDispatchToProps = dispatch => ({
-  query: value => dispatch(query(value)),
-  queryCards: value => dispatch(queryCards(value)),
-  queryLastBlock: value => dispatch(queryLastBlock(value)),
-});
-
-const mapStateToProps = ({ home }) => ({ home });
 
 const cardInfos = [
   {
@@ -63,17 +55,42 @@ const cardInfos = [
   },
 ];
 
+interface Props {
+  query: (value: any) => any;
+  queryCards: (value: any) => any;
+  queryLastBlock: (value: any) => any;
+  queryBykeyfield: (value: any) => any;
+  setInterval: (callback: Function, timer: number) => any;
+  home: any;
+}
+
+const mapDispatchToProps = dispatch => ({
+  query: value => dispatch(query(value)),
+  queryCards: value => dispatch(queryCards(value)),
+  queryLastBlock: value => dispatch(queryLastBlock(value)),
+  queryBykeyfield: value => dispatch(queryBykeyfield(value)),
+});
+
+const mapStateToProps = ({ home }) => ({ home });
+
 class Home extends React.Component<Props, any> {
   componentDidMount() {
     // this.props.query({});
     this.props.queryCards({});
+    this.props.queryLastBlock({ rownum: 10 });
+
+    this.props.setInterval(
+      () => this.props.queryLastBlock({ rownum: 10 }),
+      60 * 1000
+    );
   }
 
   render() {
     let { home } = this.props;
     const { dataDetail, loading, cards, lastBlock } = home;
+    console.log(lastBlock);
     return (
-      <HomeLayout>
+      <HomeLayout queryBykeyfield={this.props.queryBykeyfield}>
         <div className="home">
           <Row className="home__container home__cards" gutter={16}>
             {cardInfos.map(card => {
@@ -107,18 +124,14 @@ class Home extends React.Component<Props, any> {
           </Row>
           <div className="home__container home__data-detail">
             <h2>数据详情</h2>
-            <ReactInterval
-              enabled
-              immediate
-              timeout={60 * 1000}
-              callback={() => this.props.queryLastBlock({ rownum: 10 })}
-            />
             <Table
-              loading={loading[ACTION_TYPE.QUERY_LAST_BLOCK]}
+              loading={
+                loading[ACTION_TYPE.QUERY_LAST_BLOCK] ||
+                loading[ACTION_TYPE.QUERY_BY_KEYFIELD]
+              }
               columns={columns}
               dataSource={lastBlock}
               pagination={false}
-              rowKey="datahash"
             />
           </div>
           <Row type="flex" align="middle" className="home__container ">
@@ -148,7 +161,6 @@ class Home extends React.Component<Props, any> {
               columns={latestBlockColumns}
               dataSource={lastBlock}
               pagination={false}
-              rowKey="datahash"
             />
           </div>
 
@@ -174,4 +186,4 @@ class Home extends React.Component<Props, any> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(ReactTimeout(Home));
