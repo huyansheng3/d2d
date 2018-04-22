@@ -47,6 +47,9 @@
       .workbench-layout .layout__footer .lfooter__company p {
         margin-top: 20px;
         margin-bottom: 0; }
+  .workbench-layout .tech-support {
+    transition: 0.1s ease all;
+    font-weight: bold;
+    color: #797d7f; }
   .workbench-layout .ant-layout-sider-collapsed .tech-support {
-    visibility: hidden;
-    transition: 0.1s ease all; }
+    visibility: hidden; }

@@ -66,7 +66,7 @@ class BiQuery extends React.Component<Props, any> {
 
     const biColumns = [
       {
-        title: '接口名称',
+        title: '项目名称',
         dataIndex: 'apiName',
         key: 'apiName',
       },

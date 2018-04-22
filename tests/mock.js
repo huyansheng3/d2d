@@ -59,7 +59,7 @@ const routesConfig = [
       'data|40-200': [
         {
           id: '@guid',
-          apiName: /接口\d{1}/,
+          apiName: /项目\d{1}/,
           operate: '@url(http)',
         },
       ],
@@ -71,7 +71,7 @@ const routesConfig = [
       'data|40-200': [
         {
           id: '@guid',
-          projectName: '项目:id',
+          projectName: '接口:id',
           operate: '@url(http)',
         },
       ],
