@@ -50,6 +50,9 @@
   .workbench-layout .tech-support {
     transition: 0.1s ease all;
     font-weight: bold;
-    color: #797d7f; }
+    text-align: center;
+    margin-top: 60px; }
+    .workbench-layout .tech-support .tech {
+      color: #337ab7; }
   .workbench-layout .ant-layout-sider-collapsed .tech-support {
     visibility: hidden; }

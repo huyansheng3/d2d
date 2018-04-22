@@ -23,5 +23,9 @@
   padding: 10px; }
 
 .home-layout .tech-support {
+  transition: 0.1s ease all;
   font-weight: bold;
-  color: #797d7f; }
+  text-align: center;
+  margin-top: 60px; }
+  .home-layout .tech-support .tech {
+    color: #337ab7; }
