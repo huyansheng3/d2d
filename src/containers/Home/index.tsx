@@ -88,7 +88,6 @@ class Home extends React.Component<Props, any> {
   render() {
     let { home } = this.props;
     const { dataDetail, loading, cards, lastBlock } = home;
-    console.log(lastBlock);
     return (
       <HomeLayout queryBykeyfield={this.props.queryBykeyfield}>
         <div className="home">
@@ -122,7 +121,7 @@ class Home extends React.Component<Props, any> {
               );
             })}
           </Row>
-          <div className="home__container home__data-detail">
+          <div id="data-detail" className="home__container home__data-detail">
             <h2>数据详情</h2>
             <Table
               loading={
@@ -136,7 +135,7 @@ class Home extends React.Component<Props, any> {
           </div>
           <Row type="flex" align="middle" className="home__container ">
             <Col span={12}>
-              <h2>智能合约列表</h2>
+              <h2 id="contract">智能合约列表</h2>
               <Table
                 columns={contractColumns}
                 dataSource={contractData}
@@ -154,7 +153,7 @@ class Home extends React.Component<Props, any> {
           </Row>
 
           <div className="home__container">
-            <h2>最新区块</h2>
+            <h2 id="latest-block">最新区块</h2>
 
             <Table
               loading={loading[ACTION_TYPE.QUERY_LAST_BLOCK]}
@@ -165,19 +164,21 @@ class Home extends React.Component<Props, any> {
           </div>
 
           <div className="home__container">
-            <h2>区块详情</h2>
+            <h2 id="block-detail">区块详情</h2>
             <div className="horizontal-table-container">
               <table className="horizontal-table">
-                {blockDetail.map(item => {
-                  return (
-                    <tr className="horizontal-table-tr" key={item.label}>
-                      <td className="horizontal-table-td-1">{item.label}:</td>
-                      <td className="horizontal-table-td-2">
-                        {item.value || '-'}
-                      </td>
-                    </tr>
-                  );
-                })}
+                <tbody>
+                  {blockDetail.map(item => {
+                    return (
+                      <tr className="horizontal-table-tr" key={item.label}>
+                        <td className="horizontal-table-td-1">{item.label}:</td>
+                        <td className="horizontal-table-td-2">
+                          {item.value || '-'}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
               </table>
             </div>
           </div>

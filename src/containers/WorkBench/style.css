@@ -8,9 +8,10 @@
     .workbench-layout .wlayout__menu .wlmenu__settings {
       float: right; }
   .workbench-layout .wlayout__logo {
+    cursor: pointer;
     float: left; }
     .workbench-layout .wlayout__logo .wllogo__img {
-      height: 40px;
+      height: 50px;
       vertical-align: middle; }
     .workbench-layout .wlayout__logo .wllogo__name {
       background-color: #46a1ed;
@@ -46,3 +47,6 @@
       .workbench-layout .layout__footer .lfooter__company p {
         margin-top: 20px;
         margin-bottom: 0; }
+  .workbench-layout .ant-layout-sider-collapsed .tech-support {
+    visibility: hidden;
+    transition: 0.1s ease all; }

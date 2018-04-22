@@ -32,7 +32,7 @@ body {
 
 .common-dl {
   display: table;
-  &>div {
+  & > div {
     display: table-row;
   }
   dt {
@@ -50,6 +50,10 @@ body {
   &:hover {
     color: $theme-color;
   }
+}
+
+.ant-layout-sider {
+  background-color: white;
 }
 
 .ml10 {

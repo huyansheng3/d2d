@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Input, Select } from 'antd';
 import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
-import { yiLogo } from 'images';
+import { yiLogo, logo } from 'images';
 import SearchForm from './SearchForm';
 import CustomFooter from 'components/Footer';
 
@@ -22,19 +22,44 @@ const routes = [
     title: '首页',
   },
   {
+    id: '#data-detail',
+    title: '数据详情',
+  },
+  {
+    id: '#contract',
+    title: '智能合约',
+  },
+  {
+    id: '#latest-block',
+    title: '最新区块',
+  },
+  {
+    id: '#block-detail',
+    title: '区块详情',
+  },
+  {
     id: '/d2d/dashboard',
-    title: 'D2D入口',
+    title: 'D2D 入口',
   },
 ];
 
 class HomeLayout extends Component<Props, any> {
+  handleMenuClick = ({ item, key, keyPath }) => {
+    console.log(item, key, keyPath);
+    if (/^#/.test(key)) {
+      document
+        .querySelector(key)
+        .scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   render() {
     const { queryBykeyfield } = this.props;
     return (
       <Layout className="layout home-layout">
         <Header>
           <div className="home-layout-logo">
-            <img className="hlayout__img" src={yiLogo} alt="logo" />
+            <img className="hlayout__img" src={logo} alt="logo" />
             <span className="hlayout__logo ml20">区块浏览器</span>
           </div>
 
@@ -47,7 +72,8 @@ class HomeLayout extends Component<Props, any> {
               <Menu
                 mode="inline"
                 defaultSelectedKeys={['/']}
-                style={{ height: '100%', borderRight: 0 }}>
+                onClick={this.handleMenuClick}
+                style={{ borderRight: 0 }}>
                 {routes.map(({ id, title }) => {
                   return (
                     <Item key={id}>
@@ -56,6 +82,9 @@ class HomeLayout extends Component<Props, any> {
                   );
                 })}
               </Menu>
+              <p className="mt40" style={{ paddingLeft: '24px' }}>
+                技术支持：链平方
+              </p>
             </Sider>
             <Content>
               {this.props.children}
