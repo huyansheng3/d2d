@@ -18,15 +18,15 @@ const formItemLayout = {
 
 const projects = [
   {
-    label: '项目1',
+    label: '接口1',
     value: 1,
   },
   {
-    label: '项目2',
+    label: '接口2',
     value: 2,
   },
   {
-    label: '项目3',
+    label: '接口3',
     value: 3,
   },
 ];
@@ -51,7 +51,7 @@ class QueryForm extends React.Component<Props, {}> {
     return (
       <div className="query-form">
         <Form layout="inline">
-          <FormItem {...formItemLayout} label="项目名称">
+          <FormItem {...formItemLayout} label="接口名称">
             {getFieldDecorator('projectName', {})(
               <Select placeholder="请选择" className="query-form-select">
                 {projectOptions}

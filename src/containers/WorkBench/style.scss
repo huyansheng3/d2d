@@ -71,10 +71,15 @@
     }
   }
 
+  .tech-support {
+    transition: 0.1s ease all;
+    font-weight: bold;
+    color: $gray;
+  }
+
   .ant-layout-sider-collapsed {
     .tech-support {
       visibility: hidden;
-      transition: 0.1s ease all;
     }
   }
 }

@@ -82,8 +82,9 @@ class HomeLayout extends Component<Props, any> {
                   );
                 })}
               </Menu>
-              <p className="mt40" style={{ paddingLeft: '24px' }}>
-                技术支持：链平方
+              <p className="tech-support mt40" style={{ paddingLeft: '24px' }}>
+                技术支持：
+                <br />链平方
               </p>
             </Sider>
             <Content>

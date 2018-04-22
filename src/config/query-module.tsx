@@ -4,7 +4,7 @@ import copy from 'copy-to-clipboard';
 
 export const biColumns = [
   {
-    title: '接口名称',
+    title: '项目名称',
     dataIndex: 'apiName',
     key: 'apiName',
   },
@@ -24,7 +24,7 @@ export const biColumns = [
 
 export const apiColumns = [
   {
-    title: '项目名称',
+    title: '接口名称',
     dataIndex: 'projectName',
     key: 'projectName',
   },
