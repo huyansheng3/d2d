@@ -38,6 +38,9 @@ body {
   .block-browser-item:hover {
     color: #46a1ed; }
 
+.ant-layout-sider {
+  background-color: white; }
+
 .ml10 {
   margin-left: 20px; }
 
