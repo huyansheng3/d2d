@@ -132,7 +132,7 @@ class WorkBench extends React.Component<Props, {}> {
               </Menu>
 
               <div className="tech-support">
-                <p>EverChain-Explorer 1.0</p>
+                <p>EverChain-D2D 1.0</p>
                 <p className="tech">技术支持—链平方</p>
               </div>
             </Sider>
