@@ -82,10 +82,11 @@ class HomeLayout extends Component<Props, any> {
                   );
                 })}
               </Menu>
-              <p className="tech-support mt40" style={{ paddingLeft: '24px' }}>
-                技术支持：
-                <br />链平方
-              </p>
+
+              <div className="tech-support">
+                <p>EverChain-Explorer 1.0</p>
+                <p className="tech">技术支持—链平方</p>
+              </div>
             </Sider>
             <Content>
               {this.props.children}
