@@ -44,11 +44,11 @@ const mapStateToProps = () => ({});
 const basicInfos = [
   {
     label: '基本信息',
-    value: '厦门易功成信息技术有限公司',
+    value: '链平方科技',
   },
   {
     label: '姓名',
-    value: '陈京鹭',
+    value: '郑仁芳',
   },
   {
     label: '角色',

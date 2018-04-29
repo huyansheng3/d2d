@@ -30,8 +30,8 @@ class BiQuery extends React.Component<Props, any> {
   }
 
   handleDownloadClick = e => {
-    this.setState({ modalVisible: true });
-    this.interval = setInterval(this.updateProgerss, 200);
+    this.setState({ modalVisible: true, enabled: true });
+    // this.interval = setInterval(this.updateProgerss, 200);
   };
 
   cleareProgress = () => {
@@ -41,22 +41,22 @@ class BiQuery extends React.Component<Props, any> {
   };
 
   onOk = e => {
-    this.setState({ modalVisible: false, percent: 0 });
-    this.cleareProgress();
+    this.setState({ modalVisible: false, percent: 0, enabled: false });
+    // this.cleareProgress();
   };
 
   onCancel = e => {
-    this.setState({ modalVisible: false, percent: 0 });
-    this.cleareProgress();
+    this.setState({ modalVisible: false, percent: 0, enabled: false });
+    // this.cleareProgress();
   };
 
   updateProgerss = () => {
+    console.log('updateProgerss');
+    // console.log(this.state);
     if (this.state.percent < 100) {
       this.setState({
         percent: Number(+this.state.percent + +Math.random() * 2).toFixed(1),
       });
-    } else {
-      this.cleareProgress();
     }
   };
 
@@ -85,6 +85,10 @@ class BiQuery extends React.Component<Props, any> {
       },
     ];
 
+    console.log(
+      'render enabel',
+      this.state.enabled && this.state.percent < 100
+    );
     return (
       <div>
         <Table
@@ -106,6 +110,13 @@ class BiQuery extends React.Component<Props, any> {
               className="mt20"
               type="circle"
               percent={this.state.percent}
+            />
+
+            <ReactInterval
+              immediate
+              timeout={20}
+              enabled={this.state.enabled && this.state.percent < 100}
+              callback={this.updateProgerss}
             />
 
             <p className="mt20">

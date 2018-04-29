@@ -106,7 +106,7 @@ class WorkBench extends React.Component<Props, {}> {
 
           <Menu theme="dark" className="wlayout__menu" mode="horizontal">
             <SubMenu
-              title={<span>欢迎您，陈先生</span>}
+              title={<span>欢迎您，郑女士</span>}
               className="wlmenu__settings">
               <Item key="logout">
                 <Icon type="logout" />
