@@ -7,13 +7,6 @@ const { cloneDeep } = require('lodash');
 server.use(middlewares);
 
 var mock = require('mockjs');
-server.use((req, res, next) => {
-  if (req.method === 'POST') {
-    req.method = 'GET';
-  }
-  // Continue to JSON Server router
-  next();
-});
 
 server.use('/user', jsonServer.router('user.json'));
 server.use('/corp', jsonServer.router('corp.json'));
