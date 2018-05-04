@@ -7,6 +7,7 @@ import { default as assets } from './assets';
 import { default as enterprise } from './enterprise';
 import { default as home } from './home';
 import { default as queryModule } from './query-module';
+import { default as ui } from './ui';
 
 export default combineReducers({
   user,
@@ -16,4 +17,5 @@ export default combineReducers({
   router,
   home,
   queryModule,
+  ui,
 });

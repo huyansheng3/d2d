@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { SERVER_HOST as HOST, SERVER_TIMEOUT as TIMEOUT } from 'config';
 import { message } from 'antd';
+import { isError } from 'lodash';
 
 export const error = response => {
+  if (isError(response)) {
+    message.error(response.message);
+    throw response;
+  }
+
   if (response.data && response.data.msg) {
     return message.error(response.data.msg);
   }
@@ -39,5 +45,7 @@ export const wrapServer = opt => {
         return Promise.reject(response);
       }
     })
-    .catch(info => error(info));
+    .catch(info => {
+      return error(info);
+    });
 };

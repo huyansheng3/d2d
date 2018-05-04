@@ -28,6 +28,7 @@ export const queryTransNumber = wrapServer({
 });
 
 export const queryCardInfo = wrapServer({
+  method: 'get',
   url: '/home/cards',
 });
 

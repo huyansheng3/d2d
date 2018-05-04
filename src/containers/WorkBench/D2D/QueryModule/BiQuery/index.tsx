@@ -85,10 +85,6 @@ class BiQuery extends React.Component<Props, any> {
       },
     ];
 
-    console.log(
-      'render enabel',
-      this.state.enabled && this.state.percent < 100
-    );
     return (
       <div>
         <Table
