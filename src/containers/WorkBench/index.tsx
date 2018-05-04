@@ -86,9 +86,9 @@ class WorkBench extends React.Component<Props, {}> {
 
   render() {
     let { user, location } = this.props;
-    let { role } = user.user;
+    let { roleName, userName } = user.user;
 
-    if (!role) {
+    if (!roleName) {
       return (
         <Layout>
           <Content>
@@ -106,7 +106,7 @@ class WorkBench extends React.Component<Props, {}> {
 
           <Menu theme="dark" className="wlayout__menu" mode="horizontal">
             <SubMenu
-              title={<span>欢迎您，郑女士</span>}
+              title={<span>欢迎您，{userName}</span>}
               className="wlmenu__settings">
               <Item key="logout">
                 <Icon type="logout" />
@@ -128,7 +128,7 @@ class WorkBench extends React.Component<Props, {}> {
                 mode="inline"
                 onClick={this.handleMenuClick}
                 selectedKeys={[location.pathname]}>
-                {getMenuItems(role).map(item => this.renderMenu(item))}
+                {getMenuItems(roleName).map(item => this.renderMenu(item))}
               </Menu>
 
               <div className="tech-support">
@@ -138,7 +138,7 @@ class WorkBench extends React.Component<Props, {}> {
             </Sider>
             <Content className="lcontent__content">
               <div className="lccontent__dashboard">
-                {getMenuContent(role).map(doc => this.renderContent(doc))}
+                {getMenuContent(roleName).map(doc => this.renderContent(doc))}
               </div>
               <CustomFooter />
             </Content>

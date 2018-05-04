@@ -2,7 +2,9 @@ import { wrapServer } from 'utils/Axios';
 import api from 'config/api';
 
 export enum ACTION_TYPE {
-  QUERY = 'QUERY_BI_QUERY',
+  QUERY_PRODUCT = 'QUERY_PRODUCT',
+  QUERY_PERMISSION = 'QUERY_PERMISSION',
+  SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT',
   QUERY_API_LIST = 'QUERY_API_LIST',
   QUERY_VERIFY_DATA = 'QUERY_VERIFY_DATA',
   CALCULATE_HASH = 'CALCULATE_HASH',
@@ -10,13 +12,24 @@ export enum ACTION_TYPE {
   QUERY_HASH = 'QUERY_HASH',
 }
 
-export const queryBi = data => {
+export const queryProduct = data => {
   return {
-    type: ACTION_TYPE.QUERY,
+    type: ACTION_TYPE.QUERY_PRODUCT,
     promise: wrapServer({
       method: 'get',
-      url: '/query-module/bi-query',
+      url: api.products,
       data,
+    }),
+  };
+};
+
+export const queryPermission = params => {
+  return {
+    type: ACTION_TYPE.QUERY_PERMISSION,
+    promise: wrapServer({
+      method: 'get',
+      url: api.permission,
+      params,
     }),
   };
 };

@@ -1,4 +1,10 @@
-import { BLOCK_SERVER_HOST, SERVER_HOST, EASY_PROJECT_HOST } from './axios';
+import {
+  BLOCK_SERVER_HOST,
+  SERVER_HOST,
+  EASY_PROJECT_HOST,
+  ABS_HOST,
+  ABS,
+} from './axios';
 
 const api = {
   // 首页接口
@@ -11,6 +17,13 @@ const api = {
   tableList: `${EASY_PROJECT_HOST}/api/test/states`,
   verifyData: `${EASY_PROJECT_HOST}/api/test/state`,
   calculateHash: `${EASY_PROJECT_HOST}/api/test/verify`,
+
+  login: `${ABS_HOST}/login`,
+  nodeMainTain: `${ABS_HOST}/nodeMainTain`,
+
+  products: `${ABS}/products`,
+  permission: `${ABS}/permission`,
+  productDownload: `${ABS}/product`,
 };
 
 export default api;

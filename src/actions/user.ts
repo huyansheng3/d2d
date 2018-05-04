@@ -1,4 +1,5 @@
 import { wrapServer } from 'utils/Axios';
+import api from 'config/api';
 
 export enum ACTION_TYPE {
   LOGIN = 'LOGIN',
@@ -18,12 +19,10 @@ export enum SMS_TYPE {
 }
 
 export const login = data => {
-  data.phone = '13917263460';
-  data.password = '123456';
   return {
     type: ACTION_TYPE.LOGIN,
     promise: wrapServer({
-      url: '/user/login',
+      url: api.login,
       data,
     }),
   };

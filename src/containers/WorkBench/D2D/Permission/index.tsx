@@ -1,21 +1,16 @@
 import * as React from 'react';
-import Query from './Query';
-import DataVerify from './DataVerify';
-import ApiList from './ApiList';
+import Subscribe from './Subscribe';
+import Upload from './Upload';
 import { Route, Link } from 'react-router-dom';
 
 const routes = [
   {
-    id: 'query',
-    dom: Query,
+    id: 'subscribe',
+    dom: Subscribe,
   },
   {
-    id: 'dataVerify',
-    dom: DataVerify,
-  },
-  {
-    id: 'apiList',
-    dom: ApiList,
+    id: 'upload',
+    dom: Upload,
   },
 ];
 

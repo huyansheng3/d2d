@@ -1,8 +1,8 @@
 import { LIFECYCLE, KEY } from 'redux-pack';
 
 export enum ACTION_TYPE {
-  SET_LOADING_BEGIN = 'SET_LOADING_START',
-  SET_LOADING_FINISH = 'SET_LOADING_FINISH',
+  SET_LOADING_BEGIN = '@@SET_LOADING_START',
+  SET_LOADING_FINISH = '@@SET_LOADING_FINISH',
 }
 
 export const loadingMiddleware = store => next => action => {

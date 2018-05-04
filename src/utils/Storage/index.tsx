@@ -6,7 +6,7 @@ export enum STORAGE_KEY {
 
 const storage = (key, { payload }) => {
   if (payload) {
-    let { data } = payload;
+    let { data = null } = payload;
     try {
       localStorage.setItem(key, JSON.stringify(data));
     } catch (error) {

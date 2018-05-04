@@ -1,8 +1,9 @@
 import { handle } from 'redux-pack';
 import { ACTION_TYPE } from 'actions/query-module';
-
+import { findIndex } from 'lodash';
 export const initState = {
-  biList: [],
+  products: [],
+  permission: [],
   loading: {},
   apiList: [],
   verifyData: [],
@@ -14,19 +15,28 @@ export const initState = {
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case ACTION_TYPE.QUERY:
+    case ACTION_TYPE.QUERY_PRODUCT:
       return handle(state, action, {
-        start: prevState => ({
-          ...prevState,
-          loading: { ...prevState.loading, [ACTION_TYPE.QUERY]: true },
-        }),
         success: prevState => {
-          return { ...prevState, biList: action.payload.data };
+          const products = action.payload.data || [];
+          const filterProducts = products.filter(
+            (item, index) =>
+              findIndex(products, { prjNo: item.prjNo }) === index
+          );
+          return { ...prevState, products: filterProducts };
         },
-        finish: prevState => ({
-          ...prevState,
-          loading: { ...prevState.loading, [ACTION_TYPE.QUERY]: false },
-        }),
+      });
+    case ACTION_TYPE.QUERY_PERMISSION:
+      return handle(state, action, {
+        success: prevState => {
+          return { ...prevState, permission: action.payload.data };
+        },
+      });
+    case ACTION_TYPE.QUERY_PERMISSION:
+      return handle(state, action, {
+        success: prevState => {
+          return { ...prevState, permission: action.payload.data };
+        },
       });
     case ACTION_TYPE.QUERY_API_LIST:
       return handle(state, action, {

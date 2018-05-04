@@ -9,6 +9,7 @@ import {
   AccountManager,
   OpMonitor,
   LogManager,
+  Permission,
 } from 'containers/WorkBench/D2D';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
@@ -17,7 +18,7 @@ export enum USER_TYPE {
   UNKNOWN = 'UNKNOWN',
   UNAPPROVE = 'UNAPPROVE',
   FUND = 'FUND',
-  CORE = 'core',
+  CORE = '超级管理员',
   SUPPLY = 'SUPPLY',
   ADMIN = 'ADMIN',
 }
@@ -58,8 +59,8 @@ export const queryModule: subMenuConfig = {
   title: '查询模块',
   subItems: [
     {
-      id: 'biQuery',
-      title: '明文数据查询',
+      id: 'query',
+      title: '产品查询',
     },
     {
       id: 'dataVerify',
@@ -108,6 +109,22 @@ export const opMonitor: subMenuConfig = {
   ],
 };
 
+export const permission: subMenuConfig = {
+  id: 'permission',
+  MenuIcon: <Icon type="team" />,
+  title: '权限模块',
+  subItems: [
+    {
+      id: 'subscribe',
+      title: '订阅权限配置',
+    },
+    {
+      id: 'upload',
+      title: '上传权限配置',
+    },
+  ],
+};
+
 export const logManager: subMenuConfig = {
   id: 'logManager',
   MenuIcon: <Icon type="inbox" />,
@@ -135,11 +152,11 @@ const blockBrowserEntry: subMenuConfig = {
   ),
 };
 
-export const getMenuItems = role => {
-  if (role === null) {
-    role = USER_TYPE.ADMIN;
+export const getMenuItems = roleName => {
+  if (roleName === null) {
+    roleName = USER_TYPE.ADMIN;
   }
-  switch (role) {
+  switch (roleName) {
     case USER_TYPE.FUND:
       return [myReceive, searchTx, accountManager, messages];
     case USER_TYPE.CORE:
@@ -147,6 +164,7 @@ export const getMenuItems = role => {
         dashboard,
         queryModule,
         accountManager,
+        permission,
         opMonitor,
         logManager,
         blockBrowserEntry,
@@ -158,8 +176,8 @@ export const getMenuItems = role => {
 
 const Test = () => <h3>待完成</h3>;
 
-export const getMenuContent = role => {
-  switch (role) {
+export const getMenuContent = roleName => {
+  switch (roleName) {
     case USER_TYPE.CORE:
       return [
         {
@@ -173,6 +191,10 @@ export const getMenuContent = role => {
         {
           id: 'accountManager',
           dom: AccountManager,
+        },
+        {
+          id: 'permission',
+          dom: Permission,
         },
         {
           id: 'opMonitor',

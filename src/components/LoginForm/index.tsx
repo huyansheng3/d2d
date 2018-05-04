@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Button, Form } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { login, sendVerifyCode, SMS_TYPE } from 'actions/user';
+import { login, sendVerifyCode, SMS_TYPE, ACTION_TYPE } from 'actions/user';
 import { VerifyCode } from 'components';
 import { parseInput } from 'utils/Form';
 import './style.css';
@@ -14,6 +14,7 @@ interface Props extends FormComponentProps {
   forgetPwd: () => void;
   sendVerify: (value: any) => any;
   configs: ReadonlyArray<any>;
+  ui: any;
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -21,12 +22,15 @@ const mapDispatchToProps = dispatch => ({
   sendVerify: value => dispatch(sendVerifyCode(value)),
 });
 
-const mapStateToProps = ({ user }) => ({});
+const mapStateToProps = ({ user, ui }) => ({ user, ui });
 
 class LoginForm extends React.Component<Props, any> {
   sendVerifyCode = e => {
     e.preventDefault();
-    let { form: { validateFields }, sendVerify } = this.props;
+    let {
+      form: { validateFields },
+      sendVerify,
+    } = this.props;
 
     validateFields(
       ['mobile'],
@@ -42,7 +46,10 @@ class LoginForm extends React.Component<Props, any> {
 
   onSubmit = e => {
     e.preventDefault();
-    let { form: { validateFields }, onSubmit } = this.props;
+    let {
+      form: { validateFields },
+      onSubmit,
+    } = this.props;
     validateFields((err, value) => (err ? null : onSubmit(value)));
   };
 
@@ -86,22 +93,22 @@ class LoginForm extends React.Component<Props, any> {
   };
 
   render() {
+    const { ui } = this.props;
+    const { loading } = ui;
     const configs = [
       {
-        id: 'phone',
-        rules: [
-          { required: true, message: 'Please input your mobile number!' },
-        ],
+        id: 'userName',
+        rules: [{ required: true, message: '请输入用户名' }],
         inputType: 'text',
         placeholder: '用户名',
-        icon: 'mobile',
+        icon: 'user',
         formItemLayout: {
           wraperCol: 24,
         },
       },
       {
         id: 'password',
-        rules: [{ required: true, message: 'Please input your password!' }],
+        rules: [{ required: true, message: '请输入密码' }],
         inputType: 'password',
         placeholder: '密码',
         icon: 'lock',
@@ -119,6 +126,7 @@ class LoginForm extends React.Component<Props, any> {
           </div>
           <Form>{configs.map(config => this.parseConfig(config))}</Form>
           <Button
+            loading={loading[ACTION_TYPE.LOGIN]}
             type="primary"
             className="fcright__btn fcright__login"
             onClick={this.onSubmit}>
