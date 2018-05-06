@@ -1,13 +1,7 @@
+## 命令
 
-# react-graveyard
-create for some interesting case
+`npm run build` 编译至 build 目录
 
+`REACT_APP_PERMISSION=false npm run build` 去掉权限模块
 
-
-### remark
-
-> "diabelb-react-scripts-ts": "^2.10.2",
-
-it's fix baseUrl error [#203](https://github.com/wmonk/create-react-app-typescript/issues/203)
-react-scripts-ts@2.13.0 has issue [#241](https://github.com/wmonk/create-react-app-typescript/issues/241)
-so wait for merging (pr)(https://github.com/wmonk/create-react-app-typescript/pull/243)
+进入到 `tests/` 目录下，执行 `node mock.js` 启动 mock 服务器

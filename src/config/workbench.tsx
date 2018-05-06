@@ -15,6 +15,9 @@ import {
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 
+// 根据环境变量来设置是否展示权限页面
+const NO_PERMISSION = process.env.REACT_APP_PERMISSION === 'false';
+
 export enum USER_TYPE {
   UNKNOWN = 'UNKNOWN',
   UNAPPROVE = 'UNAPPROVE',
@@ -177,16 +180,29 @@ export const getMenuItems = roleName => {
     case USER_TYPE.FUND:
       return [myReceive, searchTx, accountManager, messages];
     case USER_TYPE.CORE:
-      return [
-        dashboard,
-        dataModule,
-        queryModule,
-        accountManager,
-        permission,
-        opMonitor,
-        logManager,
-        blockBrowserEntry,
-      ];
+      if (NO_PERMISSION) {
+        return [
+          dashboard,
+          dataModule,
+          queryModule,
+          accountManager,
+          opMonitor,
+          logManager,
+          blockBrowserEntry,
+        ];
+      } else {
+        return [
+          dashboard,
+          dataModule,
+          queryModule,
+          accountManager,
+          permission,
+          opMonitor,
+          logManager,
+          blockBrowserEntry,
+        ];
+      }
+
     default:
       return [accountManager, messages];
   }
