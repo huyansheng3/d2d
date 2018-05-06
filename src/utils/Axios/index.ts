@@ -17,7 +17,8 @@ export const error = response => {
   }
 
   if (response.data && (response.data.data || response.data.msg)) {
-    return message.error(response.data.data || response.data.msg);
+    message.error(response.data.data || response.data.msg);
+    throw new Error(response.data);
   }
 
   switch (typeof response.data) {

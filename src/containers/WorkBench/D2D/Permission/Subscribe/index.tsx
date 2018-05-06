@@ -64,7 +64,6 @@ interface State {
   pid: string;
   indeterminate: boolean;
   checkAll: boolean;
-  tables: Array<String>;
   configLoading: boolean;
 }
 
@@ -87,7 +86,6 @@ class Subscribe extends React.Component<Props, State> {
     pid: '',
     table: '',
     selectedRow: initSelectedRow,
-    tables: [],
     indeterminate: false,
     checkAll: false,
     configLoading: false,
@@ -106,11 +104,9 @@ class Subscribe extends React.Component<Props, State> {
   onOk = e => {
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
-        const { tables } = this.state;
-
         let data: Array<any> = [];
 
-        const interfaceData = tables.map(table => {
+        const interfaceData = values.tables.map(table => {
           return {
             type: 'interface',
             tableName: table,
@@ -120,7 +116,7 @@ class Subscribe extends React.Component<Props, State> {
           };
         });
 
-        if (values.files) {
+        if (values.fileChecked) {
           data = [
             ...interfaceData,
             {
@@ -140,7 +136,6 @@ class Subscribe extends React.Component<Props, State> {
             this.setState({
               modalVisible: false,
               configLoading: false,
-              tables: [],
             });
             this.props.form.resetFields();
             notification.success({
@@ -156,7 +151,7 @@ class Subscribe extends React.Component<Props, State> {
   };
 
   onCancel = e => {
-    this.setState({ modalVisible: false, tables: [] });
+    this.setState({ modalVisible: false });
     this.props.form.resetFields();
   };
 
@@ -169,12 +164,11 @@ class Subscribe extends React.Component<Props, State> {
   };
 
   onCheckAllChange = e => {
-    this.setState({
+    this.setState({ indeterminate: false, checkAll: e.target.checked });
+    this.props.form.setFieldsValue({
       tables: e.target.checked
         ? this.tableCheckboxOptions.map(opt => opt.value)
         : [],
-      indeterminate: false,
-      checkAll: e.target.checked,
     });
   };
 
@@ -190,20 +184,15 @@ class Subscribe extends React.Component<Props, State> {
 
   onTablesChange = tables => {
     this.setState({
-      tables,
       indeterminate:
         !!tables.length && tables.length < this.tableCheckboxOptions.length,
       checkAll: tables.length === this.tableCheckboxOptions.length,
     });
   };
 
-  render() {
-    let { queryModule, ui, form } = this.props;
-    const { products, permission, corporateMap, tables } = queryModule;
-    const { loading, isLoading } = ui;
-    const { getFieldDecorator } = form;
-
-    const permissionColumns = [
+  get permissionColumns() {
+    const { corporateMap, tables } = this.props.queryModule;
+    return [
       {
         title: '序号',
         dataIndex: 'index',
@@ -250,6 +239,13 @@ class Subscribe extends React.Component<Props, State> {
         key: 'updateTime',
       },
     ];
+  }
+
+  render() {
+    let { queryModule, ui, form } = this.props;
+    const { products, permission, corporateMap, tables } = queryModule;
+    const { loading, isLoading } = ui;
+    const { getFieldDecorator, getFieldValue } = form;
 
     const type: RowSelectionType = 'radio';
     const rowSelection = {
@@ -288,7 +284,7 @@ class Subscribe extends React.Component<Props, State> {
           className="mt10"
           rowSelection={rowSelection}
           loading={loading[ACTION_TYPE.QUERY_PERMISSION]}
-          columns={permissionColumns}
+          columns={this.permissionColumns}
           dataSource={permission}
         />
 
@@ -360,15 +356,43 @@ class Subscribe extends React.Component<Props, State> {
                     表
                   </Checkbox>
 
-                  <CheckboxGroup
-                    value={this.state.tables}
-                    onChange={this.onTablesChange}
-                    options={this.tableCheckboxOptions}
-                  />
+                  {getFieldDecorator('tables', {
+                    initialValue: [],
+                    rules: [
+                      {
+                        validator: (rule, value, callback) => {
+                          if (
+                            value.length <= 0 &&
+                            !getFieldValue('fileChecked')
+                          ) {
+                            callback('文件和表至少选一项');
+                          }
+                          callback();
+                        },
+                      },
+                    ],
+                  })(
+                    <CheckboxGroup
+                      onChange={this.onTablesChange}
+                      options={this.tableCheckboxOptions}
+                    />
+                  )}
                 </Row>
 
                 <Row>
-                  {getFieldDecorator('files', {})(<Checkbox>文件</Checkbox>)}
+                  {getFieldDecorator('fileChecked', {
+                    valuePropName: 'checked',
+                    rules: [
+                      {
+                        validator: (rule, value, callback) => {
+                          if (getFieldValue('tables').length <= 0 && !value) {
+                            callback('文件和表至少选一项');
+                          }
+                          callback();
+                        },
+                      },
+                    ],
+                  })(<Checkbox>文件</Checkbox>)}
                 </Row>
               </Item>
             </Form>
