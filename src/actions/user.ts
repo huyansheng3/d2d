@@ -28,9 +28,12 @@ export const login = data => {
   };
 };
 
-export const logout = () => ({
-  type: ACTION_TYPE.LOGOUT,
-});
+export const logout = () => {
+  return {
+    type: ACTION_TYPE.LOGOUT,
+    promise: wrapServer({ url: api.logout }),
+  };
+};
 
 export const register = data => {
   let {

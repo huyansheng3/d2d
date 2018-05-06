@@ -25,7 +25,6 @@ interface Props {
 
 class QueryModule extends React.Component<Props, {}> {
   render() {
-    console.log(this.props);
     const { match } = this.props;
     return (
       <React.Fragment>

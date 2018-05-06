@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table, Button, Modal, Progress } from 'antd';
+import { Table, Button, Modal, Progress, Card, Row, Col } from 'antd';
 import {
   queryProduct,
   queryPermission,
+  queryAttachments,
   ACTION_TYPE,
 } from 'actions/query-module';
 import QueryForm from './QueryForm';
@@ -15,6 +16,7 @@ import './index.css';
 interface Props {
   queryProduct: (data: any) => any;
   queryPermission: (data: any) => any;
+  queryAttachments: () => any;
   setInterval: (callback: Function, delay: number) => number;
   clearInterval: (id: number) => any;
   queryModule: any;
@@ -24,12 +26,14 @@ interface Props {
 const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
   queryPermission: value => dispatch(queryPermission(value)),
+  queryAttachments: () => dispatch(queryAttachments()),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
 
 class Query extends React.Component<Props, any> {
   state = {
+    fileModalVisible: false,
     modalVisible: false,
     percent: 0,
     pid: '',
@@ -45,6 +49,11 @@ class Query extends React.Component<Props, any> {
   handleDownloadClick = record => {
     this.setState({ modalVisible: true, table: record.tableName });
     this.interval = this.props.setInterval(this.updateProgerss, 100);
+  };
+
+  handleFileClick = record => {
+    this.setState({ fileModalVisible: true });
+    this.props.queryAttachments();
   };
 
   onOk = e => {
@@ -71,9 +80,59 @@ class Query extends React.Component<Props, any> {
     this.setState(val);
   };
 
+  get filesColumns() {
+    return [
+      {
+        title: '序号',
+        dataIndex: 'index',
+        key: 'index',
+        render: (updateOwner, record, index) => {
+          return index + 1;
+        },
+      },
+      {
+        title: '更新人',
+        dataIndex: 'updateOwner',
+        key: 'updateOwner',
+        render: (updateOwner, record, index) => {
+          return updateOwner || 'XXX';
+        },
+      },
+      {
+        title: '更新日期',
+        dataIndex: 'updateTime',
+        key: 'updateTime',
+      },
+      {
+        title: '备注',
+        dataIndex: 'comment',
+        key: 'comment',
+      },
+      {
+        title: '哈希值',
+        dataIndex: 'hash',
+        key: 'hash',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+        key: 'operate',
+        render: (operate, record, index) => {
+          return (
+            <Button
+              type="primary"
+              href={api.attachment + '?' + 'hash=' + record.hash}>
+              下载
+            </Button>
+          );
+        },
+      },
+    ];
+  }
+
   render() {
     let { queryModule, ui } = this.props;
-    const { products, permission } = queryModule;
+    const { products, permission, attachments } = queryModule;
     const { loading, isLoading } = ui;
 
     const permissionColumns = [
@@ -118,7 +177,7 @@ class Query extends React.Component<Props, any> {
             return (
               <Button
                 type="primary"
-                onClick={() => this.handleDownloadClick(record)}>
+                onClick={() => this.handleFileClick(record)}>
                 查看
               </Button>
             );
@@ -171,6 +230,40 @@ class Query extends React.Component<Props, any> {
                 下载
               </Button>
             )}
+          </div>
+        </Modal>
+
+        <Modal
+          title="查看文件"
+          width={1200}
+          onOk={e => this.setState({ fileModalVisible: false })}
+          onCancel={e => this.setState({ fileModalVisible: false })}
+          visible={this.state.fileModalVisible}>
+          <div>
+            <Card title="概述">
+              <Row gutter={8}>
+                <Col span={8}>
+                  <p>产品编号：XXXXX</p>
+                  <p>查询主键：XXXXX</p>
+                </Col>
+                <Col span={8}>
+                  <p>产品名称：XXXXX</p>
+                  <p>创建者：XXXXX</p>
+                </Col>
+                <Col span={8}>
+                  <p>文件名称：XXXXX</p>
+                  <p>创建日期：XXXXX</p>
+                </Col>
+              </Row>
+            </Card>
+
+            <Card title="版本信息">
+              <Table
+                loading={loading[ACTION_TYPE.QUERY_ATTACHMENTS]}
+                columns={this.filesColumns}
+                dataSource={attachments}
+              />
+            </Card>
           </div>
         </Modal>
       </div>

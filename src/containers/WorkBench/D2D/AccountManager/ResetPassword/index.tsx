@@ -1,28 +1,35 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table, Form, Input, Tooltip, Icon, Button, Row, Col } from 'antd';
+import {
+  Table,
+  Form,
+  Input,
+  Tooltip,
+  Icon,
+  Button,
+  Row,
+  Col,
+  notification,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { query } from 'actions/assets';
+import { wrapServer } from 'utils/Axios';
+import api from 'config/api';
 import './index.css';
 
 const Item = Form.Item;
 interface Props extends FormComponentProps {
-  query: (data: any) => any;
-  assets: any;
+  ui: any;
 }
 
 const formItemLayout = {
-  labelCol: { span: 3 },
   wrapperCol: {
     span: 8,
   },
 };
 
-const mapDispatchToProps = dispatch => ({
-  query: value => dispatch(query(value)),
-});
+const mapDispatchToProps = dispatch => ({});
 
-const mapStateToProps = ({ assets }) => ({ assets });
+const mapStateToProps = ({ ui }) => ({ ui });
 
 class ResetPassword extends React.Component<Props, {}> {
   state = {
@@ -36,7 +43,7 @@ class ResetPassword extends React.Component<Props, {}> {
 
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
-    if (value && value !== form.getFieldValue('new_password')) {
+    if (value && value !== form.getFieldValue('newPassword')) {
       callback('Two passwords that you enter is inconsistent!');
     } else {
       callback();
@@ -46,7 +53,7 @@ class ResetPassword extends React.Component<Props, {}> {
   validateToNextPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true }, () => {});
+      form.validateFields(['newPasswordConfirm'], { force: true }, () => {});
     }
     callback();
   };
@@ -55,18 +62,29 @@ class ResetPassword extends React.Component<Props, {}> {
     this.props.form.validateFieldsAndScroll((errors, values) => {
       if (!errors) {
         // 执行提交
+        const { newPasswordConfirm, ...data } = values;
+        wrapServer({
+          url: api.changePassword,
+          data: data,
+        }).then(res => {
+          notification.success({
+            message: 'Success',
+            description: res.data,
+          });
+        });
       }
     });
   };
 
   render() {
-    let { assets, form } = this.props;
+    let { ui, form } = this.props;
+    const { loading } = ui;
     const { getFieldDecorator } = form;
     return (
       <div className="reset-password">
-        <Form layout="horizontal">
+        <Form layout="vertical">
           <Item {...formItemLayout} label="原始密码">
-            {getFieldDecorator('password', {
+            {getFieldDecorator('oldPassword', {
               rules: [
                 {
                   required: true,
@@ -90,14 +108,14 @@ class ResetPassword extends React.Component<Props, {}> {
                 </Tooltip>
               </span>
             }>
-            {getFieldDecorator('new_password', {
+            {getFieldDecorator('newPassword', {
               rules: [
                 {
                   required: true,
                   message: '请输入新密码',
                 },
                 {
-                  min: 6,
+                  min: 4,
                   max: 20,
                   message: '最短6位，最长20位',
                 },
@@ -108,14 +126,14 @@ class ResetPassword extends React.Component<Props, {}> {
             })(<Input type="password" />)}
           </Item>
           <Item {...formItemLayout} label="确认新密码">
-            {getFieldDecorator('new_password_comfirm', {
+            {getFieldDecorator('newPasswordConfirm', {
               rules: [
                 {
                   required: true,
                   message: '请二次输入新密码',
                 },
                 {
-                  min: 6,
+                  min: 4,
                   max: 20,
                   message: '最短6位，最长20位',
                 },
@@ -126,12 +144,12 @@ class ResetPassword extends React.Component<Props, {}> {
             })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
           </Item>
 
-          <Item wrapperCol={{ span: 8, offset: 2 }}>
-            <Button type="primary" onClick={this.handleSave}>
+          <Item>
+            <Button
+              loading={loading[api.changePassword]}
+              type="primary"
+              onClick={this.handleSave}>
               保存
-            </Button>
-            <Button type="primary" className="rpoperate__cancal">
-              取消
             </Button>
           </Item>
         </Form>

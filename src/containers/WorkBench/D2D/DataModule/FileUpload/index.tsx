@@ -4,9 +4,10 @@ import { Form, Select, Upload, Input, Button, Icon, notification } from 'antd';
 import { queryProduct, ACTION_TYPE } from 'actions/query-module';
 import { FormComponentProps } from 'antd/lib/form';
 import { wrapServer } from 'utils/Axios';
-import { find } from 'lodash';
+import { find, head } from 'lodash';
 import api from 'config/api';
 import './index.css';
+import { customRequest } from 'utils/Utils';
 
 const Item = Form.Item;
 const Option = Select.Option;
@@ -50,12 +51,13 @@ class FileUpload extends React.Component<Props, any> {
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
         const product = find(products, { prjNo: Number(values.pid) }) || {};
+        const doneHashs = values.hashs.filter(item => item.status === 'done');
+        const hash = head(doneHashs).response.data;
         const params = {
           pid: values.pid,
           comment: values.comment,
           productName: product.prjName,
-          hash:
-            '051599A66EB0A1808ECA658561350AF4E751AB2DF26FCE1A6ACA55987079B627',
+          hash: hash,
         };
         wrapServer({
           url: api.attachment,
@@ -75,11 +77,15 @@ class FileUpload extends React.Component<Props, any> {
     const { products, permission } = queryModule;
     const { loading, isLoading } = ui;
 
-    const { getFieldDecorator } = form;
+    const { getFieldDecorator, getFieldValue } = form;
 
     const options = products.map(product => {
       return <Option key={product.prjNo}>{product.prjName}</Option>;
     });
+
+    const disableUpload =
+      (getFieldValue('hashs') || []).filter(item => item.status === 'done')
+        .length >= 1;
 
     return (
       <div>
@@ -91,21 +97,35 @@ class FileUpload extends React.Component<Props, any> {
           </Item>
 
           <Item label="上传" {...formItemLayout}>
-            {getFieldDecorator('upload', {
+            {getFieldDecorator('hashs', {
+              initialValue: [],
               valuePropName: 'fileList',
               getValueFromEvent: this.normFile,
               rules: [
                 { required: true, message: '不能为空' },
                 {
-                  type: 'array',
-                  len: 1,
-                  message: '只能上传一份文件',
+                  validator: (
+                    rule,
+                    value = [],
+                    callback,
+                    source,
+                    validateOptions
+                  ) => {
+                    if (
+                      value.filter(item => item.status === 'done').length < 1
+                    ) {
+                      callback('至少有一份上传成功的文件');
+                    }
+                    callback();
+                  },
                 },
               ],
             })(
               <Upload.Dragger
-                onChange={info => console.log(info)}
+                disabled={disableUpload}
+                customRequest={customRequest}
                 name="file"
+                accept=".zip"
                 action={api.upload}>
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
@@ -125,7 +145,10 @@ class FileUpload extends React.Component<Props, any> {
           </Item>
 
           <Item>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading[api.attachment]}>
               保存
             </Button>
           </Item>
