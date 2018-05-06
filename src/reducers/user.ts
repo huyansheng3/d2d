@@ -65,7 +65,11 @@ export default (state = initStates, action) => {
     case ACTION_TYPE.SET_USER:
       return { ...state, newUser: { ...state.newUser, ...action.data } };
     case ACTION_TYPE.LOGOUT:
-      return { ...initStates, user: {} };
+      return handle(state, action, {
+        success: prevState => {
+          return { ...initStates, user: {} };
+        },
+      });
     default:
       return state;
   }

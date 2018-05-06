@@ -19,8 +19,10 @@ const api = {
   calculateHash: `${EASY_PROJECT_HOST}/api/test/verify`,
 
   login: `${ABS_HOST}/login`,
+  logout: `${ABS_HOST}/logout`,
   nodes: `${ABS_HOST}/nodes`,
   nodeMainTain: `${ABS_HOST}/nodeMainTain`,
+  changePassword: `${ABS_HOST}/user/changePassword`,
 
   products: `${ABS}/products`,
   permission: `${ABS}/permission`,
