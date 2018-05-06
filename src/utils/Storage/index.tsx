@@ -4,7 +4,7 @@ export enum STORAGE_KEY {
   USER = 'user',
 }
 
-const storage = (key, { payload }) => {
+export const storage = (key, { payload }) => {
   if (payload) {
     let { data = null } = payload;
     try {
@@ -15,7 +15,7 @@ const storage = (key, { payload }) => {
   }
 };
 
-const clear = key => {
+export const clear = key => {
   return localStorage.removeItem(key);
 };
 

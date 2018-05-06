@@ -1,9 +1,13 @@
 import { handle } from 'redux-pack';
 import { ACTION_TYPE } from 'actions/query-module';
-import { findIndex } from 'lodash';
+import { findIndex, forEach } from 'lodash';
 export const initState = {
   products: [],
   permission: [],
+  permissionCurrent: [],
+  nodeMainTain: [],
+  corporateMap: {},
+  tables: [],
   loading: {},
   apiList: [],
   verifyData: [],
@@ -32,10 +36,31 @@ export default (state = initState, action) => {
           return { ...prevState, permission: action.payload.data };
         },
       });
-    case ACTION_TYPE.QUERY_PERMISSION:
+    case ACTION_TYPE.QUERY_PERMISSION_CURRENT:
       return handle(state, action, {
         success: prevState => {
-          return { ...prevState, permission: action.payload.data };
+          return { ...prevState, permissionCurrent: action.payload.data };
+        },
+      });
+    case ACTION_TYPE.QUERY_NODE_MAIN_TAIN:
+      return handle(state, action, {
+        success: prevState => {
+          const nodeMainTain = action.payload.data;
+          let corporateMap = {};
+          forEach(nodeMainTain, item => {
+            corporateMap[item.partyName] = item;
+          });
+          return {
+            ...prevState,
+            nodeMainTain,
+            corporateMap,
+          };
+        },
+      });
+    case ACTION_TYPE.QUERY_TABLES:
+      return handle(state, action, {
+        success: prevState => {
+          return { ...prevState, tables: action.payload.data };
         },
       });
     case ACTION_TYPE.QUERY_API_LIST:

@@ -17,25 +17,6 @@ const formItemLayout = {
   //    },
 };
 
-const projects = [
-  {
-    label: '接口1',
-    value: 1,
-  },
-  {
-    label: '接口2',
-    value: 2,
-  },
-  {
-    label: '接口3',
-    value: 3,
-  },
-];
-
-const projectOptions = projects.map(project => (
-  <Option key={project.value}>{project.label}</Option>
-));
-
 interface Props extends FormComponentProps {
   isLoading?: any;
   queryPermission: (data: any) => any;

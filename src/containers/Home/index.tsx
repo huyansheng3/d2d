@@ -75,10 +75,8 @@ const mapStateToProps = ({ home }) => ({ home });
 
 class Home extends React.Component<Props, any> {
   componentDidMount() {
-    // this.props.query({});
     this.props.queryCards({});
     this.props.queryLastBlock({ rownum: 10 });
-
     this.props.setInterval(
       () => this.props.queryLastBlock({ rownum: 10 }),
       60 * 1000

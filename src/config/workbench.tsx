@@ -10,6 +10,7 @@ import {
   OpMonitor,
   LogManager,
   Permission,
+  DataModule,
 } from 'containers/WorkBench/D2D';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
@@ -51,6 +52,22 @@ const dashboard: subMenuConfig = {
   id: 'dashboard',
   MenuIcon: <Icon type="dashboard" />,
   title: '工作台',
+};
+
+const dataModule: subMenuConfig = {
+  id: 'dataModule',
+  MenuIcon: <Icon type="database" />,
+  title: '数据模块',
+  subItems: [
+    {
+      id: 'dataUpload',
+      title: '数据上传',
+    },
+    {
+      id: 'fileUpload',
+      title: '文件上传',
+    },
+  ],
 };
 
 export const queryModule: subMenuConfig = {
@@ -162,6 +179,7 @@ export const getMenuItems = roleName => {
     case USER_TYPE.CORE:
       return [
         dashboard,
+        dataModule,
         queryModule,
         accountManager,
         permission,
@@ -183,6 +201,10 @@ export const getMenuContent = roleName => {
         {
           id: 'dashboard',
           dom: Dashboard,
+        },
+        {
+          id: 'dataModule',
+          dom: DataModule,
         },
         {
           id: 'queryModule',

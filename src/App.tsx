@@ -10,10 +10,11 @@ import {
 import { Provider } from 'react-redux';
 import { store } from 'store';
 import { WorkBench, Home, BlockQuery } from 'containers';
+import api from 'config/api';
+import { wrapServer } from 'utils/Axios';
 
 export default class App extends React.Component {
   render() {
-    console.log('render app');
     return (
       <Provider store={store}>
         <Router>
@@ -26,5 +27,16 @@ export default class App extends React.Component {
         </Router>
       </Provider>
     );
+  }
+
+  componentDidMount() {
+    wrapServer({
+      method: 'get',
+      url: api.nodes,
+    }).then(data => {
+      if (!data.data) {
+        wrapServer({ url: api.nodes });
+      }
+    });
   }
 }
