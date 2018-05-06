@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+</head>
+
+<body>
+  <form>
+    <label for="file">文件：</label>
+    <input type="file" name="file" id="file" />
+  </form>
+</body>
+<script>
+  const fileBtn = document.getElementById('file')
+  const userName = document.getElementById('userName')
+  fileBtn.addEventListener('change', () => {
+    const fd = new FormData()
+    fd.append('file', file.files[0])
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', 'http://47.92.26.19:8082/upload', true)
+    // xhr.setRequestHeader("Content-type","multipart/form-data")
+    xhr.send(fd)
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log('res is', xhr.responseText)
+      }
+    }
+  })
+</script>
+
+</html>

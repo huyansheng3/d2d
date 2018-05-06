@@ -7,6 +7,7 @@ import { wrapServer } from 'utils/Axios';
 import { find } from 'lodash';
 import api from 'config/api';
 import './index.css';
+import { customRequest } from 'utils/Utils';
 
 const Item = Form.Item;
 const Option = Select.Option;
@@ -104,6 +105,7 @@ class FileUpload extends React.Component<Props, any> {
               ],
             })(
               <Upload.Dragger
+                customRequest={customRequest}
                 onChange={info => console.log(info)}
                 name="file"
                 action={api.upload}>
@@ -125,7 +127,10 @@ class FileUpload extends React.Component<Props, any> {
           </Item>
 
           <Item>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading[api.attachment]}>
               保存
             </Button>
           </Item>

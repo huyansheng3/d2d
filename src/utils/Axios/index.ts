@@ -3,8 +3,6 @@ import { SERVER_HOST as HOST, SERVER_TIMEOUT as TIMEOUT } from 'config';
 import { message } from 'antd';
 import { isError, get } from 'lodash';
 import { STORAGE_KEY, clear } from 'utils/Storage';
-// import { store } from 'store';
-// import { ACTION_TYPE } from 'utils/Loading';
 
 export const error = response => {
   if (isError(response) && get(response, 'response.status') === 401) {
@@ -41,13 +39,21 @@ export const server = axios.create({
 });
 
 export const wrapServer = opt => {
-  // store.dispatch({});
+  // console.log(store);
+  // store.dispatch({
+  //   type: ACTION_TYPE.SET_LOADING_BEGIN,
+  //   key: opt.url,
+  // });
   return server
     .request({
       method: 'post',
       ...opt,
     })
     .then(response => {
+      // store.dispatch({
+      //   type: ACTION_TYPE.SET_LOADING_FINISH,
+      //   key: opt.url,
+      // });
       const data = response.data;
       if (data.code === 0 || data.code === '0') {
         return data;
@@ -56,6 +62,10 @@ export const wrapServer = opt => {
       }
     })
     .catch(info => {
+      // store.dispatch({
+      //   type: ACTION_TYPE.SET_LOADING_FINISH,
+      //   key: opt.url,
+      // });
       return error(info);
     });
 };

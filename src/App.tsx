@@ -12,6 +12,7 @@ import { store } from 'store';
 import { WorkBench, Home, BlockQuery } from 'containers';
 import api from 'config/api';
 import { wrapServer } from 'utils/Axios';
+import './init-axios';
 
 export default class App extends React.Component {
   render() {
