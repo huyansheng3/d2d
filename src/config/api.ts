@@ -28,6 +28,7 @@ const api = {
   permissionConfig: `${ABS}/permission/config`,
   productDownload: `${ABS}/product`,
   attachment: `${ABS}/attachment`,
+  attachments: `${ABS}/attachment/all`,
   upload: `${ABS}/upload`,
   tables: `${ABS}/tables`,
 };

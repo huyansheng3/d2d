@@ -8,6 +8,7 @@ export const initState = {
   nodeMainTain: [],
   corporateMap: {},
   tables: [],
+  attachments: [],
   loading: {},
   apiList: [],
   verifyData: [],
@@ -61,6 +62,12 @@ export default (state = initState, action) => {
       return handle(state, action, {
         success: prevState => {
           return { ...prevState, tables: action.payload.data };
+        },
+      });
+    case ACTION_TYPE.QUERY_ATTACHMENTS:
+      return handle(state, action, {
+        success: prevState => {
+          return { ...prevState, attachments: action.payload.data };
         },
       });
     case ACTION_TYPE.QUERY_API_LIST:

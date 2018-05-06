@@ -16,8 +16,8 @@ export const error = response => {
     throw response;
   }
 
-  if (response.data && response.data.msg) {
-    return message.error(response.data.msg);
+  if (response.data && (response.data.data || response.data.msg)) {
+    return message.error(response.data.data || response.data.msg);
   }
 
   switch (typeof response.data) {
@@ -39,21 +39,12 @@ export const server = axios.create({
 });
 
 export const wrapServer = opt => {
-  // console.log(store);
-  // store.dispatch({
-  //   type: ACTION_TYPE.SET_LOADING_BEGIN,
-  //   key: opt.url,
-  // });
   return server
     .request({
       method: 'post',
       ...opt,
     })
     .then(response => {
-      // store.dispatch({
-      //   type: ACTION_TYPE.SET_LOADING_FINISH,
-      //   key: opt.url,
-      // });
       const data = response.data;
       if (data.code === 0 || data.code === '0') {
         return data;
@@ -62,10 +53,6 @@ export const wrapServer = opt => {
       }
     })
     .catch(info => {
-      // store.dispatch({
-      //   type: ACTION_TYPE.SET_LOADING_FINISH,
-      //   key: opt.url,
-      // });
       return error(info);
     });
 };

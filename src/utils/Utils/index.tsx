@@ -1,4 +1,5 @@
 import { isNumber } from 'lodash';
+import { message } from 'antd';
 
 export function parseInitValue(value) {
   let ret;
@@ -84,7 +85,18 @@ export function customRequest(option) {
       return option.onError(getError(option, xhr), getBody(xhr));
     }
 
-    option.onSuccess(getBody(xhr), xhr);
+    const body = getBody(xhr);
+    if (body.code === 0) {
+      option.onSuccess(body, xhr);
+    } else {
+      const error = new Error(body.data || body.msg);
+      const ErrorWithStatusText = {
+        ...error,
+        statusText: body.data,
+      };
+      message.error(body.data);
+      option.onError(ErrorWithStatusText, body);
+    }
   };
 
   xhr.open('post', option.action, true);

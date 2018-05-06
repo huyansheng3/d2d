@@ -7,6 +7,7 @@ export enum ACTION_TYPE {
   QUERY_PERMISSION_CURRENT = 'QUERY_PERMISSION_CURRENT',
   QUERY_NODE_MAIN_TAIN = 'QUERY_NODE_MAIN_TAIN',
   QUERY_TABLES = 'QUERY_TABLES',
+  QUERY_ATTACHMENTS = 'QUERY_ATTACHMENTS',
   QUERY_API_LIST = 'QUERY_API_LIST',
   QUERY_VERIFY_DATA = 'QUERY_VERIFY_DATA',
   CALCULATE_HASH = 'CALCULATE_HASH',
@@ -64,6 +65,16 @@ export const queryTables = () => {
     promise: wrapServer({
       method: 'get',
       url: api.tables,
+    }),
+  };
+};
+
+export const queryAttachments = () => {
+  return {
+    type: ACTION_TYPE.QUERY_ATTACHMENTS,
+    promise: wrapServer({
+      method: 'get',
+      url: api.attachments,
     }),
   };
 };
