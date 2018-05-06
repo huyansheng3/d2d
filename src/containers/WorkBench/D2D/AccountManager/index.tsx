@@ -1,14 +1,14 @@
 import * as React from 'react';
-import AuthManage from './AuthManage';
 import BasicInfo from './BasicInfo';
 import ResetPassword from './ResetPassword';
 import UserManage from './UserManage';
+import RoleManage from './RoleManage';
 import { Route, Link } from 'react-router-dom';
 
 const routes = [
   {
-    id: 'authManage',
-    dom: AuthManage,
+    id: 'RoleManage',
+    dom: RoleManage,
   },
   {
     id: 'userManage',

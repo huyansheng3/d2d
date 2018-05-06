@@ -99,6 +99,10 @@ export const accountManager: subMenuConfig = {
   title: '账号管理',
   subItems: [
     {
+      id: 'roleManage',
+      title: '角色管理',
+    },
+    {
       id: 'userManage',
       title: '用户管理',
     },

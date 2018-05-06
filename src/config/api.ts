@@ -23,6 +23,9 @@ const api = {
   nodes: `${ABS_HOST}/nodes`,
   nodeMainTain: `${ABS_HOST}/nodeMainTain`,
   changePassword: `${ABS_HOST}/user/changePassword`,
+  roles: `${ABS_HOST}/roles`,
+  findRoles: `${ABS_HOST}/roles/findRoles`,
+  corporateInfo: `${ABS_HOST}/corporateInfo`,
 
   products: `${ABS}/products`,
   permission: `${ABS}/permission`,
