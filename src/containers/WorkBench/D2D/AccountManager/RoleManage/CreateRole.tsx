@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Modal } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Form, Input, Select, Button, Checkbox } from 'antd';
-import { forEach } from 'lodash';
+import { forEach, isEmpty } from 'lodash';
 import './index.css';
 
 const FormItem = Form.Item;
@@ -26,6 +26,7 @@ const options = [
 
 interface Props extends FormComponentProps {
   createRole: (value: any) => any;
+  updateRole: (value: any) => any;
   onCancel: () => any;
   onOk: () => any;
   visible: boolean;
@@ -33,6 +34,7 @@ interface Props extends FormComponentProps {
   currentRole: any;
   roles: any;
   corporateInfo: any;
+  isCreateMode: boolean;
 }
 
 class CreateRole extends React.Component<Props, {}> {
@@ -43,18 +45,32 @@ class CreateRole extends React.Component<Props, {}> {
     roleCheckAll: false,
   };
 
-  handleCreate = e => {
-    const { form, onOk } = this.props;
+  handleOk = e => {
+    const {
+      form,
+      createRole,
+      updateRole,
+      onOk,
+      currentRole,
+      isCreateMode,
+    } = this.props;
+
     form.validateFields((errors, values) => {
       if (!errors) {
-        this.props.createRole({ data: values }).then(({ payload }) => {
-          onOk && onOk();
-        });
+        if (isCreateMode) {
+          createRole(values).then(payload => {
+            form.resetFields();
+            onOk && onOk();
+          });
+        } else {
+          updateRole({ ...currentRole, ...values }).then(payload => {
+            form.resetFields();
+            onOk && onOk();
+          });
+        }
       }
     });
   };
-
-  handleOk = e => {};
 
   handleCorpChange = values => {
     this.setState({
@@ -119,6 +135,7 @@ class CreateRole extends React.Component<Props, {}> {
       currentRole,
       roles,
       corporateInfo,
+      isCreateMode,
     } = this.props;
     const { getFieldDecorator } = form;
 
@@ -127,14 +144,15 @@ class CreateRole extends React.Component<Props, {}> {
         visible={visible}
         width={800}
         onOk={this.handleOk}
-        okText="创建"
+        okText={isCreateMode ? '创建' : '更新'}
         cancelText="取消"
         onCancel={onCancel}
+        confirmLoading={loading}
         title="角色维护">
         <Form layout="vertical">
           <FormItem {...formItemLayout} label="角色名称">
             {getFieldDecorator('roleName', {
-              initialValue: currentRole.userName,
+              initialValue: isCreateMode ? undefined : currentRole.roleName,
               rules: [{ required: true, message: '不能为空' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
@@ -148,6 +166,7 @@ class CreateRole extends React.Component<Props, {}> {
             </Checkbox>
 
             {getFieldDecorator('corpManage', {
+              initialValue: isCreateMode ? undefined : currentRole.corpManage,
               rules: [{ required: true, message: '不能为空' }],
             })(
               <CheckboxGroup
@@ -166,6 +185,7 @@ class CreateRole extends React.Component<Props, {}> {
             </Checkbox>
 
             {getFieldDecorator('allRole', {
+              initialValue: isCreateMode ? undefined : currentRole.allRole,
               rules: [{ required: true, message: '不能为空' }],
             })(
               <CheckboxGroup

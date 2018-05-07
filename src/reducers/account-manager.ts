@@ -25,6 +25,20 @@ export default (state = initState, action) => {
           };
         },
       });
+    case ACTION_TYPE.UPDATE_ROLE:
+      return handle(state, action, {
+        success: prevState => {
+          const newRole = action.payload.data;
+          const index = findIndex(prevState.roles, { id: newRole.id });
+          const newRoles = update(prevState.roles, {
+            $splice: [[index, 1, newRole]],
+          });
+          return {
+            ...prevState,
+            roles: newRoles,
+          };
+        },
+      });
     case ACTION_TYPE.UPDATE_ROLE_STATUS:
       return handle(state, action, {
         success: prevState => {

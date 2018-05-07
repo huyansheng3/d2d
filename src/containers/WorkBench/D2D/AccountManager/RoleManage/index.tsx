@@ -5,6 +5,7 @@ import {
   queryRoles,
   findRoles,
   createRole,
+  updateRole,
   queryCorporate,
   updateRoleStatus,
   ACTION_TYPE,
@@ -19,6 +20,7 @@ interface Props {
   findRoles: (params: any) => any;
   updateRoleStatus: (params: any) => any;
   createRole: (data: any) => any;
+  updateRole: (data: any) => any;
   queryCorporate: (opts?: any) => any;
   accountManager: any;
   ui: any;
@@ -29,6 +31,7 @@ const mapDispatchToProps = dispatch => ({
   findRoles: (params: any) => dispatch(findRoles(params)),
   updateRoleStatus: (params: any) => dispatch(updateRoleStatus(params)),
   createRole: (data: any) => dispatch(createRole(data)),
+  updateRole: (data: any) => dispatch(updateRole(data)),
   queryCorporate: (opts: any) => dispatch(queryCorporate(opts)),
 });
 
@@ -47,6 +50,7 @@ class UserManage extends React.Component<Props, any> {
   state = {
     createRoleVisible: false,
     selectedRow: {},
+    isCreateMode: false,
   };
 
   componentDidMount() {
@@ -54,8 +58,12 @@ class UserManage extends React.Component<Props, any> {
     this.props.queryCorporate();
   }
 
-  handleCreateClick = e => {
-    this.setState({ createRoleVisible: true });
+  handleRoleCreate = e => {
+    this.setState({ createRoleVisible: true, isCreateMode: true });
+  };
+
+  handleRoleUpdate = e => {
+    this.setState({ createRoleVisible: true, isCreateMode: false });
   };
 
   onClose = () => {
@@ -147,10 +155,13 @@ class UserManage extends React.Component<Props, any> {
           loading={loading[ACTION_TYPE.QUERY_ROLES]}
         />
         <div className="operate">
-          <Button type="primary" onClick={this.handleCreateClick}>
+          <Button type="primary" onClick={this.handleRoleCreate}>
             创建
           </Button>
-          <Button disabled={isDisabled} type="primary">
+          <Button
+            disabled={isDisabled}
+            type="primary"
+            onClick={this.handleRoleUpdate}>
             编辑
           </Button>
         </div>
@@ -166,10 +177,12 @@ class UserManage extends React.Component<Props, any> {
         <CreateRole
           onCancel={this.onClose}
           onOk={this.onClose}
-          visible={this.state.createRoleVisible}
           createRole={this.props.createRole}
+          updateRole={this.props.updateRole}
+          visible={this.state.createRoleVisible}
           loading={loading[ACTION_TYPE.CREATE_ROLE]}
           currentRole={this.state.selectedRow}
+          isCreateMode={this.state.isCreateMode}
           roles={roles}
           corporateInfo={corporateInfo}
         />

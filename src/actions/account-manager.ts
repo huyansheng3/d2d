@@ -4,6 +4,7 @@ import api from 'config/api';
 export enum ACTION_TYPE {
   QUERY_ROLES = 'QUERY_ROLES',
   CREATE_ROLE = 'CREATE_ROLE',
+  UPDATE_ROLE = 'UPDATE_ROLE',
   UPDATE_ROLE_STATUS = 'UPDATE_ROLE_STATUS',
   QUERY_CORPORATE = 'QUERY_CORPORATE',
 }
@@ -33,6 +34,17 @@ export const createRole = data => {
   return {
     type: ACTION_TYPE.CREATE_ROLE,
     promise: wrapServer({
+      url: api.roles,
+      data,
+    }),
+  };
+};
+
+export const updateRole = data => {
+  return {
+    type: ACTION_TYPE.UPDATE_ROLE,
+    promise: wrapServer({
+      method: 'put',
       url: api.roles,
       data,
     }),
