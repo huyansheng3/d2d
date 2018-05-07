@@ -28,7 +28,7 @@ import api from 'config/api';
 import { wrapServer } from 'utils/Axios';
 import { parseInitValue } from 'utils/Utils';
 import qs from 'qs';
-import { head, find, map } from 'lodash';
+import { head, find, map, isEmpty, findIndex } from 'lodash';
 import shortid from 'shortid';
 import './index.css';
 
@@ -70,7 +70,7 @@ interface State {
 const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
   queryPermission: value => dispatch(queryPermission(value)),
-  queryPermissionCurrent: value => dispatch(queryPermission(value)),
+  queryPermissionCurrent: value => dispatch(queryPermissionCurrent(value)),
   queryNodeMainTain: () => dispatch(queryNodeMainTain()),
   queryTables: () => dispatch(queryTables()),
 });
@@ -116,11 +116,14 @@ class Subscribe extends React.Component<Props, State> {
           };
         });
 
+        data = interfaceData;
+
         if (values.fileChecked) {
           data = [
             ...interfaceData,
             {
               type: 'file',
+              tableName: '',
               pid: values.pid,
               toParty: values.toParty,
               fromParty: values.fromParty,
@@ -160,6 +163,16 @@ class Subscribe extends React.Component<Props, State> {
   };
 
   handleConfig = e => {
+    if (!isEmpty(this.state.selectedRow)) {
+      const { pid, partyName, fromPartyName } = this.state
+        .selectedRow as PermissionCurrent;
+      this.props.queryPermissionCurrent({
+        pid,
+        party: partyName,
+        fromParty: fromPartyName,
+      });
+    }
+
     this.setState({ modalVisible: true });
   };
 
@@ -243,7 +256,13 @@ class Subscribe extends React.Component<Props, State> {
 
   render() {
     let { queryModule, ui, form } = this.props;
-    const { products, permission, corporateMap, tables } = queryModule;
+    const {
+      products,
+      permission,
+      corporateMap,
+      tables,
+      permissionCurrent,
+    } = queryModule;
     const { loading, isLoading } = ui;
     const { getFieldDecorator, getFieldValue } = form;
 
@@ -263,6 +282,13 @@ class Subscribe extends React.Component<Props, State> {
     const partyOptions = map(corporateMap, (item, key) => {
       return <Option key={key}>{item.corporateInfo}</Option>;
     });
+
+    const initTables = permissionCurrent
+      .filter(perm => perm.type === 'interface')
+      .map(perm => perm.tableName);
+
+    const initFileChecked =
+      findIndex(permissionCurrent, { type: 'file' }) !== -1;
 
     return (
       <div>
@@ -298,108 +324,124 @@ class Subscribe extends React.Component<Props, State> {
           okText="保存"
           cancelText="关闭"
           title="编辑订阅">
-          <div className="config-modal-content">
-            <Form>
-              <Row gutter={8}>
-                <Col span={8}>
-                  <Item label="产品名称">
-                    {getFieldDecorator('pid', {
-                      initialValue: parseInitValue(
-                        (this.state.selectedRow as PermissionCurrent).pid
-                      ),
-                      rules: [
-                        {
-                          required: true,
-                          message: '不能为空',
-                        },
-                      ],
-                    })(<Select>{productOptions}</Select>)}
-                  </Item>
-                </Col>
-                <Col span={8}>
-                  <Item label="订阅方名称">
-                    {getFieldDecorator('toParty', {
-                      initialValue: (this.state
-                        .selectedRow as PermissionCurrent).partyName,
-                      rules: [
-                        {
-                          required: true,
-                          message: '不能为空',
-                        },
-                      ],
-                    })(<Select placeholder="请选择">{partyOptions}</Select>)}
-                  </Item>
-                </Col>
-                <Col span={8}>
-                  <Item label="被订阅方名称">
-                    {getFieldDecorator('fromParty', {
-                      initialValue: (this.state
-                        .selectedRow as PermissionCurrent).fromPartyName,
+          <Spin
+            spinning={Boolean(loading[ACTION_TYPE.QUERY_PERMISSION_CURRENT])}>
+            <div className="config-modal-content">
+              <Form>
+                <Row gutter={8}>
+                  <Col span={8}>
+                    <Item label="产品名称">
+                      {getFieldDecorator('pid', {
+                        initialValue: parseInitValue(
+                          (this.state.selectedRow as PermissionCurrent).pid
+                        ),
+                        rules: [
+                          {
+                            required: true,
+                            message: '不能为空',
+                          },
+                        ],
+                      })(<Select>{productOptions}</Select>)}
+                    </Item>
+                  </Col>
+                  <Col span={8}>
+                    <Item label="订阅方名称">
+                      {getFieldDecorator('toParty', {
+                        initialValue: (this.state
+                          .selectedRow as PermissionCurrent).partyName,
+                        rules: [
+                          {
+                            required: true,
+                            message: '不能为空',
+                          },
+                        ],
+                      })(<Select placeholder="请选择">{partyOptions}</Select>)}
+                    </Item>
+                  </Col>
+                  <Col span={8}>
+                    <Item label="被订阅方名称">
+                      {getFieldDecorator('fromParty', {
+                        initialValue: (this.state
+                          .selectedRow as PermissionCurrent).fromPartyName,
 
-                      rules: [
-                        {
-                          required: true,
-                          message: '不能为空',
-                        },
-                      ],
-                    })(<Select placeholder="请选择">{partyOptions}</Select>)}
-                  </Item>
-                </Col>
-              </Row>
-
-              <Item label="订阅范围">
-                <Row>
-                  <Checkbox
-                    indeterminate={this.state.indeterminate}
-                    onChange={this.onCheckAllChange}
-                    checked={this.state.checkAll}>
-                    表
-                  </Checkbox>
-
-                  {getFieldDecorator('tables', {
-                    initialValue: [],
-                    rules: [
-                      {
-                        validator: (rule, value, callback) => {
-                          if (
-                            value.length <= 0 &&
-                            !getFieldValue('fileChecked')
-                          ) {
-                            callback('文件和表至少选一项');
-                          }
-                          callback();
-                        },
-                      },
-                    ],
-                  })(
-                    <CheckboxGroup
-                      onChange={this.onTablesChange}
-                      options={this.tableCheckboxOptions}
-                    />
-                  )}
+                        rules: [
+                          {
+                            required: true,
+                            message: '不能为空',
+                          },
+                        ],
+                      })(<Select placeholder="请选择">{partyOptions}</Select>)}
+                    </Item>
+                  </Col>
                 </Row>
 
-                <Row>
-                  {getFieldDecorator('fileChecked', {
-                    valuePropName: 'checked',
-                    rules: [
-                      {
-                        validator: (rule, value, callback) => {
-                          if (getFieldValue('tables').length <= 0 && !value) {
-                            callback('文件和表至少选一项');
-                          }
-                          callback();
+                <Item label="订阅范围">
+                  <Row>
+                    <Checkbox
+                      indeterminate={this.state.indeterminate}
+                      onChange={this.onCheckAllChange}
+                      checked={this.state.checkAll}>
+                      表
+                    </Checkbox>
+
+                    {getFieldDecorator('tables', {
+                      initialValue: initTables,
+                      rules: [
+                        {
+                          validator: (rule, value, callback) => {
+                            if (
+                              value.length <= 0 &&
+                              !getFieldValue('fileChecked')
+                            ) {
+                              callback('文件和表至少选一项');
+                            }
+                            callback();
+                          },
                         },
-                      },
-                    ],
-                  })(<Checkbox>文件</Checkbox>)}
-                </Row>
-              </Item>
-            </Form>
-          </div>
+                      ],
+                    })(
+                      <CheckboxGroup
+                        onChange={this.onTablesChange}
+                        options={this.tableCheckboxOptions}
+                      />
+                    )}
+                  </Row>
+
+                  <Row>
+                    {getFieldDecorator('fileChecked', {
+                      initialValue: initFileChecked,
+                      valuePropName: 'checked',
+                      rules: [
+                        {
+                          validator: (rule, value, callback) => {
+                            if (getFieldValue('tables').length <= 0 && !value) {
+                              callback('文件和表至少选一项');
+                            }
+                            callback();
+                          },
+                        },
+                      ],
+                    })(<Checkbox>文件</Checkbox>)}
+                  </Row>
+                </Item>
+              </Form>
+            </div>
+          </Spin>
         </Modal>
       </div>
     );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.queryModule.permission !== nextProps.queryModule.permission
+    ) {
+      const newSelectedRow =
+        find(nextProps.queryModule.permission, {
+          pid: (this.state.selectedRow as PermissionCurrent).pid,
+        }) || {};
+      this.setState({ selectedRow: newSelectedRow });
+    }
   }
 }
 

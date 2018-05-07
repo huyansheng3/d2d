@@ -69,12 +69,13 @@ export const queryTables = () => {
   };
 };
 
-export const queryAttachments = () => {
+export const queryAttachments = params => {
   return {
     type: ACTION_TYPE.QUERY_ATTACHMENTS,
     promise: wrapServer({
       method: 'get',
-      url: api.attachments,
+      url: api.getAttachment,
+      params,
     }),
   };
 };

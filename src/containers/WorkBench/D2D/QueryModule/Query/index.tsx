@@ -16,7 +16,7 @@ import './index.css';
 interface Props {
   queryProduct: (data: any) => any;
   queryPermission: (data: any) => any;
-  queryAttachments: () => any;
+  queryAttachments: (params: any) => any;
   setInterval: (callback: Function, delay: number) => number;
   clearInterval: (id: number) => any;
   queryModule: any;
@@ -26,7 +26,7 @@ interface Props {
 const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
   queryPermission: value => dispatch(queryPermission(value)),
-  queryAttachments: () => dispatch(queryAttachments()),
+  queryAttachments: params => dispatch(queryAttachments(params)),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
@@ -53,7 +53,7 @@ class Query extends React.Component<Props, any> {
 
   handleFileClick = record => {
     this.setState({ fileModalVisible: true });
-    this.props.queryAttachments();
+    this.props.queryAttachments({ pid: record.pid });
   };
 
   onOk = e => {
@@ -143,8 +143,8 @@ class Query extends React.Component<Props, any> {
       },
       {
         title: '信息名称',
-        dataIndex: 'partyName',
-        key: 'partyName',
+        dataIndex: 'tableName',
+        key: 'tableName',
       },
       {
         title: '类型',
@@ -220,16 +220,13 @@ class Query extends React.Component<Props, any> {
               percent={this.state.percent}
             />
 
-            <p className="mt20">
-              {this.state.percent >= 100 &&
-                '导出报表数量220，匹配数据条数220，未匹配数据条数0'}
-            </p>
-
-            {this.state.percent >= 100 && (
-              <Button className="mt20" type="primary" href={downloadUrl}>
-                下载
-              </Button>
-            )}
+            <div className="mt20">
+              {this.state.percent >= 100 && (
+                <Button className="mt20" type="primary" href={downloadUrl}>
+                  下载
+                </Button>
+              )}
+            </div>
           </div>
         </Modal>
 

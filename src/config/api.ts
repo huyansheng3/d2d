@@ -34,6 +34,7 @@ const api = {
   productDownload: `${ABS}/product`,
   attachment: `${ABS}/attachment`,
   attachments: `${ABS}/attachment/all`,
+  getAttachment: `${ABS}/getAttachment`,
   upload: `${ABS}/upload`,
   tables: `${ABS}/tables`,
 };

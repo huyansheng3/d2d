@@ -13,7 +13,7 @@ import {
 import QueryForm from './QueryForm';
 import CreateRole from './CreateRole';
 import { RowSelectionType } from 'antd/lib/table';
-import { head, isEmpty } from 'lodash';
+import { head, isEmpty, find } from 'lodash';
 
 interface Props {
   queryRoles: () => any;
@@ -136,7 +136,7 @@ class UserManage extends React.Component<Props, any> {
   render() {
     const { accountManager, ui } = this.props;
     const { roles, corporateInfo } = accountManager;
-    const { loading } = ui;
+    const { loading, isLoading } = ui;
 
     const rowSelectionType: RowSelectionType = 'radio';
 
@@ -180,7 +180,7 @@ class UserManage extends React.Component<Props, any> {
           createRole={this.props.createRole}
           updateRole={this.props.updateRole}
           visible={this.state.createRoleVisible}
-          loading={loading[ACTION_TYPE.CREATE_ROLE]}
+          loading={isLoading}
           currentRole={this.state.selectedRow}
           isCreateMode={this.state.isCreateMode}
           roles={roles}
@@ -188,6 +188,16 @@ class UserManage extends React.Component<Props, any> {
         />
       </div>
     );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.accountManager.roles !== nextProps.accountManager.roles) {
+      const newSelectedRow =
+        find(nextProps.accountManager.roles, {
+          id: (this.state.selectedRow as role).id,
+        }) || {};
+      this.setState({ selectedRow: newSelectedRow });
+    }
   }
 }
 
