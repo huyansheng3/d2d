@@ -26,6 +26,9 @@ const api = {
   roles: `${ABS_HOST}/roles`,
   findRoles: `${ABS_HOST}/roles/findRoles`,
   corporateInfo: `${ABS_HOST}/corporateInfo`,
+  user: `${ABS_HOST}/user`,
+  findUser: `${ABS_HOST}/user/findUser`,
+  userPassword: `${ABS_HOST}/user/password`,
 
   products: `${ABS}/products`,
   permission: `${ABS}/permission`,
