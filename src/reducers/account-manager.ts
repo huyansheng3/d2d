@@ -41,12 +41,22 @@ export default (state = initState, action) => {
       });
     case ACTION_TYPE.UPDATE_ROLE_STATUS:
       return handle(state, action, {
-        success: prevState => {
-          const newRole = action.payload.data;
-          const index = findIndex(prevState.roles, { id: newRole.id });
+        start: prevState => {
+          const { payload = {} } = action;
+          const { params } = payload as any;
+
+          const { id } = params;
+          const index = findIndex(prevState.roles, { id: id });
+
           const newRoles = update(prevState.roles, {
-            $splice: [[index, 1, newRole]],
+            [index]: newRole =>
+              update(newRole, {
+                enabledState: {
+                  $set: !newRole.enabledState,
+                },
+              }),
           });
+
           return {
             ...prevState,
             roles: newRoles,

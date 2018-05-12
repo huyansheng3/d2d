@@ -54,6 +54,7 @@ export const updateRole = data => {
 export const updateRoleStatus = opts => {
   return {
     type: ACTION_TYPE.UPDATE_ROLE_STATUS,
+    payload: { ...opts },
     promise: wrapServer({
       method: 'patch',
       url: api.roles,
