@@ -96,15 +96,15 @@ export default (state = initState, action) => {
           const { params } = payload as any;
 
           const { id } = params;
-          const index = findIndex(prevState.roles, { id: id });
+          const index = findIndex(prevState.users, { id: id });
 
-          const newRoles = produce(prevState.roles, draftRoles => {
-            draftRoles[index].enabledState = !draftRoles[index].enabledState;
+          const newUsers = produce(prevState.users, draftUsers => {
+            draftUsers[index].enabledState = !draftUsers[index].enabledState;
           });
 
           return {
             ...prevState,
-            roles: newRoles,
+            users: newUsers,
           };
         },
       });

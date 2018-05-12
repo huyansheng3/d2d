@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table, Button, Modal, Switch } from 'antd';
+import { Table, Button, Modal, Switch, notification } from 'antd';
 import {
   queryUsers,
   createUser,
@@ -77,10 +77,17 @@ class UserManage extends React.Component<Props, {}> {
   };
 
   handleStatusSet = ({ checked, id }) => {
-    this.props.updateUserStatus({
-      data: { status: checked },
-      params: { id },
-    });
+    this.props
+      .updateUserStatus({
+        data: { status: checked },
+        params: { id },
+      })
+      .then(res => {
+        notification.success({
+          message: 'Success',
+          description: checked ? '启用成功' : '停用成功',
+        });
+      });
   };
 
   handleResetClick = e => {

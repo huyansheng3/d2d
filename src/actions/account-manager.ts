@@ -114,6 +114,7 @@ export const updateUser = opts => {
 export const updateUserStatus = opts => {
   return {
     type: ACTION_TYPE.UPDATE_USER_STATUS,
+    payload: { ...opts },
     promise: wrapServer({
       method: 'patch',
       url: api.user,
