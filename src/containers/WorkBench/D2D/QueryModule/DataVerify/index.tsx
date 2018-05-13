@@ -6,6 +6,7 @@ import {
   queryVerifyData,
   calculateHash,
   queryTableList,
+  queryTables,
   queryHash,
   ACTION_TYPE,
 } from 'actions/query-module';
@@ -28,6 +29,7 @@ interface Props extends FormComponentProps {
   queryHash: (data: any) => any;
   queryTableList: (data: any) => any;
   calculateHash: (data: any) => any;
+  queryTables: () => any;
   queryModule: any;
 }
 
@@ -36,6 +38,7 @@ const mapDispatchToProps = dispatch => ({
   queryVerifyData: value => dispatch(queryVerifyData(value)),
   queryTableList: value => dispatch(queryTableList(value)),
   calculateHash: value => dispatch(calculateHash(value)),
+  queryTables: () => dispatch(queryTables()),
 });
 
 const mapStateToProps = ({ queryModule }) => ({ queryModule });
@@ -72,7 +75,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
   };
 
   componentDidMount() {
-    this.props.queryTableList({});
+    this.props.queryTables();
   }
 
   validateJSON = (rule, value, callback) => {
@@ -86,13 +89,23 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
 
   render() {
     let { queryModule, form } = this.props;
-    const { verifyData, loading, localHash, tableList, onlineHashs = [] } = queryModule;
+    const {
+      verifyData,
+      loading,
+      localHash,
+      tableList,
+      onlineHashs = [],
+      tables,
+    } = queryModule;
     const { getFieldDecorator } = form;
 
-    const dataSource = verifyData.map((item, index) => ({ ...item, onlineHash: onlineHashs[index] }))
+    const dataSource = verifyData.map((item, index) => ({
+      ...item,
+      onlineHash: onlineHashs[index],
+    }));
 
     if (localHash && dataSource && dataSource.length) {
-      dataSource[0] = { ...dataSource[0], localHash: localHash }
+      dataSource[0] = { ...dataSource[0], localHash: localHash };
     }
 
     return (
@@ -104,7 +117,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
             isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
             queryVerifyData={this.props.queryVerifyData}
             queryHash={this.props.queryHash}
-            tableList={tableList}
+            tableList={tables}
             onChange={this.handleQueryFormChange}
           />
           <Table
@@ -131,7 +144,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
               })(<TextArea autosize={{ minRows: 8, maxRows: 30 }} />)}
             </Item>
 
-            <Item >
+            <Item>
               <Button
                 type="primary"
                 loading={loading[ACTION_TYPE.CALCULATE_HASH]}
