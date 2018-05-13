@@ -9,6 +9,7 @@ import {
 } from 'actions/query-module';
 import QueryForm from './QueryForm';
 import ReactTimeout from 'react-timeout';
+import { find } from 'lodash';
 import api from 'config/api';
 import qs from 'qs';
 import './index.css';
@@ -138,11 +139,14 @@ class Query extends React.Component<Props, any> {
     const permissionColumns = [
       {
         title: '产品名称',
-        dataIndex: 'tableName',
-        key: 'tableName',
+        dataIndex: 'productName',
+        key: 'productName',
+        render: (productName, record, index) => {
+          return productName;
+        },
       },
       {
-        title: '信息名称',
+        title: '接口名称',
         dataIndex: 'tableName',
         key: 'tableName',
       },
@@ -186,7 +190,6 @@ class Query extends React.Component<Props, any> {
       },
     ];
 
-    console.log(this.state);
     const { table, pid } = this.state;
     const downloadUrl =
       api.productDownload + '?' + qs.stringify({ table: table, pid: pid });

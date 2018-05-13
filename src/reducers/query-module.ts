@@ -1,6 +1,6 @@
 import { handle } from 'redux-pack';
 import { ACTION_TYPE } from 'actions/query-module';
-import { findIndex, forEach } from 'lodash';
+import { findIndex, forEach, find } from 'lodash';
 export const initState = {
   products: [],
   permission: [],
@@ -34,7 +34,14 @@ export default (state = initState, action) => {
     case ACTION_TYPE.QUERY_PERMISSION:
       return handle(state, action, {
         success: prevState => {
-          return { ...prevState, permission: action.payload.data };
+          const permission = action.payload.data || [];
+          const product =
+            find(state.products, { prjNo: +permission[0].pid }) || {};
+          const newPermission = permission.map(item => ({
+            ...item,
+            productName: product.prjName,
+          }));
+          return { ...prevState, permission: newPermission };
         },
       });
     case ACTION_TYPE.QUERY_PERMISSION_CURRENT:
