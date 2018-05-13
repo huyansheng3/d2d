@@ -170,15 +170,22 @@ class Subscribe extends React.Component<Props, State> {
     const fromParty = getFieldValue('fromParty');
 
     if (pid && toParty && fromParty) {
-      this.props.queryPermissionCurrent({
-        data: [
-          {
-            pid,
-            fromParty,
-            party: toParty,
-          },
-        ],
-      });
+      this.props
+        .queryPermissionCurrent({
+          data: [
+            {
+              pid,
+              fromParty,
+              party: toParty,
+            },
+          ],
+        })
+        .then(() => {
+          this.props.form.setFieldsValue({
+            tables: this.initTables,
+            fileChecked: this.initFileChecked,
+          });
+        });
     }
   };
 
@@ -278,6 +285,18 @@ class Subscribe extends React.Component<Props, State> {
     ];
   }
 
+  get initTables() {
+    const { permissionCurrent } = this.props.queryModule;
+    return permissionCurrent
+      .filter(perm => perm.type === 'interface')
+      .map(perm => perm.tableName);
+  }
+
+  get initFileChecked() {
+    const { permissionCurrent } = this.props.queryModule;
+    return findIndex(permissionCurrent, { type: 'file' }) !== -1;
+  }
+
   render() {
     let { queryModule, ui, form } = this.props;
     const {
@@ -307,13 +326,6 @@ class Subscribe extends React.Component<Props, State> {
       return <Option key={key}>{item.corporateInfo}</Option>;
     });
     console.log(corporateMap);
-
-    const initTables = permissionCurrent
-      .filter(perm => perm.type === 'interface')
-      .map(perm => perm.tableName);
-
-    const initFileChecked =
-      findIndex(permissionCurrent, { type: 'file' }) !== -1;
 
     return (
       <div>
@@ -426,7 +438,7 @@ class Subscribe extends React.Component<Props, State> {
                     </Checkbox>
 
                     {getFieldDecorator('tables', {
-                      initialValue: initTables,
+                      initialValue: this.initTables,
                       rules: [
                         {
                           validator: (rule, value, callback) => {
@@ -450,7 +462,7 @@ class Subscribe extends React.Component<Props, State> {
 
                   <Row>
                     {getFieldDecorator('fileChecked', {
-                      initialValue: initFileChecked,
+                      initialValue: this.initFileChecked,
                       valuePropName: 'checked',
                       rules: [
                         {

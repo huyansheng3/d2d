@@ -28,6 +28,10 @@ body {
   .query-form-btn {
     float: right;
   }
+
+  .query-form-operate {
+    float: right;
+  }
 }
 
 .common-dl {
@@ -57,7 +61,7 @@ body {
 }
 
 .ml10 {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .ml20 {
@@ -73,7 +77,7 @@ body {
 }
 
 .mt10 {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .mt20 {
@@ -86,4 +90,20 @@ body {
 
 .mt40 {
   margin-top: 40px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.mb30 {
+  margin-bottom: 30px;
+}
+
+.mb40 {
+  margin-bottom: 40px;
 }

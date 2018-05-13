@@ -9,6 +9,7 @@ import { default as home } from './home';
 import { default as queryModule } from './query-module';
 import { default as ui } from './ui';
 import { default as accountManager } from './account-manager';
+import { default as logManager } from './log-manager';
 
 export default combineReducers({
   user,
@@ -20,4 +21,5 @@ export default combineReducers({
   queryModule,
   ui,
   accountManager,
+  logManager,
 });

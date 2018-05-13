@@ -1,26 +1,26 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'antd';
-import { queryLoginLogs, ACTION_TYPE } from 'actions/log-manager';
+import { Table, Button } from 'antd';
+import { queryRoleLogs, ACTION_TYPE } from 'actions/log-manager';
 import QueryForm from './QueryForm';
 import api from 'config/api';
 
 interface Props {
-  queryLoginLogs: (opts: any) => any;
+  queryRoleLogs: (opts: any) => any;
   logManager: any;
   ui: any;
 }
 
 const mapDispatchToProps = dispatch => ({
-  queryLoginLogs: opts => dispatch(queryLoginLogs(opts)),
+  queryRoleLogs: opts => dispatch(queryRoleLogs(opts)),
 });
 
 const mapStateToProps = ({ ui, logManager }) => ({ ui, logManager });
 
 class PackAsset extends React.Component<Props, {}> {
   componentDidMount() {
-    this.props.queryLoginLogs({
-      url: api.loginLogs,
+    this.props.queryRoleLogs({
+      url: api.logRole,
     });
   }
 
@@ -35,39 +35,50 @@ class PackAsset extends React.Component<Props, {}> {
         title: '用户名',
         dataIndex: 'userName',
         key: 'userName',
+        render: (userName, record, index) => {
+          return userName || '-';
+        },
       },
       {
-        title: '登录角色',
+        title: '操作',
+        dataIndex: 'operation',
+        key: 'operation',
+      },
+      {
+        title: '角色',
         dataIndex: 'roleName',
         key: 'roleName',
       },
       {
-        title: '类型',
-        dataIndex: 'loginType',
-        key: 'loginType',
-      },
-      {
-        title: '登录时间',
+        title: '操作时间',
         dataIndex: 'logTime',
         key: 'logTime',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+        key: 'operate',
+        render: (operate, record, index) => {
+          return <Button type="primary">查看</Button>;
+        },
       },
     ];
   }
   render() {
     let { ui, logManager } = this.props;
     const { loading } = ui;
-    const { loginLogs } = logManager;
+    const { roleLogs } = logManager;
     return (
       <div>
         <QueryForm
-          loading={loading[ACTION_TYPE.QUERY_LOGIN_LOGS]}
-          exportUrl={api.loginLogsExport}
-          query={this.props.queryLoginLogs}
+          loading={loading[ACTION_TYPE.QUERY_ROLE_LOGS]}
+          exportUrl={api.logRoleExport}
+          query={this.props.queryRoleLogs}
         />
         <Table
-          loading={loading[ACTION_TYPE.QUERY_LOGIN_LOGS]}
+          loading={loading[ACTION_TYPE.QUERY_ROLE_LOGS]}
           columns={this.columns}
-          dataSource={loginLogs}
+          dataSource={roleLogs}
           rowKey="id"
         />
       </div>

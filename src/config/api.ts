@@ -30,6 +30,19 @@ const api = {
   findUser: `${ABS_HOST}/user/findUser`,
   userPassword: `${ABS_HOST}/user/password`,
 
+  // 日志模块
+  loginLogs: `${ABS_HOST}/logLogin`,
+  loginLogsAudit: `${ABS_HOST}/logLogin/audit`,
+  loginLogsExport: `${ABS_HOST}/logLogin/export`,
+  dataInterfaceLog: `${ABS_HOST}/dataInterfaceLog`,
+  dataInterfaceLogAudit: `${ABS_HOST}/dataInterfaceLog/audit`,
+  logRole: `${ABS_HOST}/logRole`,
+  logRoleAudit: `${ABS_HOST}/logRole/audit`,
+  logRoleExport: `${ABS_HOST}/logRole/export`,
+  logUser: `${ABS_HOST}/logUser`,
+  logUserAudit: `${ABS_HOST}/logUser/audit`,
+  logUserExport: `${ABS_HOST}/logUser/export`,
+
   products: `${ABS}/products`,
   permission: `${ABS}/permission`,
   permissionCurrent: `${ABS}/permission/current`,

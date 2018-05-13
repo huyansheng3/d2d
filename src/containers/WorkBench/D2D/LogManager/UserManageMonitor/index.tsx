@@ -1,26 +1,26 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'antd';
-import { queryLoginLogs, ACTION_TYPE } from 'actions/log-manager';
+import { queryUserLogs, ACTION_TYPE } from 'actions/log-manager';
 import QueryForm from './QueryForm';
 import api from 'config/api';
 
 interface Props {
-  queryLoginLogs: (opts: any) => any;
+  queryUserLogs: (opts: any) => any;
   logManager: any;
   ui: any;
 }
 
 const mapDispatchToProps = dispatch => ({
-  queryLoginLogs: opts => dispatch(queryLoginLogs(opts)),
+  queryUserLogs: opts => dispatch(queryUserLogs(opts)),
 });
 
 const mapStateToProps = ({ ui, logManager }) => ({ ui, logManager });
 
 class PackAsset extends React.Component<Props, {}> {
   componentDidMount() {
-    this.props.queryLoginLogs({
-      url: api.loginLogs,
+    this.props.queryUserLogs({
+      url: api.logUser,
     });
   }
 
@@ -37,15 +37,17 @@ class PackAsset extends React.Component<Props, {}> {
         key: 'userName',
       },
       {
-        title: '登录角色',
-        dataIndex: 'roleName',
-        key: 'roleName',
+        title: '操作',
+        dataIndex: 'operation',
+        key: 'operation',
       },
+
       {
-        title: '类型',
-        dataIndex: 'loginType',
-        key: 'loginType',
+        title: '操作人',
+        dataIndex: 'operationUser',
+        key: 'operationUser',
       },
+
       {
         title: '登录时间',
         dataIndex: 'logTime',
@@ -56,18 +58,18 @@ class PackAsset extends React.Component<Props, {}> {
   render() {
     let { ui, logManager } = this.props;
     const { loading } = ui;
-    const { loginLogs } = logManager;
+    const { userLogs } = logManager;
     return (
       <div>
         <QueryForm
-          loading={loading[ACTION_TYPE.QUERY_LOGIN_LOGS]}
-          exportUrl={api.loginLogsExport}
-          query={this.props.queryLoginLogs}
+          loading={loading[ACTION_TYPE.QUERY_USER_LOGS]}
+          exportUrl={api.logUserExport}
+          query={this.props.queryUserLogs}
         />
         <Table
-          loading={loading[ACTION_TYPE.QUERY_LOGIN_LOGS]}
+          loading={loading[ACTION_TYPE.QUERY_USER_LOGS]}
           columns={this.columns}
-          dataSource={loginLogs}
+          dataSource={userLogs}
           rowKey="id"
         />
       </div>

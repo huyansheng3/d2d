@@ -19,9 +19,7 @@ const mapStateToProps = ({ ui, logManager }) => ({ ui, logManager });
 
 class PackAsset extends React.Component<Props, {}> {
   componentDidMount() {
-    this.props.queryLoginLogs({
-      url: api.loginLogs,
-    });
+    // this.props.queryLoginLogs({});
   }
 
   get columns() {
