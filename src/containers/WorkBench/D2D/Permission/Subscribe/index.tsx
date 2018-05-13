@@ -28,7 +28,7 @@ import api from 'config/api';
 import { wrapServer } from 'utils/Axios';
 import { parseInitValue } from 'utils/Utils';
 import qs from 'qs';
-import { head, find, map, isEmpty, findIndex } from 'lodash';
+import { head, find, map, isEmpty, findIndex, delay } from 'lodash';
 import shortid from 'shortid';
 import './index.css';
 
@@ -163,30 +163,32 @@ class Subscribe extends React.Component<Props, State> {
   };
 
   handleSearchChange = e => {
-    const { form } = this.props;
-    const { getFieldValue } = form;
-    const pid = getFieldValue('pid');
-    const toParty = getFieldValue('toParty');
-    const fromParty = getFieldValue('fromParty');
+    delay(() => {
+      const { form } = this.props;
+      const { getFieldValue } = form;
+      const pid = getFieldValue('pid');
+      const toParty = getFieldValue('toParty');
+      const fromParty = getFieldValue('fromParty');
 
-    if (pid && toParty && fromParty) {
-      this.props
-        .queryPermissionCurrent({
-          data: [
-            {
-              pid,
-              fromParty,
-              party: toParty,
-            },
-          ],
-        })
-        .then(() => {
-          this.props.form.setFieldsValue({
-            tables: this.initTables,
-            fileChecked: this.initFileChecked,
+      if (pid && toParty && fromParty) {
+        this.props
+          .queryPermissionCurrent({
+            data: [
+              {
+                pid,
+                fromParty,
+                party: toParty,
+              },
+            ],
+          })
+          .then(() => {
+            this.props.form.setFieldsValue({
+              tables: this.initTables,
+              fileChecked: this.initFileChecked,
+            });
           });
-        });
-    }
+      }
+    });
   };
 
   handleConfig = e => {
