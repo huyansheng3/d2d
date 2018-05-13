@@ -38,23 +38,30 @@ const projectOptions = projects.map(project => (
 interface Props extends FormComponentProps {
   isLoading: any;
   queryApiList: (data: any) => any;
+  queryPermission: (data: any) => any;
+  products: any;
 }
 class QueryForm extends React.Component<Props, {}> {
   handleClick = e => {
-    const projectName = this.props.form.getFieldValue('projectName');
-    this.props.queryApiList({ id: projectName });
+    const pid = this.props.form.getFieldValue('pid');
+    this.props.queryPermission({ pid });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { isLoading, queryApiList } = this.props;
+    const { isLoading, queryApiList, products } = this.props;
+
+    const options = products.map(product => {
+      return <Option key={product.prjNo}>{product.prjName}</Option>;
+    });
+
     return (
       <div className="query-form">
         <Form layout="inline">
-          <FormItem {...formItemLayout} label="接口名称">
-            {getFieldDecorator('projectName', {})(
+          <FormItem {...formItemLayout} label="产品名称">
+            {getFieldDecorator('pid', {})(
               <Select placeholder="请选择" className="query-form-select">
-                {projectOptions}
+                {options}
               </Select>
             )}
           </FormItem>

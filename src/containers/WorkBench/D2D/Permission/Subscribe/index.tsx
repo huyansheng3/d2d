@@ -162,14 +162,38 @@ class Subscribe extends React.Component<Props, State> {
     this.setState(val);
   };
 
+  handleSearchChange = e => {
+    const { form } = this.props;
+    const { getFieldValue } = form;
+    const pid = getFieldValue('pid');
+    const toParty = getFieldValue('toParty');
+    const fromParty = getFieldValue('fromParty');
+
+    if (pid && toParty && fromParty) {
+      this.props.queryPermissionCurrent({
+        data: [
+          {
+            pid,
+            fromParty,
+            party: toParty,
+          },
+        ],
+      });
+    }
+  };
+
   handleConfig = e => {
     if (!isEmpty(this.state.selectedRow)) {
       const { pid, partyName, fromPartyName } = this.state
         .selectedRow as PermissionCurrent;
       this.props.queryPermissionCurrent({
-        pid,
-        party: partyName,
-        fromParty: fromPartyName,
+        data: [
+          {
+            pid,
+            party: partyName,
+            fromParty: fromPartyName,
+          },
+        ],
       });
     }
 
@@ -282,6 +306,7 @@ class Subscribe extends React.Component<Props, State> {
     const partyOptions = map(corporateMap, (item, key) => {
       return <Option key={key}>{item.corporateInfo}</Option>;
     });
+    console.log(corporateMap);
 
     const initTables = permissionCurrent
       .filter(perm => perm.type === 'interface')
@@ -341,7 +366,11 @@ class Subscribe extends React.Component<Props, State> {
                             message: '不能为空',
                           },
                         ],
-                      })(<Select>{productOptions}</Select>)}
+                      })(
+                        <Select onChange={this.handleSearchChange}>
+                          {productOptions}
+                        </Select>
+                      )}
                     </Item>
                   </Col>
                   <Col span={8}>
@@ -355,7 +384,13 @@ class Subscribe extends React.Component<Props, State> {
                             message: '不能为空',
                           },
                         ],
-                      })(<Select placeholder="请选择">{partyOptions}</Select>)}
+                      })(
+                        <Select
+                          onChange={this.handleSearchChange}
+                          placeholder="请选择">
+                          {partyOptions}
+                        </Select>
+                      )}
                     </Item>
                   </Col>
                   <Col span={8}>
@@ -370,7 +405,13 @@ class Subscribe extends React.Component<Props, State> {
                             message: '不能为空',
                           },
                         ],
-                      })(<Select placeholder="请选择">{partyOptions}</Select>)}
+                      })(
+                        <Select
+                          onChange={this.handleSearchChange}
+                          placeholder="请选择">
+                          {partyOptions}
+                        </Select>
+                      )}
                     </Item>
                   </Col>
                 </Row>

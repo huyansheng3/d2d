@@ -37,13 +37,12 @@ export const queryPermission = params => {
   };
 };
 
-export const queryPermissionCurrent = params => {
+export const queryPermissionCurrent = opts => {
   return {
     type: ACTION_TYPE.QUERY_PERMISSION_CURRENT,
     promise: wrapServer({
-      method: 'get',
       url: api.permissionCurrent,
-      params,
+      ...opts,
     }),
   };
 };
