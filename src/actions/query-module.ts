@@ -13,6 +13,9 @@ export enum ACTION_TYPE {
   CALCULATE_HASH = 'CALCULATE_HASH',
   QUERY_TABLE_LIST = 'QUERY_TABLE_LIST',
   QUERY_HASH = 'QUERY_HASH',
+  QUERY_NODE = 'QUERY_NODE',
+  CREATE_NODE = 'CREATE_NODE',
+  UPDATE_NODE = 'UPDATE_NODE',
 }
 
 export const queryProduct = data => {
@@ -132,6 +135,38 @@ export const queryHash = ({ data }) => {
       method: 'post',
       url: api.getTransByKeyfiled,
       data,
+    }),
+  };
+};
+
+export const queryNode = opts => {
+  return {
+    type: ACTION_TYPE.QUERY_NODE,
+    promise: wrapServer({
+      method: 'get',
+      url: api.nodeMainTain,
+      ...opts,
+    }),
+  };
+};
+
+export const createNode = opts => {
+  return {
+    type: ACTION_TYPE.CREATE_NODE,
+    promise: wrapServer({
+      url: api.nodeMainTain,
+      ...opts,
+    }),
+  };
+};
+
+export const updateNode = opts => {
+  return {
+    type: ACTION_TYPE.UPDATE_NODE,
+    promise: wrapServer({
+      method: 'put',
+      url: api.nodeMainTain,
+      ...opts,
     }),
   };
 };

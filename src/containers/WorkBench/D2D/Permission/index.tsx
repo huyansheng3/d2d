@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Subscribe from './Subscribe';
 import Upload from './Upload';
+import Node from './Node';
 import { Route, Link } from 'react-router-dom';
 
 const routes = [
@@ -11,6 +12,10 @@ const routes = [
   {
     id: 'upload',
     dom: Upload,
+  },
+  {
+    id: 'node',
+    dom: Node,
   },
 ];
 

@@ -146,6 +146,10 @@ export const permission: subMenuConfig = {
     //   id: 'upload',
     //   title: '上传权限配置',
     // },
+    {
+      id: 'node',
+      title: '节点配置',
+    },
   ],
 };
 
