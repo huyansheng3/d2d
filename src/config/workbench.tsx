@@ -62,10 +62,10 @@ const dataModule: subMenuConfig = {
   MenuIcon: <Icon type="database" />,
   title: '数据模块',
   subItems: [
-    {
-      id: 'dataUpload',
-      title: '数据上传',
-    },
+    // {
+    //   id: 'dataUpload',
+    //   title: '数据上传',
+    // },
     {
       id: 'fileUpload',
       title: '文件上传',

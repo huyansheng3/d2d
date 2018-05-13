@@ -4,7 +4,6 @@ import { Modal } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Form, Input, Select, Button } from 'antd';
 import { createUser, setUser } from 'actions/user';
-import CreateAssets from './CreateAssets';
 import { forEach, isEmpty } from 'lodash';
 import { parseInitValue } from 'utils/Utils';
 import './index.css';

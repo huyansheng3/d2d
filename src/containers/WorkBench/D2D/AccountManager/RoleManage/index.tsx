@@ -107,7 +107,7 @@ class UserManage extends React.Component<Props, any> {
         dataIndex: 'createUser',
         key: 'createUser',
         render: (createUser, record, index) => {
-          return createUser || 'XXXXX';
+          return createUser || '-';
         },
       },
       {

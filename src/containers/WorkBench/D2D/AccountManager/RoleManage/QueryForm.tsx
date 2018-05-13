@@ -44,15 +44,16 @@ class QueryForm extends React.Component<Props, {}> {
         <Form layout="inline">
           <FormItem {...formItemLayout}>
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: '不能为空' }],
+              initialValue: '',
             })(<Input placeholder="角色名称" />)}
           </FormItem>
           <FormItem>
             {getFieldDecorator('status', {
+              initialValue: '',
               rules: [{ required: true, message: '不能为空' }],
             })(
               <Select placeholder="请选择" style={{ width: 120 }}>
-                <Option value="2">所有</Option>
+                <Option value="">所有</Option>
                 <Option value="1">启用</Option>
                 <Option value="0">停用</Option>
               </Select>
