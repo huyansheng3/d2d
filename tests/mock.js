@@ -2,13 +2,36 @@ const jsonServer = require('json-server');
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
 const { recursiveIteration, fastDeepClone } = require('./util');
-const { cloneDeep } = require('lodash');
+const { cloneDeep, isEqual } = require('lodash');
 
 server.use(middlewares);
+server.use((req, res, next) => {
+  if (req.method === 'POST') {
+    req.method = 'GET';
+  }
+  // Continue to JSON Server router
+  next();
+});
 
 var mock = require('mockjs');
 
-server.use('/user', jsonServer.router('user.json'));
+server.use(jsonServer.bodyParser);
+
+function isAuthorized() {
+  const data = { phone: 'yigongcheng', password: '654321' };
+  return function(req, res, next) {
+    if (isEqual(data, req.body)) {
+      next();
+    } else {
+      res.json({
+        code: 1,
+        msg: '密码错误',
+      });
+    }
+  };
+}
+
+server.use('/user', isAuthorized(), jsonServer.router('user.json'));
 server.use('/corp', jsonServer.router('corp.json'));
 server.use('/market', jsonServer.router('market.json'));
 server.get('/uncheck/sms/sendVerifyCode', (req, res) => {
