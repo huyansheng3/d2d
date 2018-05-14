@@ -15,8 +15,10 @@ const api = {
 
   // 数据验证
   tableList: `${EASY_PROJECT_HOST}/api/test/states`,
-  verifyData: `${EASY_PROJECT_HOST}/api/test/state`,
-  calculateHash: `${EASY_PROJECT_HOST}/api/test/verify`,
+
+  
+  calculateHash: `${ABS}/verify`,
+  verifyData: `${ABS}/state`,
 
   login: `${ABS_HOST}/login`,
   logout: `${ABS_HOST}/logout`,
