@@ -61,14 +61,9 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
           queryData[key] = filed.value;
         });
 
-        const data = {
-          ...queryData,
-          ...values,
-        };
-
         this.props.calculateHash({
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-          data: qs.stringify(data),
+          data: JSON.parse(values.data),
+          params: queryData,
         });
       }
     });
