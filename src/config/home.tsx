@@ -140,10 +140,6 @@ export const blockDetail = [
     value: '2018-10-10 10:45:46',
   },
   {
-    label: '下一个区块哈希',
-    value: 'JNO9NJ54T9HXBT6Q6R45UN7S1Z8L0VAOCC9R8S54UYTVVBIA1',
-  },
-  {
     label: '区块高度',
     value: '123456',
   },
