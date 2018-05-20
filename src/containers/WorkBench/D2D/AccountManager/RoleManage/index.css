@@ -1,0 +1,10 @@
+.user-manager .query-form {
+  border: 1px solid #797d7f;
+  padding: 10px; }
+  .user-manager .query-form .query-form-operate {
+    float: right; }
+
+.user-manager .operate {
+  padding: 15px 0; }
+  .user-manager .operate .ant-btn {
+    margin-right: 30px; }

@@ -8,7 +8,8 @@ import './index.css';
 const Item = Form.Item;
 interface Props extends FormComponentProps {
   query: (data: any) => any;
-  assets: any;
+  user: any;
+  ui: any;
 }
 
 const formItemLayout = {
@@ -22,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
   query: value => dispatch(query(value)),
 });
 
-const mapStateToProps = ({ assets }) => ({ assets });
+const mapStateToProps = ({ user, ui }) => ({ user, ui });
 
 class BasicInfo extends React.Component<Props, {}> {
   handleSave = e => {
@@ -34,52 +35,63 @@ class BasicInfo extends React.Component<Props, {}> {
   };
 
   render() {
-    let { assets, form } = this.props;
+    let { user, ui, form } = this.props;
+    const currentUser = user.user || {};
+
     const { getFieldDecorator } = form;
     return (
       <div className="reset-password">
         <Form layout="horizontal">
           <Item {...formItemLayout} label="企业信息">
-            {getFieldDecorator('enterprise_info', {})(<Input disabled />)}
+            {getFieldDecorator('corporateName', {
+              initialValue: currentUser.corporateName,
+            })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="账号信息">
-            {getFieldDecorator('account_info', {})(<Input disabled />)}
+            {getFieldDecorator('userName', {
+              initialValue: currentUser.userName,
+            })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="区块链地址">
-            {getFieldDecorator('block_address', {})(<Input disabled />)}
+            {getFieldDecorator('address', {
+              initialValue: currentUser.address,
+            })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="联系人姓名">
-            {getFieldDecorator('contact_name', {
+            {getFieldDecorator('contactName', {
+              initialValue: currentUser.contactName,
               rules: [{ required: true, message: '不能为空' }],
-            })(<Input />)}
+            })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="手机">
-            {getFieldDecorator('contact_phone', {
+            {getFieldDecorator('mobile', {
+              initialValue: currentUser.mobile,
               rules: [
                 { type: 'phone', message: '手机号格式不正确' },
                 { required: true, message: '不能为空' },
               ],
-            })(<Input />)}
+            })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="邮箱">
-            {getFieldDecorator('contact_email', {
+            {getFieldDecorator('email', {
+              initialValue: currentUser.email,
               rules: [
                 { type: 'email', message: '邮箱格式不正确' },
                 { required: true, message: '不能为空' },
               ],
-            })(<Input />)}
+            })(<Input disabled />)}
           </Item>
 
-          <Item wrapperCol={{ span: 8, offset: 2 }}>
+          {/* <Item wrapperCol={{ span: 8, offset: 2 }}>
             <Button type="primary" onClick={this.handleSave}>
               保存
             </Button>
-          </Item>
+          </Item> */}
         </Form>
       </div>
     );

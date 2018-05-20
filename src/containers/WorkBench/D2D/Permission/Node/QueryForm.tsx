@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { Form, Input, Select, Button, DatePicker } from 'antd';
-import { query, create } from 'actions/assets';
+import { Form, Input, Select, Button, DatePicker, Modal } from 'antd';
 import moment, { Moment } from 'moment';
+import { isEmpty } from 'lodash';
 import qs from 'qs';
 
 const FormItem = Form.Item;
@@ -16,11 +15,13 @@ const formItemLayout = {};
 interface Props extends FormComponentProps {
   loading: boolean;
   query: (value: any) => any;
-  exportUrl?: string;
+  updateModalVisile: (state: any) => any;
+  products: any;
+  currentNode: any;
 }
 
 type fields = {
-  name: string;
+  pid: string;
   range: Array<Moment>;
 };
 
@@ -28,7 +29,7 @@ class QueryForm extends React.Component<Props, {}> {
   query = e => {
     this.props.form.validateFields((err, values) => {
       const params = {
-        name: values.name,
+        pid: values.pid,
         leftTime: +values.range[0] || '',
         rightTime: +values.range[1] || '',
       };
@@ -40,31 +41,41 @@ class QueryForm extends React.Component<Props, {}> {
     this.props.form.resetFields();
   };
 
-  get realExportUrl() {
-    const { exportUrl, form } = this.props;
-    const values = form.getFieldsValue();
-    const params = {
-      name: (values as fields).name || '',
-      leftTime: +(values as fields).range[0] || '',
-      rightTime: +(values as fields).range[1] || '',
-    };
+  handleCreate = e => {
+    this.props.updateModalVisile(true);
+  };
 
-    return exportUrl + '?' + qs.stringify(params);
-  }
+  handleUpdate = e => {
+    this.props.updateModalVisile(true);
+  };
+
+  handleDelete = e => {
+    Modal.confirm({
+      title: '确认删除？',
+      content:
+        '是否确认删除该上传权限，删除后，相应的节点将无法操作权限对应的上传操作。',
+    });
+  };
 
   render() {
-    const { loading, form, exportUrl } = this.props;
+    const { loading, form, products, currentNode } = this.props;
     const { getFieldDecorator } = form;
+    const options = products.map(product => {
+      return <Option key={product.prjNo}>{product.prjName}</Option>;
+    });
 
     return (
       <div>
         <div className="query-form">
           <Form layout="inline">
-            <FormItem {...formItemLayout} label="用户名">
-              {getFieldDecorator('name', {
-                initialValue: '',
-              })(<Input placeholder="用户名" />)}
+            <FormItem {...formItemLayout} label="产品名称">
+              {getFieldDecorator('pid', {})(
+                <Select placeholder="请选择" className="query-form-select">
+                  {options}
+                </Select>
+              )}
             </FormItem>
+
             <FormItem {...formItemLayout} label="登录时间">
               {getFieldDecorator('range', {
                 initialValue: [],
@@ -92,14 +103,25 @@ class QueryForm extends React.Component<Props, {}> {
           </Form>
         </div>
 
-        {Boolean(exportUrl) ? (
-          <Button
-            className="mt10 mb10"
-            type="primary"
-            href={this.realExportUrl}>
-            导出
+        <div className="mb10 mt10">
+          <Button type="primary" onClick={this.handleCreate}>
+            创建
           </Button>
-        ) : null}
+          <Button
+            disabled={isEmpty(currentNode)}
+            className="ml20"
+            type="primary"
+            onClick={this.handleUpdate}>
+            编辑
+          </Button>
+          <Button
+            disabled={isEmpty(currentNode)}
+            className="ml20"
+            type="danger"
+            onClick={this.handleDelete}>
+            删除
+          </Button>
+        </div>
       </div>
     );
   }

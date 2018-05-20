@@ -13,6 +13,9 @@ export enum ACTION_TYPE {
   CALCULATE_HASH = 'CALCULATE_HASH',
   QUERY_TABLE_LIST = 'QUERY_TABLE_LIST',
   QUERY_HASH = 'QUERY_HASH',
+  QUERY_NODE = 'QUERY_NODE',
+  CREATE_NODE = 'CREATE_NODE',
+  UPDATE_NODE = 'UPDATE_NODE',
 }
 
 export const queryProduct = data => {
@@ -37,13 +40,12 @@ export const queryPermission = params => {
   };
 };
 
-export const queryPermissionCurrent = params => {
+export const queryPermissionCurrent = opts => {
   return {
     type: ACTION_TYPE.QUERY_PERMISSION_CURRENT,
     promise: wrapServer({
-      method: 'get',
       url: api.permissionCurrent,
-      params,
+      ...opts,
     }),
   };
 };
@@ -69,12 +71,13 @@ export const queryTables = () => {
   };
 };
 
-export const queryAttachments = () => {
+export const queryAttachments = params => {
   return {
     type: ACTION_TYPE.QUERY_ATTACHMENTS,
     promise: wrapServer({
       method: 'get',
-      url: api.attachments,
+      url: api.getAttachment,
+      params,
     }),
   };
 };
@@ -132,6 +135,38 @@ export const queryHash = ({ data }) => {
       method: 'post',
       url: api.getTransByKeyfiled,
       data,
+    }),
+  };
+};
+
+export const queryNode = opts => {
+  return {
+    type: ACTION_TYPE.QUERY_NODE,
+    promise: wrapServer({
+      method: 'get',
+      url: api.nodeMainTain,
+      ...opts,
+    }),
+  };
+};
+
+export const createNode = opts => {
+  return {
+    type: ACTION_TYPE.CREATE_NODE,
+    promise: wrapServer({
+      url: api.nodeMainTain,
+      ...opts,
+    }),
+  };
+};
+
+export const updateNode = opts => {
+  return {
+    type: ACTION_TYPE.UPDATE_NODE,
+    promise: wrapServer({
+      method: 'put',
+      url: api.nodeMainTain,
+      ...opts,
     }),
   };
 };

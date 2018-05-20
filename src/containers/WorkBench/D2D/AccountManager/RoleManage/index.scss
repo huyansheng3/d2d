@@ -1,0 +1,19 @@
+@import 'src/config/style.scss';
+
+.user-manager {
+  .query-form {
+    border: 1px solid $gray;
+    padding: 10px;
+
+    .query-form-operate {
+      float: right;
+    }
+  }
+
+  .operate {
+    padding: 15px 0;
+    .ant-btn {
+      margin-right: 30px;
+    }
+  }
+}

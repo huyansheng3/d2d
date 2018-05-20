@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { FormComponentProps } from 'antd/lib/form';
 import { Form, Input, Select, Button } from 'antd';
-import { forEach } from 'lodash';
+import { forEach, find } from 'lodash';
 
 const FormItem = Form.Item;
 const Option = Select.Option;

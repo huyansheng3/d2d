@@ -1,16 +1,34 @@
 import * as React from 'react';
 import LoginMonitor from './LoginMonitor';
-import OperateMonitor from './OperateMonitor';
+import UploadMonitor from './UploadMonitor';
+import DataApiMonitor from './DataApiMonitor';
+import RoleManageMonitor from './RoleManageMonitor';
+import UserManageMonitor from './UserManageMonitor';
+
 import { Route, Link } from 'react-router-dom';
 
 const routes = [
   {
-    id: 'loginMonitor',
+    id: 'login',
     dom: LoginMonitor,
   },
   {
-    id: 'operateMonitor',
-    dom: OperateMonitor,
+    id: 'upload',
+    dom: UploadMonitor,
+  },
+
+  {
+    id: 'dataApi',
+    dom: DataApiMonitor,
+  },
+
+  {
+    id: 'roleManage',
+    dom: RoleManageMonitor,
+  },
+  {
+    id: 'userManage',
+    dom: UserManageMonitor,
   },
 ];
 

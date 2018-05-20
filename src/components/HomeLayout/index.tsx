@@ -60,7 +60,7 @@ class HomeLayout extends Component<Props, any> {
         <Header>
           <div className="home-layout-logo">
             <img className="hlayout__img" src={logo} alt="logo" />
-            <span className="hlayout__logo ml20">区块浏览器</span>
+            <span className="hlayout__logo ml20">德邦证券区块链</span>
           </div>
 
           <SearchForm queryBykeyfield={queryBykeyfield!} />

@@ -4,8 +4,8 @@ import { Modal } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Form, Input, Select, Button } from 'antd';
 import { createUser, setUser } from 'actions/user';
-import CreateAssets from './CreateAssets';
-import { forEach } from 'lodash';
+import { forEach, isEmpty } from 'lodash';
+import { parseInitValue } from 'utils/Utils';
 import './index.css';
 
 const FormItem = Form.Item;
@@ -34,80 +34,103 @@ const options = [
 
 interface Props extends FormComponentProps {
   createUser: (value: any) => any;
-  setUser: (value: any) => any;
+  updateUser: (value: any) => any;
   onCancel: () => any;
   onOk: () => any;
-  user: any;
   visible: boolean;
   isLoading?: boolean;
+  currentUser: any;
+  roles: any;
 }
 
-const mapDispatchToProps = dispatch => ({
-  createUser: value => dispatch(createUser(value)),
-  setUser: value => dispatch(setUser(value)),
-});
-
-const mapStateToProps = ({ user }) => ({ user });
-
 class CreateUser extends React.Component<Props, {}> {
-  handleCreate = e => {
-    const { form, onOk } = this.props;
+  handleOk = e => {
+    const { form, onOk, currentUser } = this.props;
+
     form.validateFields((errors, values) => {
       if (!errors) {
-        this.props.createUser({ data: values }).then(({ payload }) => {
-          onOk && onOk();
-        });
+        if (isEmpty(currentUser)) {
+          this.props.createUser({ data: values }).then(({ payload }) => {
+            onOk && onOk();
+          });
+        } else {
+          this.props
+            .updateUser({ data: { ...currentUser, ...values } })
+            .then(({ payload }) => {
+              onOk && onOk();
+            });
+        }
       }
     });
   };
 
   render() {
-    const { visible, form, user, onOk, onCancel, isLoading } = this.props;
-    const { newUser } = user;
+    const {
+      visible,
+      form,
+      currentUser,
+      onOk,
+      onCancel,
+      isLoading,
+      roles,
+    } = this.props;
     const { getFieldDecorator } = form;
+
+    const roleOptions = roles.map(role => {
+      return <Option key={role.id}>{role.roleName}</Option>;
+    });
+
     return (
-      <Modal visible={visible} onOk={onOk} onCancel={onCancel} footer={null}>
+      <Modal
+        visible={visible}
+        confirmLoading={isLoading}
+        onOk={this.handleOk}
+        title={isEmpty(currentUser) ? '创建用户' : '更新用户'}
+        onCancel={onCancel}>
         <Form layout="vertical">
           <FormItem {...formItemLayout} label="用户名">
             {getFieldDecorator('userName', {
-              initialValue: newUser.userName,
+              initialValue: currentUser.userName,
               rules: [{ required: true, message: '不能为空' }],
             })(<Input placeholder="用户名" />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="状态">
-            {getFieldDecorator('status', {
-              initialValue: newUser.status,
+
+          <FormItem {...formItemLayout} label="手机">
+            {getFieldDecorator('mobile', {
+              initialValue: currentUser.mobile,
               rules: [{ required: true, message: '不能为空' }],
-            })(
-              <Select placeholder="请选择">
-                {options.map(option => (
-                  <Option key={option.value}>{option.label}</Option>
-                ))}
-              </Select>
-            )}
+            })(<Input placeholder="手机" />)}
           </FormItem>
+
           <FormItem {...formItemLayout} label="邮箱">
             {getFieldDecorator('email', {
-              initialValue: newUser.email,
+              initialValue: currentUser.email,
               rules: [
                 { type: 'email', message: '邮箱格式不正确' },
                 { required: true, message: '不能为空' },
               ],
             })(<Input placeholder="邮箱" />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="姓名">
-            {getFieldDecorator('name', {
-              initialValue: newUser.name,
+
+          <FormItem {...formItemLayout} label="联系人姓名">
+            {getFieldDecorator('contactName', {
+              initialValue: currentUser.contactName,
               rules: [{ required: true, message: '不能为空' }],
-            })(<Input placeholder="姓名" />)}
+            })(<Input placeholder="联系人姓名" />)}
           </FormItem>
-          <FormItem>
-            <Button
-              type="primary"
-              loading={isLoading}
-              onClick={this.handleCreate}>
-              创建
-            </Button>
+
+          <FormItem {...formItemLayout} label="角色">
+            {getFieldDecorator('roleId', {
+              initialValue: parseInitValue(currentUser.roleId),
+              rules: [{ required: true, message: '不能为空' }],
+            })(<Select placeholder="请选择">{roleOptions}</Select>)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="企业名称">
+            {getFieldDecorator('corporateName', {
+              initialValue: currentUser.corporateName,
+              rules: [{ required: true, message: '不能为空' }],
+            })(<Input disabled={!!currentUser.corporateName} />)}
           </FormItem>
         </Form>
       </Modal>
@@ -115,14 +138,4 @@ class CreateUser extends React.Component<Props, {}> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Form.create({
-    onFieldsChange(props: Props, changedFields) {
-      const data = {};
-      forEach(changedFields, (field, key) => {
-        data[key] = field.value;
-      });
-      props.setUser(data);
-    },
-  })(CreateUser)
-);
+export default Form.create()(CreateUser);

@@ -1,6 +1,8 @@
 import { handle } from 'redux-pack';
 import { ACTION_TYPE } from 'actions/query-module';
-import { findIndex, forEach } from 'lodash';
+import { findIndex, forEach, find } from 'lodash';
+import produce from 'immer';
+
 export const initState = {
   products: [],
   permission: [],
@@ -16,6 +18,7 @@ export const initState = {
   tableList: [],
   queryForm: {},
   onlineHashs: [],
+  nodes: [],
 };
 
 export default (state = initState, action) => {
@@ -34,7 +37,14 @@ export default (state = initState, action) => {
     case ACTION_TYPE.QUERY_PERMISSION:
       return handle(state, action, {
         success: prevState => {
-          return { ...prevState, permission: action.payload.data };
+          const permission = action.payload.data || [];
+          const product =
+            find(state.products, { prjNo: +permission[0].pid }) || {};
+          const newPermission = permission.map(item => ({
+            ...item,
+            productName: product.prjName,
+          }));
+          return { ...prevState, permission: newPermission };
         },
       });
     case ACTION_TYPE.QUERY_PERMISSION_CURRENT:
@@ -171,6 +181,39 @@ export default (state = initState, action) => {
               ...prevState.loading,
               [ACTION_TYPE.QUERY_HASH]: false,
             },
+          };
+        },
+      });
+    case ACTION_TYPE.QUERY_NODE:
+      return handle(state, action, {
+        success: prevState => {
+          return { ...prevState, nodes: action.payload.data };
+        },
+      });
+
+    case ACTION_TYPE.CREATE_NODE:
+      return handle(state, action, {
+        success: prevState => {
+          return {
+            ...prevState,
+            nodes: [...prevState.nodes, action.payload.data],
+          };
+        },
+      });
+
+    case ACTION_TYPE.UPDATE_NODE:
+      return handle(state, action, {
+        success: prevState => {
+          const newNode = action.payload.data;
+          const index = findIndex(prevState.nodes, { id: newNode.id });
+
+          const newNodes = produce(prevState.nodes, draftNodes => {
+            draftNodes[index] = newNode;
+          });
+
+          return {
+            ...prevState,
+            nodes: newNodes,
           };
         },
       });

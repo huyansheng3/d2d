@@ -62,10 +62,10 @@ const dataModule: subMenuConfig = {
   MenuIcon: <Icon type="database" />,
   title: '数据模块',
   subItems: [
-    {
-      id: 'dataUpload',
-      title: '数据上传',
-    },
+    // {
+    //   id: 'dataUpload',
+    //   title: '数据上传',
+    // },
     {
       id: 'fileUpload',
       title: '文件上传',
@@ -98,6 +98,10 @@ export const accountManager: subMenuConfig = {
   MenuIcon: <Icon type="user" />,
   title: '账号管理',
   subItems: [
+    {
+      id: 'roleManage',
+      title: '角色管理',
+    },
     {
       id: 'userManage',
       title: '用户管理',
@@ -138,9 +142,13 @@ export const permission: subMenuConfig = {
       id: 'subscribe',
       title: '订阅权限配置',
     },
+    // {
+    //   id: 'upload',
+    //   title: '上传权限配置',
+    // },
     {
-      id: 'upload',
-      title: '上传权限配置',
+      id: 'node',
+      title: '节点配置',
     },
   ],
 };
@@ -151,12 +159,26 @@ export const logManager: subMenuConfig = {
   title: '日志管理',
   subItems: [
     {
-      id: 'loginMonitor',
+      id: 'login',
       title: '登录日志',
     },
     {
-      id: 'operateMonitor',
-      title: '操作日志',
+      id: 'upload',
+      title: '上传日志',
+    },
+
+    {
+      id: 'dataApi',
+      title: '数据接口日志',
+    },
+
+    {
+      id: 'roleManage',
+      title: '角色管理日志',
+    },
+    {
+      id: 'userManage',
+      title: '用户管理日志',
     },
   ],
 };
@@ -186,7 +208,7 @@ export const getMenuItems = roleName => {
           dataModule,
           queryModule,
           accountManager,
-          opMonitor,
+          // opMonitor,
           logManager,
           blockBrowserEntry,
         ];
@@ -197,7 +219,7 @@ export const getMenuItems = roleName => {
           queryModule,
           accountManager,
           permission,
-          opMonitor,
+          // opMonitor,
           logManager,
           blockBrowserEntry,
         ];

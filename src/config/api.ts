@@ -15,14 +15,35 @@ const api = {
 
   // 数据验证
   tableList: `${EASY_PROJECT_HOST}/api/test/states`,
-  verifyData: `${EASY_PROJECT_HOST}/api/test/state`,
-  calculateHash: `${EASY_PROJECT_HOST}/api/test/verify`,
+
+  
+  calculateHash: `${ABS}/verify`,
+  verifyData: `${ABS}/state`,
 
   login: `${ABS_HOST}/login`,
   logout: `${ABS_HOST}/logout`,
   nodes: `${ABS_HOST}/nodes`,
   nodeMainTain: `${ABS_HOST}/nodeMainTain`,
   changePassword: `${ABS_HOST}/user/changePassword`,
+  roles: `${ABS_HOST}/roles`,
+  findRoles: `${ABS_HOST}/roles/findRoles`,
+  corporateInfo: `${ABS_HOST}/corporateInfo`,
+  user: `${ABS_HOST}/user`,
+  findUser: `${ABS_HOST}/user/findUser`,
+  userPassword: `${ABS_HOST}/user/password`,
+
+  // 日志模块
+  loginLogs: `${ABS_HOST}/logLogin`,
+  loginLogsAudit: `${ABS_HOST}/logLogin/audit`,
+  loginLogsExport: `${ABS_HOST}/logLogin/export`,
+  dataInterfaceLog: `${ABS_HOST}/dataInterfaceLog`,
+  dataInterfaceLogAudit: `${ABS_HOST}/dataInterfaceLog/audit`,
+  logRole: `${ABS_HOST}/logRole`,
+  logRoleAudit: `${ABS_HOST}/logRole/audit`,
+  logRoleExport: `${ABS_HOST}/logRole/export`,
+  logUser: `${ABS_HOST}/logUser`,
+  logUserAudit: `${ABS_HOST}/logUser/audit`,
+  logUserExport: `${ABS_HOST}/logUser/export`,
 
   products: `${ABS}/products`,
   permission: `${ABS}/permission`,
@@ -31,6 +52,7 @@ const api = {
   productDownload: `${ABS}/product`,
   attachment: `${ABS}/attachment`,
   attachments: `${ABS}/attachment/all`,
+  getAttachment: `${ABS}/getAttachment`,
   upload: `${ABS}/upload`,
   tables: `${ABS}/tables`,
 };

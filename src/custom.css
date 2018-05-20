@@ -21,6 +21,8 @@ body {
     min-width: 180px; }
   .query-form .query-form-btn {
     float: right; }
+  .query-form .query-form-operate {
+    float: right; }
 
 .common-dl {
   display: table; }
@@ -42,7 +44,7 @@ body {
   background-color: white; }
 
 .ml10 {
-  margin-left: 20px; }
+  margin-left: 10px; }
 
 .ml20 {
   margin-left: 20px; }
@@ -54,7 +56,7 @@ body {
   margin-left: 40px; }
 
 .mt10 {
-  margin-top: 20px; }
+  margin-top: 10px; }
 
 .mt20 {
   margin-top: 20px; }
@@ -64,3 +66,15 @@ body {
 
 .mt40 {
   margin-top: 40px; }
+
+.mb10 {
+  margin-bottom: 10px; }
+
+.mb20 {
+  margin-bottom: 20px; }
+
+.mb30 {
+  margin-bottom: 30px; }
+
+.mb40 {
+  margin-bottom: 40px; }

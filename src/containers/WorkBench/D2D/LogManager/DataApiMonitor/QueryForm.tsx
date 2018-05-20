@@ -60,10 +60,10 @@ class QueryForm extends React.Component<Props, {}> {
       <div>
         <div className="query-form">
           <Form layout="inline">
-            <FormItem {...formItemLayout} label="用户名">
+            <FormItem {...formItemLayout} label="产品名称">
               {getFieldDecorator('name', {
                 initialValue: '',
-              })(<Input placeholder="用户名" />)}
+              })(<Input placeholder="产品名称" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="登录时间">
               {getFieldDecorator('range', {

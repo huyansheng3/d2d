@@ -42,7 +42,7 @@ class QueryForm extends React.Component<Props, {}> {
     const { getFieldDecorator } = this.props.form;
 
     const projectOptions = tableList.map(project => (
-      <Option key={project.value}>{project.label}</Option>
+      <Option key={project.type}>{project.productName}</Option>
     ));
 
     return (
