@@ -26,6 +26,10 @@ type fields = {
 };
 
 class QueryForm extends React.Component<Props, {}> {
+  state = {
+    isCreate: false,
+  };
+
   query = e => {
     this.props.form.validateFields((err, values) => {
       const params = {
@@ -42,11 +46,11 @@ class QueryForm extends React.Component<Props, {}> {
   };
 
   handleCreate = e => {
-    this.props.updateModalVisile(true);
+    this.props.updateModalVisile({ modalVisible: true, isCreate: true });
   };
 
   handleUpdate = e => {
-    this.props.updateModalVisile(true);
+    this.props.updateModalVisile({ modalVisible: true, isCreate: false });
   };
 
   handleDelete = e => {

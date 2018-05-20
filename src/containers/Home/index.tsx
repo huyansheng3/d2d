@@ -5,7 +5,7 @@ import {
   query,
   queryCards,
   queryLastBlock,
-  queryBykeyfield,
+  search,
   ACTION_TYPE,
 } from 'actions/home';
 import { homeConfig } from 'config';
@@ -59,19 +59,20 @@ interface Props {
   query: (value: any) => any;
   queryCards: (value: any) => any;
   queryLastBlock: (value: any) => any;
-  queryBykeyfield: (value: any) => any;
+  search: (value: any) => any;
   setInterval: (callback: Function, timer: number) => any;
   home: any;
+  ui: any;
 }
 
 const mapDispatchToProps = dispatch => ({
   query: value => dispatch(query(value)),
   queryCards: value => dispatch(queryCards(value)),
   queryLastBlock: value => dispatch(queryLastBlock(value)),
-  queryBykeyfield: value => dispatch(queryBykeyfield(value)),
+  search: value => dispatch(search(value)),
 });
 
-const mapStateToProps = ({ home }) => ({ home });
+const mapStateToProps = ({ home, ui }) => ({ home, ui });
 
 class Home extends React.Component<Props, any> {
   componentDidMount() {
@@ -84,10 +85,11 @@ class Home extends React.Component<Props, any> {
   }
 
   render() {
-    let { home } = this.props;
-    const { dataDetail, loading, cards, lastBlock } = home;
+    let { home, ui } = this.props;
+    const { dataDetail, cards, lastBlock } = home;
+    const { loading, isLoading } = ui;
     return (
-      <HomeLayout queryBykeyfield={this.props.queryBykeyfield}>
+      <HomeLayout search={this.props.search}>
         <div className="home">
           <Row className="home__container home__cards" gutter={16}>
             {cardInfos.map(card => {
@@ -124,7 +126,7 @@ class Home extends React.Component<Props, any> {
             <Table
               loading={
                 loading[ACTION_TYPE.QUERY_LAST_BLOCK] ||
-                loading[ACTION_TYPE.QUERY_BY_KEYFIELD]
+                loading[ACTION_TYPE.SEARCH]
               }
               columns={columns}
               dataSource={lastBlock}
