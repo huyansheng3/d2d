@@ -149,6 +149,9 @@ class Query extends React.Component<Props, any> {
         title: '接口名称',
         dataIndex: 'tableName',
         key: 'tableName',
+        render: tableName => {
+          return tableName || '文件';
+        },
       },
       {
         title: '类型',

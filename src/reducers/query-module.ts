@@ -19,6 +19,7 @@ export const initState = {
   queryForm: {},
   onlineHashs: [],
   nodes: [],
+  hashForm: {},
 };
 
 export default (state = initState, action) => {
@@ -217,6 +218,8 @@ export default (state = initState, action) => {
           };
         },
       });
+    case ACTION_TYPE.SET_HASH_FORM:
+      return { ...state, hashForm: { ...state.hashForm, ...action.payload } };
     default:
       return state;
   }

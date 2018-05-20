@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FormComponentProps, FormCreateOption } from 'antd/lib/form';
 import { Form, Input, Select, Button, Row, Col, message } from 'antd';
+import { get } from 'lodash';
 import copy from 'copy-to-clipboard';
 
 const FormItem = Form.Item;
@@ -22,6 +23,7 @@ interface Props extends FormComponentProps {
   verifyData: any;
   tableList: any;
   isLoading: boolean;
+  hashForm: any;
 }
 
 class QueryForm extends React.Component<Props, {}> {
@@ -38,7 +40,7 @@ class QueryForm extends React.Component<Props, {}> {
   };
 
   render() {
-    const { isLoading, tableList } = this.props;
+    const { isLoading, tableList, hashForm } = this.props;
     const { getFieldDecorator } = this.props.form;
 
     const projectOptions = tableList.map(project => (
@@ -52,6 +54,7 @@ class QueryForm extends React.Component<Props, {}> {
             <Col span={12}>
               <FormItem {...formItemLayout} label="选择表">
                 {getFieldDecorator('stateName', {
+                  initialValue: get(hashForm, 'stateName.value'),
                   rules: [
                     {
                       required: true,
@@ -68,6 +71,7 @@ class QueryForm extends React.Component<Props, {}> {
             <Col span={12}>
               <FormItem {...formItemLayout} label="查询条件">
                 {getFieldDecorator('id', {
+                  initialValue: get(hashForm, 'id.value'),
                   rules: [
                     {
                       required: true,

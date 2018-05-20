@@ -16,6 +16,7 @@ export enum ACTION_TYPE {
   QUERY_NODE = 'QUERY_NODE',
   CREATE_NODE = 'CREATE_NODE',
   UPDATE_NODE = 'UPDATE_NODE',
+  SET_HASH_FORM = 'SET_HASH_FORM',
 }
 
 export const queryProduct = data => {
@@ -168,5 +169,12 @@ export const updateNode = opts => {
       url: api.nodeMainTain,
       ...opts,
     }),
+  };
+};
+
+export const setHashForm = form => {
+  return {
+    type: ACTION_TYPE.SET_HASH_FORM,
+    payload: form,
   };
 };
