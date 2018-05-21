@@ -49,12 +49,12 @@ export const contractColumns = [
     key: 'name',
   },
   {
-    title: '版本号',
+    title: '类别',
     dataIndex: 'version',
     key: 'version',
   },
   {
-    title: '文件名',
+    title: '地址',
     dataIndex: 'fileName',
     key: 'fileName',
   },
@@ -62,49 +62,66 @@ export const contractColumns = [
 
 export const contractData = [
   {
-    name: 'XXX',
-    version: '11',
-    fileName: '22.java',
+    name: '德邦',
+    version: '证券',
+    fileName: '0x6b9fC292B86662642523E8d1889A5FFFb71B80B88',
   },
   {
-    name: 'XXX',
-    version: '11',
-    fileName: '22.java',
+    name: 'xxx律所',
+    version: '律所',
+    fileName: '0x429fC292B866658D523E8d1889A5FFFb71B80B88a',
   },
+    {
+        name: 'xxx会所',
+        version: '会所',
+        fileName: '0x329fC292B866658D523E8d1889A5FFFb71B80B88a',
+    },
+    {
+        name: 'xxx机构',
+        version: '评级',
+        fileName: '0x2a9fC292B866658D523E8d1889A5FFFb71B80B88a',
+    },
 ];
 
 export const nodeListColumns = [
-  {
-    title: '名称',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '组织',
-    dataIndex: 'organization',
-    key: 'organization',
-  },
-  {
-    title: 'request',
-    dataIndex: 'request',
-    key: 'request',
-    render: (request, recored, index) => {
-      return 'ip' + request;
+    {
+        title: '名称',
+        dataIndex: 'name',
+        key: 'name',
     },
-  },
+    {
+        title: '类别',
+        dataIndex: 'version',
+        key: 'version',
+    },
+    {
+        title: '地址',
+        dataIndex: 'fileName',
+        key: 'fileName',
+    },
 ];
 
 export const nodeListData = [
-  {
-    name: 'XXX',
-    organization: '公司1',
-    request: '1.1.1.1',
-  },
-  {
-    name: 'XXX',
-    organization: '公司1',
-    request: '1.1.1.1',
-  },
+    {
+        name: '德邦',
+        version: '证券',
+        fileName: '0x6b9fC292B86662642523E8d1889A5FFFb71B80B88',
+    },
+    {
+        name: 'xxx律所',
+        version: '律所',
+        fileName: '0x429fC292B866658D523E8d1889A5FFFb71B80B88a',
+    },
+    {
+        name: 'xxx会所',
+        version: '会所',
+        fileName: '0x329fC292B866658D523E8d1889A5FFFb71B80B88a',
+    },
+    {
+        name: 'xxx机构',
+        version: '评级',
+        fileName: '0x2a9fC292B866658D523E8d1889A5FFFb71B80B88a',
+    },
 ];
 
 export const latestBlockColumns = [
