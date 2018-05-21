@@ -26,18 +26,25 @@ const {
 
 const cardInfos = [
   {
-    title: '节点',
+    title: '区块链节点',
     count: 2,
     name: 'node',
     icon: 'icon-nodejs',
     color: '#24ae88',
   },
   {
-    title: '区块',
+    title: '数据网关',
     count: 2,
-    name: 'block',
-    icon: 'icon-blocks_i',
-    color: '#333333',
+    name: 'd2d',
+    icon: 'icon-nodejs',
+    color: '#f98d33',
+  },
+  {
+      title: '区块',
+      count: 2,
+      name: 'block',
+      icon: 'icon-blocks_i',
+      color: '#333333',
   },
   {
     title: '交易',
@@ -45,13 +52,6 @@ const cardInfos = [
     name: 'exchange',
     icon: 'icon-exchange',
     color: '#1c7ebb',
-  },
-  {
-    title: '智能合约',
-    count: 2,
-    name: 'contract',
-    icon: 'icon-contract',
-    color: '#f98d33',
   },
 ];
 
@@ -135,7 +135,7 @@ class Home extends React.Component<Props, any> {
           </div>
           <Row type="flex" align="middle" className="home__container ">
             <Col span={12}>
-              <h2 id="contract">智能合约列表</h2>
+              <h2 id="contract">区块链节点</h2>
               <Table
                 columns={contractColumns}
                 dataSource={contractData}
@@ -143,7 +143,7 @@ class Home extends React.Component<Props, any> {
               />
             </Col>
             <Col span={12}>
-              <h2>节点数据</h2>
+              <h2>数据网关节点</h2>
               <Table
                 columns={nodeListColumns}
                 dataSource={nodeListData}
