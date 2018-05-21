@@ -14,6 +14,11 @@ export const columns = [
     key: 'creattime',
   },
   {
+      title: '接口名称',
+      dataIndex: 'tablename',
+      key: 'tablename',
+  },
+  {
     title: '查询主键',
     dataIndex: 'keyfield',
     key: 'keyfield',
@@ -33,13 +38,7 @@ export const columns = [
     title: '地址',
     dataIndex: 'address',
     key: 'address',
-  },
-  {
-    title: '是否有效',
-    dataIndex: 'enabled',
-    key: 'enabled',
-    render: (enabled, record, index) => (enabled ? '是' : '否'),
-  },
+  }
 ];
 
 export const contractColumns = [
@@ -155,14 +154,6 @@ export const blockDetail = [
   {
     label: '出块时间',
     value: '2018-10-10 10:45:46',
-  },
-  {
-    label: '上一个区块哈希',
-    value: '36RUND5GASI3K1W4TXQ72XER9TDD93FS7OEKE681SAHQD6O4HN',
-  },
-  {
-    label: '下一个区块哈希',
-    value: 'JNO9NJ54T9HXBT6Q6R45UN7S1Z8L0VAOCC9R8S54UYTVVBIA1',
   },
   {
     label: '区块高度',
