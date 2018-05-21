@@ -32,7 +32,8 @@ class QueryForm extends React.Component<Props, {}> {
       if (!err) {
         this.props.queryVerifyData({ params: fieldValues });
         const data = {
-          keyfield: fieldValues.id + fieldValues.stateName,
+          keyfield: fieldValues.id,
+          tableName: fieldValues.stateName,
         };
         this.props.queryHash({ data: data });
       }

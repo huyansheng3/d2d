@@ -120,13 +120,13 @@ export const latestBlockColumns = [
   },
   {
     title: '区块哈希',
-    dataIndex: 'datahash',
-    key: 'datahash',
+    dataIndex: 'blockhash',
+    key: 'blockhash',
   },
   {
     title: '包含交易',
-    dataIndex: 'enabled',
-    key: 'enabled',
+    dataIndex: 'transnum',
+    key: 'transnum',
   },
 ];
 

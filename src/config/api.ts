@@ -12,6 +12,8 @@ const api = {
   getTransByKeyfiled: `${BLOCK_SERVER_HOST}/api/trans/getbykeyfield`,
   getTransByTableName: `${BLOCK_SERVER_HOST}/api/trans/getByTableName`,
   getTransByPartyName: `${BLOCK_SERVER_HOST}/api/trans/getByPartyName`,
+  getHashByKeyfield: `${BLOCK_SERVER_HOST}/api/trans/gethashbykeyfield`,
+  getBlockByLast: `${BLOCK_SERVER_HOST}/api/block/getbylast`,
 
   blockNumber: `${BLOCK_SERVER_HOST}/api/block/getnum`,
   transNumber: `${BLOCK_SERVER_HOST}/api/trans/getnum`,

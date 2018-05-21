@@ -134,7 +134,7 @@ export const queryHash = ({ data }) => {
     type: ACTION_TYPE.QUERY_HASH,
     promise: wrapServer({
       method: 'post',
-      url: api.getTransByKeyfiled,
+      url: api.getHashByKeyfield,
       data,
     }),
   };

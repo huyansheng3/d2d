@@ -6,6 +6,7 @@ export enum ACTION_TYPE {
   QUERY_CARDS = 'QUERY_CARDS',
   QUERY_LAST_BLOCK = 'QUERY_LAST_BLOCK',
   SEARCH = 'SEARCH',
+  QUERY_BLOCK_BY_LAST = 'QUERY_BLOCK_BY_LAST',
 }
 
 export const query = data => {
@@ -56,6 +57,17 @@ export const search = opts => {
     promise: wrapServer({
       method: 'post',
       url: api.getTransByKeyfiled,
+      ...opts,
+    }),
+  };
+};
+
+export const queryBlockByLast = opts => {
+  return {
+    type: ACTION_TYPE.QUERY_BLOCK_BY_LAST,
+    promise: wrapServer({
+      method: 'post',
+      url: api.getBlockByLast,
       ...opts,
     }),
   };

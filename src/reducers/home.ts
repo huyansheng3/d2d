@@ -1,11 +1,13 @@
 import { handle } from 'redux-pack';
 import { ACTION_TYPE } from 'actions/home';
+import moment from 'moment';
 
 const home = {
   dataDetail: [],
   loading: {},
   cards: [],
   lastBlock: [],
+  blockByLast: [],
 };
 
 export default (state = home, action) => {
@@ -54,7 +56,10 @@ export default (state = home, action) => {
           },
         }),
         success: prevState => {
-          return { ...prevState, lastBlock: action.payload.data };
+          const newLastBlock = action.payload.data.sort((a, b) => {
+            return moment(a.creattime).isBefore(b.creattime);
+          });
+          return { ...prevState, lastBlock: newLastBlock };
         },
         finish: prevState => ({
           ...prevState,
@@ -68,6 +73,12 @@ export default (state = home, action) => {
       return handle(state, action, {
         success: prevState => {
           return { ...prevState, lastBlock: action.payload.data };
+        },
+      });
+    case ACTION_TYPE.QUERY_BLOCK_BY_LAST:
+      return handle(state, action, {
+        success: prevState => {
+          return { ...prevState, blockByLast: action.payload.data };
         },
       });
     default:

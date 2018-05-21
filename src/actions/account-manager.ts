@@ -29,7 +29,7 @@ export const findRoles = params => {
     type: ACTION_TYPE.QUERY_ROLES,
     promise: wrapServer({
       method: 'get',
-      url: api.roles,
+      url: api.findRoles,
       params: params,
     }),
   };

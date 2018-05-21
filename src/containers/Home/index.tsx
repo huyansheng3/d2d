@@ -5,6 +5,7 @@ import {
   query,
   queryCards,
   queryLastBlock,
+  queryBlockByLast,
   search,
   ACTION_TYPE,
 } from 'actions/home';
@@ -59,6 +60,8 @@ interface Props {
   query: (value: any) => any;
   queryCards: (value: any) => any;
   queryLastBlock: (value: any) => any;
+  queryBlockByLast: (value: any) => any;
+
   search: (value: any) => any;
   setInterval: (callback: Function, timer: number) => any;
   home: any;
@@ -69,6 +72,7 @@ const mapDispatchToProps = dispatch => ({
   query: value => dispatch(query(value)),
   queryCards: value => dispatch(queryCards(value)),
   queryLastBlock: value => dispatch(queryLastBlock(value)),
+  queryBlockByLast: value => dispatch(queryBlockByLast(value)),
   search: value => dispatch(search(value)),
 });
 
@@ -78,6 +82,7 @@ class Home extends React.Component<Props, any> {
   componentDidMount() {
     this.props.queryCards({});
     this.props.queryLastBlock({ rownum: 10 });
+    this.props.queryBlockByLast({ data: { rownum: 10 } });
     this.props.setInterval(
       () => this.props.queryLastBlock({ rownum: 10 }),
       60 * 1000
@@ -86,7 +91,7 @@ class Home extends React.Component<Props, any> {
 
   render() {
     let { home, ui } = this.props;
-    const { dataDetail, cards, lastBlock } = home;
+    const { dataDetail, cards, lastBlock, blockByLast } = home;
     const { loading, isLoading } = ui;
     return (
       <HomeLayout search={this.props.search}>
@@ -156,9 +161,9 @@ class Home extends React.Component<Props, any> {
             <h2 id="latest-block">最新区块</h2>
 
             <Table
-              loading={loading[ACTION_TYPE.QUERY_LAST_BLOCK]}
+              loading={loading[ACTION_TYPE.QUERY_BLOCK_BY_LAST]}
               columns={latestBlockColumns}
-              dataSource={lastBlock}
+              dataSource={blockByLast}
               pagination={false}
             />
           </div>
