@@ -50,7 +50,6 @@ class QueryForm extends React.Component<Props, {}> {
           <FormItem>
             {getFieldDecorator('status', {
               initialValue: '',
-              rules: [{ required: true, message: '不能为空' }],
             })(
               <Select placeholder="请选择" style={{ width: 120 }}>
                 <Option value="">所有</Option>
