@@ -14,6 +14,11 @@ export const columns = [
     key: 'creattime',
   },
   {
+      title: '接口名称',
+      dataIndex: 'tablename',
+      key: 'tablename',
+  },
+  {
     title: '查询主键',
     dataIndex: 'keyfield',
     key: 'keyfield',
@@ -33,13 +38,7 @@ export const columns = [
     title: '地址',
     dataIndex: 'address',
     key: 'address',
-  },
-  {
-    title: '是否有效',
-    dataIndex: 'enabled',
-    key: 'enabled',
-    render: (enabled, record, index) => (enabled ? '是' : '否'),
-  },
+  }
 ];
 
 export const contractColumns = [
