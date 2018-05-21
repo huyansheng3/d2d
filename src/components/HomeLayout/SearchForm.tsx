@@ -2,21 +2,35 @@ import * as React from 'react';
 import { FormComponentProps, FormCreateOption } from 'antd/lib/form';
 import { Form, Input, Select, Button, Row, Col, message } from 'antd';
 import './index.css';
+import api from 'config/api';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const Search = Input.Search;
 
 interface Props extends FormComponentProps {
-  queryBykeyfield: (data: any) => any;
+  search: (data: any) => any;
 }
 
 class SearchForm extends React.Component<Props, {}> {
   handleSearch = value => {
     const type = this.props.form.getFieldValue('type');
-    this.props.queryBykeyfield({
-      [type]: value,
-    });
+    let opts = {};
+    switch (type) {
+      case 'keyfield':
+        opts = { url: api.getTransByKeyfiled, data: { [type]: value } };
+        break;
+      case 'tableName':
+        opts = { url: api.getTransByTableName, data: { [type]: value } };
+        break;
+      case 'partyName':
+        opts = { url: api.getTransByPartyName, data: { [type]: value } };
+        break;
+      default:
+        opts = { url: api.getTransByKeyfiled, data: { [type]: value } };
+    }
+
+    this.props.search(opts);
   };
 
   render() {
@@ -29,7 +43,8 @@ class SearchForm extends React.Component<Props, {}> {
         })(
           <Select style={{ minWidth: 120 }}>
             <Option key="keyfield">数据主键</Option>
-            <Option key="blockHeight">区块高度</Option>
+            <Option key="tableName">接口</Option>
+            <Option key="partyName">上传者</Option>
           </Select>
         )}
 

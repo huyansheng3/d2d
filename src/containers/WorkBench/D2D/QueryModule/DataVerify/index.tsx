@@ -8,6 +8,7 @@ import {
   queryTableList,
   queryTables,
   queryHash,
+  setHashForm,
   ACTION_TYPE,
 } from 'actions/query-module';
 import { verifyColumns } from 'config/query-module';
@@ -30,6 +31,7 @@ interface Props extends FormComponentProps {
   queryTableList: (data: any) => any;
   calculateHash: (data: any) => any;
   queryTables: () => any;
+  setHashForm: (data: any) => any;
   queryModule: any;
 }
 
@@ -39,25 +41,23 @@ const mapDispatchToProps = dispatch => ({
   queryTableList: value => dispatch(queryTableList(value)),
   calculateHash: value => dispatch(calculateHash(value)),
   queryTables: () => dispatch(queryTables()),
+  setHashForm: value => dispatch(setHashForm(value)),
 });
 
 const mapStateToProps = ({ queryModule }) => ({ queryModule });
 
 class DataVerify extends React.Component<Props, { queryFileds: {} }> {
-  state = { queryFileds: {} };
-
   handleQueryFormChange = changedFields => {
-    this.setState(({ queryFileds }) => ({
-      queryFileds: { ...queryFileds, ...changedFields },
-    }));
+    this.props.setHashForm(changedFields);
   };
 
   handleCalculate = e => {
-    const { form } = this.props;
+    const { form, queryModule } = this.props;
+    const { hashForm } = queryModule;
     form.validateFieldsAndScroll((errors, values) => {
       if (!errors) {
         const queryData = {};
-        forEach(this.state.queryFileds, (filed, key) => {
+        forEach(hashForm, (filed, key) => {
           queryData[key] = filed.value;
         });
 
@@ -91,6 +91,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
       tableList,
       onlineHashs = [],
       tables,
+      hashForm,
     } = queryModule;
     const { getFieldDecorator } = form;
 
@@ -108,6 +109,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
         <div>
           <h2>数据验证</h2>
           <QueryForm
+            hashForm={hashForm}
             verifyData={verifyData}
             isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
             queryVerifyData={this.props.queryVerifyData}
@@ -131,7 +133,6 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
               {getFieldDecorator('data', {
                 rules: [
                   { required: true, message: '不能为空' },
-
                   {
                     validator: this.validateJSON,
                   },

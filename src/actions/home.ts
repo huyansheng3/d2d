@@ -5,7 +5,7 @@ export enum ACTION_TYPE {
   QUERY = 'QUERY_DATA_DETAIL',
   QUERY_CARDS = 'QUERY_CARDS',
   QUERY_LAST_BLOCK = 'QUERY_LAST_BLOCK',
-  QUERY_BY_KEYFIELD = 'QUERY_BY_KEYFIELD',
+  SEARCH = 'SEARCH',
 }
 
 export const query = data => {
@@ -50,13 +50,13 @@ export const queryLastBlock = data => {
   };
 };
 
-export const queryBykeyfield = data => {
+export const search = opts => {
   return {
-    type: ACTION_TYPE.QUERY_BY_KEYFIELD,
+    type: ACTION_TYPE.SEARCH,
     promise: wrapServer({
       method: 'post',
       url: api.getTransByKeyfiled,
-      data,
+      ...opts,
     }),
   };
 };

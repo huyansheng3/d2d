@@ -13,7 +13,7 @@ import './index.css';
 const Search = Input.Search;
 const Option = Select.Option;
 interface Props {
-  queryBykeyfield?: (data: any) => any;
+  search?: (data: any) => any;
 }
 
 const routes = [
@@ -54,7 +54,7 @@ class HomeLayout extends Component<Props, any> {
   };
 
   render() {
-    const { queryBykeyfield } = this.props;
+    const { search } = this.props;
     return (
       <Layout className="layout home-layout">
         <Header>
@@ -63,7 +63,7 @@ class HomeLayout extends Component<Props, any> {
             <span className="hlayout__logo ml20">德邦证券区块链</span>
           </div>
 
-          <SearchForm queryBykeyfield={queryBykeyfield!} />
+          <SearchForm search={search!} />
         </Header>
 
         <Content>

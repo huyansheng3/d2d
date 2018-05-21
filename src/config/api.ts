@@ -10,13 +10,15 @@ const api = {
   // 首页接口
   getTransByLast: `${BLOCK_SERVER_HOST}/api/trans/getbylast`,
   getTransByKeyfiled: `${BLOCK_SERVER_HOST}/api/trans/getbykeyfield`,
+  getTransByTableName: `${BLOCK_SERVER_HOST}/api/trans/getByTableName`,
+  getTransByPartyName: `${BLOCK_SERVER_HOST}/api/trans/getByPartyName`,
+
   blockNumber: `${BLOCK_SERVER_HOST}/api/block/getnum`,
   transNumber: `${BLOCK_SERVER_HOST}/api/trans/getnum`,
 
   // 数据验证
   tableList: `${EASY_PROJECT_HOST}/api/test/states`,
 
-  
   calculateHash: `${ABS}/verify`,
   verifyData: `${ABS}/state`,
 

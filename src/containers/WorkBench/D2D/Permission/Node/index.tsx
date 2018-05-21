@@ -41,6 +41,7 @@ class PackAsset extends React.Component<Props, {}> {
     currentNode: initNode,
     modalVisible: false,
     selectedRowKeys: [],
+    isCreate: false,
   };
 
   componentDidMount() {
@@ -48,12 +49,12 @@ class PackAsset extends React.Component<Props, {}> {
     this.props.queryNode({});
   }
 
-  handleModalClose = () => {
-    this.setState({ modalVisible: false });
+  handleModalClose = state => {
+    this.setState(state);
   };
 
   updateModalVisile = state => {
-    this.setState({ modalVisible: state });
+    this.setState(state);
   };
 
   get columns() {
@@ -125,6 +126,7 @@ class PackAsset extends React.Component<Props, {}> {
         />
 
         <CreateNode
+          isCreate={this.state.isCreate}
           createNode={this.props.createNode}
           updateNode={this.props.updateNode}
           currentNode={this.state.currentNode}
