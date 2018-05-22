@@ -35,7 +35,7 @@ export const error = response => {
 export const server = axios.create({
   baseURL: HOST,
   timeout: TIMEOUT,
-  withCredentials: true,
+  // withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
