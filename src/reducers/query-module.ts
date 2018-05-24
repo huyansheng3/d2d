@@ -5,6 +5,7 @@ import produce from 'immer';
 
 export const initState = {
   products: [],
+  fileTypes: [],
   permission: [],
   permissionCurrent: [],
   nodeMainTain: [],
@@ -33,6 +34,12 @@ export default (state = initState, action) => {
               findIndex(products, { prjNo: item.prjNo }) === index
           );
           return { ...prevState, products: filterProducts };
+        },
+      });
+    case ACTION_TYPE.QUERY_FILE_TYPES:
+      return handle(state, action, {
+        success: prevState => {
+          return { ...prevState, fileTypes: action.payload.data };
         },
       });
     case ACTION_TYPE.QUERY_PERMISSION:

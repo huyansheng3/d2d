@@ -50,6 +50,7 @@ const api = {
   logUserExport: `${ABS_HOST}/logUser/export`,
 
   products: `${ABS}/products`,
+  fileTypes: `${ABS}/fileTypes`,
   permission: `${ABS}/permission`,
   permissionCurrent: `${ABS}/permission/current`,
   permissionConfig: `${ABS}/permission/config`,

@@ -17,6 +17,7 @@ import { RowSelectionType } from 'antd/lib/table';
 import { FormComponentProps } from 'antd/lib/form';
 import {
   queryProduct,
+  queryFileTypes,
   queryPermission,
   queryPermissionCurrent,
   queryNodeMainTain,
@@ -38,6 +39,7 @@ const CheckboxGroup = Checkbox.Group;
 
 interface Props extends FormComponentProps {
   queryProduct: (data: any) => any;
+  queryFileTypes: (opts: any) => any;
   queryPermission: (data: any) => any;
   queryPermissionCurrent: (data: any) => any;
   queryNodeMainTain: () => any;
@@ -65,10 +67,13 @@ interface State {
   indeterminate: boolean;
   checkAll: boolean;
   configLoading: boolean;
+  fileTypesIndeterminate: boolean;
+  fileTypesCheckAll: boolean;
 }
 
 const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
+  queryFileTypes: opts => dispatch(queryFileTypes(opts)),
   queryPermission: value => dispatch(queryPermission(value)),
   queryPermissionCurrent: value => dispatch(queryPermissionCurrent(value)),
   queryNodeMainTain: () => dispatch(queryNodeMainTain()),
@@ -88,11 +93,14 @@ class Subscribe extends React.Component<Props, State> {
     selectedRow: initSelectedRow,
     indeterminate: false,
     checkAll: false,
+    fileTypesIndeterminate: false,
+    fileTypesCheckAll: false,
     configLoading: false,
   };
 
   componentDidMount() {
     this.props.queryProduct({});
+    this.props.queryFileTypes({});
     this.props.queryNodeMainTain();
     this.props.queryTables();
   }
@@ -104,8 +112,6 @@ class Subscribe extends React.Component<Props, State> {
   onOk = e => {
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
-        let data: Array<any> = [];
-
         const interfaceData = values.tables.map(table => {
           return {
             type: 'interface',
@@ -116,20 +122,18 @@ class Subscribe extends React.Component<Props, State> {
           };
         });
 
-        data = interfaceData;
+        const fileData = values.fileTypes.map(file => {
+          return {
+            type: 'file',
+            tableName: file,
+            pid: values.pid,
+            toParty: values.toParty,
+            fromParty: values.fromParty,
+          };
+        });
 
-        if (values.fileChecked) {
-          data = [
-            ...interfaceData,
-            {
-              type: 'file',
-              tableName: '',
-              pid: values.pid,
-              toParty: values.toParty,
-              fromParty: values.fromParty,
-            },
-          ];
-        }
+        const data = [...interfaceData, ...fileData];
+
         this.setState({ configLoading: true });
         wrapServer({
           url: api.permissionConfig,
@@ -218,6 +222,18 @@ class Subscribe extends React.Component<Props, State> {
     });
   };
 
+  onFileTypesCheckAllChange = e => {
+    this.setState({
+      fileTypesIndeterminate: false,
+      fileTypesCheckAll: e.target.checked,
+    });
+    this.props.form.setFieldsValue({
+      fileTypes: e.target.checked
+        ? this.fileTypesCheckboxOptions.map(opt => opt.value)
+        : [],
+    });
+  };
+
   get tableCheckboxOptions() {
     const { tables } = this.props.queryModule;
     return tables.map(table => {
@@ -228,11 +244,31 @@ class Subscribe extends React.Component<Props, State> {
     });
   }
 
+  get fileTypesCheckboxOptions() {
+    const { fileTypes } = this.props.queryModule;
+    return fileTypes.map(table => {
+      return {
+        label: table.typeName,
+        value: table.type,
+      };
+    });
+  }
+
   onTablesChange = tables => {
     this.setState({
       indeterminate:
         !!tables.length && tables.length < this.tableCheckboxOptions.length,
       checkAll: tables.length === this.tableCheckboxOptions.length,
+    });
+  };
+
+  onFileTypesChange = fileTypes => {
+    this.setState({
+      fileTypesIndeterminate:
+        !!fileTypes.length &&
+        fileTypes.length < this.fileTypesCheckboxOptions.length,
+      fileTypesCheckAll:
+        fileTypes.length === this.fileTypesCheckboxOptions.length,
     });
   };
 
@@ -294,6 +330,13 @@ class Subscribe extends React.Component<Props, State> {
       .map(perm => perm.tableName);
   }
 
+  get initFileTypes() {
+    const { permissionCurrent } = this.props.queryModule;
+    return permissionCurrent
+      .filter(perm => perm.type === 'file')
+      .map(perm => perm.tableName);
+  }
+
   get initFileChecked() {
     const { permissionCurrent } = this.props.queryModule;
     return findIndex(permissionCurrent, { type: 'file' }) !== -1;
@@ -303,6 +346,7 @@ class Subscribe extends React.Component<Props, State> {
     let { queryModule, ui, form } = this.props;
     const {
       products,
+      fileTypes,
       permission,
       corporateMap,
       tables,
@@ -463,20 +507,34 @@ class Subscribe extends React.Component<Props, State> {
                   </Row>
 
                   <Row>
-                    {getFieldDecorator('fileChecked', {
-                      initialValue: this.initFileChecked,
-                      valuePropName: 'checked',
+                    <Checkbox
+                      indeterminate={this.state.fileTypesIndeterminate}
+                      onChange={this.onFileTypesCheckAllChange}
+                      checked={this.state.fileTypesCheckAll}>
+                      文件
+                    </Checkbox>
+
+                    {getFieldDecorator('fileTypes', {
+                      initialValue: this.initFileTypes,
                       rules: [
                         {
                           validator: (rule, value, callback) => {
-                            if (getFieldValue('tables').length <= 0 && !value) {
+                            if (
+                              value.length <= 0 &&
+                              getFieldValue('tables').length <= 0
+                            ) {
                               callback('文件和表至少选一项');
                             }
                             callback();
                           },
                         },
                       ],
-                    })(<Checkbox>文件</Checkbox>)}
+                    })(
+                      <CheckboxGroup
+                        onChange={this.onFileTypesChange}
+                        options={this.fileTypesCheckboxOptions}
+                      />
+                    )}
                   </Row>
                 </Item>
               </Form>

@@ -17,6 +17,7 @@ export enum ACTION_TYPE {
   CREATE_NODE = 'CREATE_NODE',
   UPDATE_NODE = 'UPDATE_NODE',
   SET_HASH_FORM = 'SET_HASH_FORM',
+  QUERY_FILE_TYPES = 'QUERY_FILE_TYPES',
 }
 
 export const queryProduct = data => {
@@ -26,6 +27,17 @@ export const queryProduct = data => {
       method: 'get',
       url: api.products,
       data,
+    }),
+  };
+};
+
+export const queryFileTypes = opts => {
+  return {
+    type: ACTION_TYPE.QUERY_FILE_TYPES,
+    promise: wrapServer({
+      method: 'get',
+      url: api.fileTypes,
+      ...opts,
     }),
   };
 };

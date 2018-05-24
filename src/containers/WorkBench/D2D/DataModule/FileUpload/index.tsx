@@ -57,6 +57,7 @@ class FileUpload extends React.Component<Props, any> {
           pid: values.pid,
           comment: values.comment,
           productName: product.prjName,
+          fileType: 'idCard',
           hash: hash,
         };
         wrapServer({
