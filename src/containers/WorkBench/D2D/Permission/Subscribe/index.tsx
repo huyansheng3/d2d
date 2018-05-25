@@ -273,7 +273,7 @@ class Subscribe extends React.Component<Props, State> {
   };
 
   get permissionColumns() {
-    const { corporateMap, tables } = this.props.queryModule;
+    const { corporateMap, tables, fileTypes } = this.props.queryModule;
     return [
       {
         title: '序号',
@@ -292,6 +292,12 @@ class Subscribe extends React.Component<Props, State> {
           if (tableItem) {
             return tableItem.productName;
           }
+
+          const fileItem = find(fileTypes, { type: tableName });
+          if (fileItem) {
+            return fileItem.typeName;
+          }
+
           return tableName;
         },
       },

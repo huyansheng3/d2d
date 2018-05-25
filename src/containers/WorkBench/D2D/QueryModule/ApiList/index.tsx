@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { apiColumns } from 'config/query-module';
 import { Table, Button, Modal, Card, Row, Col } from 'antd';
 import {
   queryApiList,
