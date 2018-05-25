@@ -490,7 +490,7 @@ class Subscribe extends React.Component<Props, State> {
                           validator: (rule, value, callback) => {
                             if (
                               value.length <= 0 &&
-                              !getFieldValue('fileChecked')
+                              getFieldValue('fileTypes').length <= 0
                             ) {
                               callback('文件和表至少选一项');
                             }

@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Form, Select, Upload, Input, Button, Icon, notification } from 'antd';
-import { queryProduct, ACTION_TYPE } from 'actions/query-module';
+import {
+  queryProduct,
+  queryFileTypes,
+  ACTION_TYPE,
+} from 'actions/query-module';
 import { FormComponentProps } from 'antd/lib/form';
 import { wrapServer } from 'utils/Axios';
 import { find, head } from 'lodash';
@@ -19,12 +23,14 @@ const formItemLayout = {
 
 interface Props extends FormComponentProps {
   queryProduct: (data: any) => any;
+  queryFileTypes: (opts: any) => any;
   queryModule: any;
   ui: any;
 }
 
 const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
+  queryFileTypes: opts => dispatch(queryFileTypes(opts)),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
@@ -34,6 +40,7 @@ class FileUpload extends React.Component<Props, any> {
 
   componentDidMount() {
     this.props.queryProduct({});
+    this.props.queryFileTypes({});
   }
 
   normFile = e => {
@@ -57,7 +64,7 @@ class FileUpload extends React.Component<Props, any> {
           pid: values.pid,
           comment: values.comment,
           productName: product.prjName,
-          fileType: 'idCard',
+          fileType: values.fileType,
           hash: hash,
         };
         wrapServer({
@@ -75,13 +82,17 @@ class FileUpload extends React.Component<Props, any> {
 
   render() {
     let { queryModule, ui, form } = this.props;
-    const { products, permission } = queryModule;
+    const { products, fileTypes, permission } = queryModule;
     const { loading, isLoading } = ui;
 
     const { getFieldDecorator, getFieldValue } = form;
 
     const options = products.map(product => {
       return <Option key={product.prjNo}>{product.prjName}</Option>;
+    });
+
+    const fileTypesOptions = fileTypes.map(product => {
+      return <Option key={product.type}>{product.typeName}</Option>;
     });
 
     const disableUpload =
@@ -95,6 +106,12 @@ class FileUpload extends React.Component<Props, any> {
             {getFieldDecorator('pid', {
               rules: [{ required: true, message: '不能为空' }],
             })(<Select placeholder="请选择">{options}</Select>)}
+          </Item>
+
+          <Item label="文件" {...formItemLayout}>
+            {getFieldDecorator('fileType', {
+              rules: [{ required: true, message: '不能为空' }],
+            })(<Select placeholder="请选择">{fileTypesOptions}</Select>)}
           </Item>
 
           <Item label="上传" {...formItemLayout}>
