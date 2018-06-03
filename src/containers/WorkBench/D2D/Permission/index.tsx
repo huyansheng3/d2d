@@ -4,20 +4,30 @@ import Upload from './Upload';
 import Node from './Node';
 import { Route, Link } from 'react-router-dom';
 
-const routes = [
-  {
-    id: 'subscribe',
-    dom: Subscribe,
-  },
-  {
-    id: 'upload',
-    dom: Upload,
-  },
-  {
-    id: 'node',
-    dom: Node,
-  },
-];
+// 根据环境变量来设置是否展示权限页面
+export const NO_PERMISSION = process.env.REACT_APP_PERMISSION === 'false';
+
+let routes: any[] = [];
+
+if (NO_PERMISSION) {
+  routes = [
+    {
+      id: 'subscribe',
+      dom: Subscribe,
+    },
+  ];
+} else {
+  routes = [
+    {
+      id: 'subscribe',
+      dom: Subscribe,
+    },
+    {
+      id: 'node',
+      dom: Node,
+    },
+  ];
+}
 
 interface Props {
   match: any;

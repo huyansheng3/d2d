@@ -34,10 +34,6 @@ const routes = [
     title: '最新区块',
   },
   {
-    id: '#block-detail',
-    title: '区块详情',
-  },
-  {
     id: '/d2d/dashboard',
     title: 'D2D 入口',
   },

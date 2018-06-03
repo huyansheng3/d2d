@@ -32,6 +32,7 @@ import qs from 'qs';
 import { head, find, map, isEmpty, findIndex, delay } from 'lodash';
 import shortid from 'shortid';
 import './index.css';
+import { NO_PERMISSION } from '../index';
 
 const Item = Form.Item;
 const Option = Select.Option;
@@ -389,11 +390,13 @@ class Subscribe extends React.Component<Props, State> {
           onChange={this.handleQueryChange}
         />
 
-        <div className="mt10">
-          <Button type="primary" onClick={this.handleConfig}>
-            配置
-          </Button>
-        </div>
+        {NO_PERMISSION || (
+          <div className="mt10">
+            <Button type="primary" onClick={this.handleConfig}>
+              配置
+            </Button>
+          </div>
+        )}
 
         <Table
           className="mt10"

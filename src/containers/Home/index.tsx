@@ -41,11 +41,11 @@ const cardInfos = [
     color: '#f98d33',
   },
   {
-      title: '区块',
-      count: 2,
-      name: 'block',
-      icon: 'icon-blocks_i',
-      color: '#333333',
+    title: '区块',
+    count: 2,
+    name: 'block',
+    icon: 'icon-blocks_i',
+    color: '#333333',
   },
   {
     title: '交易',
@@ -135,7 +135,6 @@ class Home extends React.Component<Props, any> {
               }
               columns={columns}
               dataSource={lastBlock}
-              pagination={false}
             />
           </div>
           <Row type="flex" align="middle" className="home__container ">
@@ -166,26 +165,6 @@ class Home extends React.Component<Props, any> {
               dataSource={blockByLast}
               pagination={false}
             />
-          </div>
-
-          <div className="home__container">
-            <h2 id="block-detail">区块详情</h2>
-            <div className="horizontal-table-container">
-              <table className="horizontal-table">
-                <tbody>
-                  {blockDetail.map(item => {
-                    return (
-                      <tr className="horizontal-table-tr" key={item.label}>
-                        <td className="horizontal-table-td-1">{item.label}:</td>
-                        <td className="horizontal-table-td-2">
-                          {item.value || '-'}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
       </HomeLayout>

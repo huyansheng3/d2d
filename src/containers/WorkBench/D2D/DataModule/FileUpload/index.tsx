@@ -71,6 +71,7 @@ class FileUpload extends React.Component<Props, any> {
           url: api.attachment,
           params: params,
         }).then(data => {
+          form.resetFields();
           notification.success({
             message: 'Success',
             description: '保存成功',
@@ -142,8 +143,8 @@ class FileUpload extends React.Component<Props, any> {
               <Upload.Dragger
                 disabled={disableUpload}
                 customRequest={customRequest}
+                multiple
                 name="file"
-                accept=".zip"
                 action={api.upload}>
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
