@@ -18,6 +18,7 @@ export enum ACTION_TYPE {
   UPDATE_NODE = 'UPDATE_NODE',
   SET_HASH_FORM = 'SET_HASH_FORM',
   QUERY_FILE_TYPES = 'QUERY_FILE_TYPES',
+  SET_CURRENT_KEY = 'SET_CURRENT_KEY',
 }
 
 export const queryProduct = data => {
@@ -127,6 +128,13 @@ export const calculateHash = options => {
       url: api.calculateHash,
       ...options,
     }),
+  };
+};
+
+export const setCurrentKey = key => {
+  return {
+    type: ACTION_TYPE.SET_CURRENT_KEY,
+    key,
   };
 };
 

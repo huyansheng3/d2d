@@ -1,9 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Form, Select, Upload, Input, Button, Icon, notification } from 'antd';
+import {
+  Form,
+  Select,
+  Upload,
+  Input,
+  Button,
+  Icon,
+  notification,
+  Modal,
+} from 'antd';
 import {
   queryProduct,
   queryFileTypes,
+  queryPermission,
   ACTION_TYPE,
 } from 'actions/query-module';
 import { FormComponentProps } from 'antd/lib/form';
@@ -24,6 +34,7 @@ const formItemLayout = {
 interface Props extends FormComponentProps {
   queryProduct: (data: any) => any;
   queryFileTypes: (opts: any) => any;
+  queryPermission: (opts: any) => any;
   queryModule: any;
   ui: any;
 }
@@ -31,6 +42,7 @@ interface Props extends FormComponentProps {
 const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
   queryFileTypes: opts => dispatch(queryFileTypes(opts)),
+  queryPermission: opts => dispatch(queryPermission(opts)),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
@@ -81,6 +93,28 @@ class FileUpload extends React.Component<Props, any> {
     });
   };
 
+  handlePidChange = value => {
+    this.props.queryPermission({ pid: value });
+    this.props.form.resetFields(['fileType']);
+  };
+
+  handleFileTypeChange = value => {
+    const { form } = this.props;
+    const fileType = form.getFieldValue('fileType');
+    // 初次选择时 不弹出提示
+    if (!fileType && value) {
+      return;
+    }
+
+    Modal.confirm({
+      title: '确定清空已上传的文件?',
+      content: '点击确定将清空已上传的文件，点击取消则不清空',
+      onOk: () => {
+        form.resetFields(['hashs']);
+      },
+    });
+  };
+
   render() {
     let { queryModule, ui, form } = this.props;
     const { products, fileTypes, permission } = queryModule;
@@ -92,13 +126,17 @@ class FileUpload extends React.Component<Props, any> {
       return <Option key={product.prjNo}>{product.prjName}</Option>;
     });
 
-    const fileTypesOptions = fileTypes.map(product => {
-      return <Option key={product.type}>{product.typeName}</Option>;
-    });
+    const tableNames = permission
+      .filter(item => item.type === 'file')
+      .reduce((prev, curr) => {
+        return [...prev, curr.tableName];
+      }, []);
 
-    const disableUpload =
-      (getFieldValue('hashs') || []).filter(item => item.status === 'done')
-        .length >= 1;
+    const fileTypesOptions = fileTypes
+      .filter(product => tableNames.indexOf(product.type) !== -1)
+      .map(product => {
+        return <Option key={product.type}>{product.typeName}</Option>;
+      });
 
     return (
       <div>
@@ -106,13 +144,21 @@ class FileUpload extends React.Component<Props, any> {
           <Item label="产品" {...formItemLayout}>
             {getFieldDecorator('pid', {
               rules: [{ required: true, message: '不能为空' }],
-            })(<Select placeholder="请选择">{options}</Select>)}
+            })(
+              <Select onChange={this.handlePidChange} placeholder="请选择">
+                {options}
+              </Select>
+            )}
           </Item>
 
           <Item label="文件" {...formItemLayout}>
             {getFieldDecorator('fileType', {
               rules: [{ required: true, message: '不能为空' }],
-            })(<Select placeholder="请选择">{fileTypesOptions}</Select>)}
+            })(
+              <Select onChange={this.handleFileTypeChange} placeholder="请选择">
+                {fileTypesOptions}
+              </Select>
+            )}
           </Item>
 
           <Item label="上传" {...formItemLayout}>
@@ -141,7 +187,6 @@ class FileUpload extends React.Component<Props, any> {
               ],
             })(
               <Upload.Dragger
-                disabled={disableUpload}
                 customRequest={customRequest}
                 multiple
                 name="file"
@@ -177,6 +222,7 @@ class FileUpload extends React.Component<Props, any> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Form.create()(FileUpload)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(FileUpload));

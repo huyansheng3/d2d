@@ -100,6 +100,21 @@ class Query extends React.Component<Props, any> {
         },
       },
       {
+        title: '上传节点',
+        dataIndex: 'upload',
+        key: 'upload',
+      },
+      {
+        title: '文件类型',
+        dataIndex: 'fileType',
+        key: 'fileType',
+      },
+      {
+        title: '文件名称',
+        dataIndex: 'fileName',
+        key: 'fileName',
+      },
+      {
         title: '更新日期',
         dataIndex: 'updateTime',
         key: 'updateTime',
@@ -113,6 +128,7 @@ class Query extends React.Component<Props, any> {
         title: '哈希值',
         dataIndex: 'hash',
         key: 'hash',
+        width: 200,
       },
       {
         title: '操作',
@@ -274,6 +290,7 @@ class Query extends React.Component<Props, any> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ReactTimeout(Query)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReactTimeout(Query));

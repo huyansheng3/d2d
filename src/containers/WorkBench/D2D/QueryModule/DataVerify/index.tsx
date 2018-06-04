@@ -8,6 +8,7 @@ import {
   queryTableList,
   queryTables,
   queryHash,
+  setCurrentKey,
   setHashForm,
   ACTION_TYPE,
 } from 'actions/query-module';
@@ -32,6 +33,7 @@ interface Props extends FormComponentProps {
   calculateHash: (data: any) => any;
   queryTables: () => any;
   setHashForm: (data: any) => any;
+  setCurrentKey: (data: any) => any;
   queryModule: any;
 }
 
@@ -42,6 +44,7 @@ const mapDispatchToProps = dispatch => ({
   calculateHash: value => dispatch(calculateHash(value)),
   queryTables: () => dispatch(queryTables()),
   setHashForm: value => dispatch(setHashForm(value)),
+  setCurrentKey: key => dispatch(setCurrentKey(key)),
 });
 
 const mapStateToProps = ({ queryModule }) => ({ queryModule });
@@ -61,8 +64,11 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
           queryData[key] = filed.value;
         });
 
+        const data = JSON.parse(values.data);
+        this.props.setCurrentKey(data.contNo);
         this.props.calculateHash({
-          data: JSON.parse(values.data),
+          data,
+          extraData: data,
           params: queryData,
         });
       }
@@ -99,10 +105,6 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
       ...item,
       onlineHash: onlineHashs[index],
     }));
-
-    if (localHash && dataSource && dataSource.length) {
-      dataSource[0] = { ...dataSource[0], localHash: localHash };
-    }
 
     return (
       <div className="data-verify">
@@ -164,6 +166,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Form.create()(DataVerify)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(DataVerify));

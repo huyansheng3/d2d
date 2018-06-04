@@ -21,6 +21,7 @@ export const initState = {
   onlineHashs: [],
   nodes: [],
   hashForm: {},
+  currentKey: '',
 };
 
 export default (state = initState, action) => {
@@ -53,6 +54,9 @@ export default (state = initState, action) => {
             productName: product.prjName,
           }));
           return { ...prevState, permission: newPermission };
+        },
+        failure: prevState => {
+          return { ...prevState, permission: [] };
         },
       });
     case ACTION_TYPE.QUERY_PERMISSION_CURRENT:
@@ -129,6 +133,9 @@ export default (state = initState, action) => {
           };
         },
       });
+
+    case ACTION_TYPE.SET_CURRENT_KEY:
+      return { ...state, currentKey: action.key };
     case ACTION_TYPE.CALCULATE_HASH:
       return handle(state, action, {
         start: prevState => ({
@@ -136,7 +143,18 @@ export default (state = initState, action) => {
           loading: { ...prevState.loading, [ACTION_TYPE.CALCULATE_HASH]: true },
         }),
         success: prevState => {
-          return { ...prevState, localHash: action.payload.data };
+          const localHash = action.payload.data;
+          const index = findIndex(prevState.verifyData, item => {
+            return item.data.contNo === prevState.currentKey;
+          });
+          const newVerifyData = produce(prevState.verifyData, draft => {
+            draft[index].localHash = localHash;
+          });
+          return {
+            ...prevState,
+            verifyData: newVerifyData,
+            localHash,
+          };
         },
         finish: prevState => {
           return {
