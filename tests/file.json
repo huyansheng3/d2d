@@ -1,0 +1,23 @@
+{
+  "pid": "1",
+  "productName": "css",
+  "comment": "abc",
+  "fileType": "idCard",
+  "files": [
+    {
+      "hash": "E2CEE682C71E38A245164E3C84C6317043E99DE23E8BF6ED6A5C9E4D0A3B3970",
+      "fileName": "test",
+      "size": "123"
+    },
+    {
+      "hash": "E2CEE682C71E38A245164E3C84C6317043E99DE23E8BF6ED6A5C9E4D0A3B3970",
+      "fileName": "test",
+      "size": "123"
+    },
+    {
+      "hash": "E2CEE682C71E38A245164E3C84C6317043E99DE23E8BF6ED6A5C9E4D0A3B3970",
+      "fileName": "test",
+      "size": "123"
+    }
+  ]
+}

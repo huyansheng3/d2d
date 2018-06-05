@@ -56,7 +56,6 @@ class FileUpload extends React.Component<Props, any> {
   }
 
   normFile = e => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -70,14 +69,22 @@ class FileUpload extends React.Component<Props, any> {
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
         const product = find(products, { prjNo: Number(values.pid) }) || {};
-        const doneHashs = values.hashs.filter(item => item.status === 'done');
-        const hash = head(doneHashs).response.data;
+        const doneFiles = values.files
+          .filter(item => item.status === 'done')
+          .map(item => {
+            return {
+              hash: item.response.data,
+              name: item.name,
+              size: item.size,
+            };
+          });
+
         const params = {
           pid: values.pid,
           comment: values.comment,
           productName: product.prjName,
           fileType: values.fileType,
-          hash: hash,
+          files: doneFiles,
         };
         wrapServer({
           url: api.attachment,
@@ -110,7 +117,7 @@ class FileUpload extends React.Component<Props, any> {
       title: '确定清空已上传的文件?',
       content: '点击确定将清空已上传的文件，点击取消则不清空',
       onOk: () => {
-        form.resetFields(['hashs']);
+        form.resetFields(['files']);
       },
     });
   };
@@ -162,9 +169,10 @@ class FileUpload extends React.Component<Props, any> {
           </Item>
 
           <Item label="上传" {...formItemLayout}>
-            {getFieldDecorator('hashs', {
+            {getFieldDecorator('files', {
               initialValue: [],
               valuePropName: 'fileList',
+              validateTrigger: 'onBlur',
               getValueFromEvent: this.normFile,
               rules: [
                 { required: true, message: '不能为空' },
