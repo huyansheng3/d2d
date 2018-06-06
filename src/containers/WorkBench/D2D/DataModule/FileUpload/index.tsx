@@ -74,7 +74,7 @@ class FileUpload extends React.Component<Props, any> {
           .map(item => {
             return {
               hash: item.response.data,
-              name: item.name,
+              fileName: item.name,
               size: item.size,
             };
           });
