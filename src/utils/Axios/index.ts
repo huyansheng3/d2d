@@ -3,6 +3,7 @@ import { SERVER_HOST as HOST, SERVER_TIMEOUT as TIMEOUT } from 'config';
 import { message } from 'antd';
 import { isError, get } from 'lodash';
 import { STORAGE_KEY, clear } from 'utils/Storage';
+import { store } from 'store';
 
 export const error = response => {
   if (isError(response) && get(response, 'response.status') === 401) {
@@ -40,6 +41,32 @@ export const server = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+server.interceptors.request.use(
+  function(config) {
+    const state = (store as any).getState();
+    const { user } = state;
+    const { token } = user.user;
+    const newConfig = {
+      ...config,
+      params: { ...config.params, token: token },
+    };
+    return newConfig;
+  },
+  function(axiosError) {
+    // Do something with request error
+    return Promise.reject(axiosError);
+  }
+);
+
+// // Add a response interceptor
+// axios.interceptors.response.use(function (response) {
+//   // Do something with response data
+//   return response;
+// }, function (error) {
+//   // Do something with response error
+//   return Promise.reject(error);
+// });
 
 export const wrapServer = opt => {
   return server

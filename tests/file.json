@@ -19,5 +19,15 @@
       "fileName": "test",
       "size": "123"
     }
+  ],
+  "convenience_times": [
+    {
+      "error": "xxxx",
+      "state": "changed|unchaned",
+      "value": {
+        "start_time": 1,
+        "end_time": 1
+      }
+    }
   ]
 }

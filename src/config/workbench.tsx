@@ -12,8 +12,60 @@ import {
 } from 'containers/WorkBench/D2D';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
+import { store } from 'store';
+import { find } from 'lodash';
 
-
+// 显示页面的 mapping,简单处理就直接用 name 匹配了，一个个写前端的 id 了。
+const pagesMap = [
+  {
+    id: 1,
+    title: '文件上传',
+  },
+  {
+    id: 2,
+    title: '产品查询',
+  },
+  {
+    id: 3,
+    title: '数据验证',
+  },
+  {
+    id: 4,
+    title: '接口列表',
+  },
+  {
+    id: 5,
+    title: '角色管理',
+  },
+  {
+    id: 6,
+    title: '用户管理',
+  },
+  {
+    id: 7,
+    title: '订阅权限配置',
+  },
+  {
+    id: 8,
+    title: '节点配置',
+  },
+  {
+    id: 9,
+    title: '登录日志',
+  },
+  {
+    id: 10,
+    title: '数据接口日志',
+  },
+  {
+    id: 11,
+    title: '角色管理日志',
+  },
+  {
+    id: 12,
+    title: '用户管理日志',
+  },
+];
 
 export enum USER_TYPE {
   UNKNOWN = 'UNKNOWN',
@@ -191,76 +243,89 @@ const blockBrowserEntry: subMenuConfig = {
   ),
 };
 
-export const getMenuItems = roleName => {
-  if (roleName === null) {
-    roleName = USER_TYPE.ADMIN;
-  }
-  switch (roleName) {
-    case USER_TYPE.FUND:
-      return [myReceive, searchTx, accountManager, messages];
-    case USER_TYPE.CORE:
-      return [
-        dashboard,
-        dataModule,
-        queryModule,
-        accountManager,
-        permission,
-        logManager,
-        blockBrowserEntry,
-      ];
+const allMenuItems = [
+  dashboard,
+  dataModule,
+  queryModule,
+  accountManager,
+  permission,
+  logManager,
+  blockBrowserEntry,
+];
 
-    default:
-      return [accountManager, messages];
+export const getMenuItems = roleName => {
+  const state = (store as any).getState();
+  const { user } = state;
+  const { visiblePages } = user.user;
+
+  if (!visiblePages) {
+    return allMenuItems;
   }
+
+  const showPages = pagesMap.filter(
+    item => visiblePages.indexOf(item.id) !== -1
+  );
+
+  const showMenuitems = allMenuItems.map(item => {
+    if (find(showPages, { title: item.title })) {
+      // 一旦配了父级菜单，则这个菜单肯定显示
+      return item;
+    }
+
+    let newSubItems;
+    if (item.subItems) {
+      newSubItems = item.subItems.filter(subItem =>
+        find(showPages, { title: subItem.title })
+      );
+    }
+
+    if (newSubItems && newSubItems.length) {
+      // 一旦子级菜单匹配了，就显示父级+匹配的子级菜单
+      return {
+        ...item,
+        subItems: newSubItems || item.subItems,
+      };
+    }
+
+    return null;
+  });
+
+  return showMenuitems.filter(item => item).concat(blockBrowserEntry);
 };
 
 const Test = () => <h3>待完成</h3>;
 
 export const getMenuContent = roleName => {
-  switch (roleName) {
-    case USER_TYPE.CORE:
-      return [
-        {
-          id: 'dashboard',
-          dom: Dashboard,
-        },
-        {
-          id: 'dataModule',
-          dom: DataModule,
-        },
-        {
-          id: 'queryModule',
-          dom: QueryModule,
-        },
-        {
-          id: 'accountManager',
-          dom: AccountManager,
-        },
-        {
-          id: 'permission',
-          dom: Permission,
-        },
-        {
-          id: 'opMonitor',
-          dom: OpMonitor,
-        },
-        {
-          id: 'logManager',
-          dom: LogManager,
-        },
-      ];
-    default:
-      return [
-        {
-          id: 'userManage',
-          dom: UserManage,
-        },
-        {
-          id: 'messages',
-          dom: Test,
-        },
-      ];
-  }
+  return [
+    {
+      id: 'dashboard',
+      dom: Dashboard,
+    },
+    {
+      id: 'dataModule',
+      dom: DataModule,
+    },
+    {
+      id: 'queryModule',
+      dom: QueryModule,
+    },
+    {
+      id: 'accountManager',
+      dom: AccountManager,
+    },
+    {
+      id: 'permission',
+      dom: Permission,
+    },
+    {
+      id: 'opMonitor',
+      dom: OpMonitor,
+    },
+    {
+      id: 'logManager',
+      dom: LogManager,
+    },
+  ];
 };
 
 export default {

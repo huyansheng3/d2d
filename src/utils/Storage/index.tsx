@@ -23,7 +23,7 @@ export const initState = key => {
   let state = localStorage.getItem(key) || null;
   if (state) {
     try {
-      return JSON.parse(state);
+      return JSON.parse(state) || {};
     } catch (e) {
       console.error(e);
     }
