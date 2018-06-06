@@ -79,16 +79,17 @@ class FileUpload extends React.Component<Props, any> {
             };
           });
 
-        const params = {
+        const data = {
           pid: values.pid,
           comment: values.comment,
           productName: product.prjName,
           fileType: values.fileType,
           files: doneFiles,
         };
+
         wrapServer({
           url: api.attachment,
-          params: params,
+          data: data,
         }).then(data => {
           form.resetFields();
           notification.success({
