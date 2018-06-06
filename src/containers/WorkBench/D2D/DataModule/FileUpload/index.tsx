@@ -79,7 +79,7 @@ class FileUpload extends React.Component<Props, any> {
             };
           });
 
-        const data = {
+        const submitData = {
           pid: values.pid,
           comment: values.comment,
           productName: product.prjName,
@@ -89,7 +89,7 @@ class FileUpload extends React.Component<Props, any> {
 
         wrapServer({
           url: api.attachment,
-          data: data,
+          data: submitData,
         }).then(data => {
           form.resetFields();
           notification.success({
