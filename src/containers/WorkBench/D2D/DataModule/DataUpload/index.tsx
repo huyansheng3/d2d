@@ -9,7 +9,6 @@ import {
   queryHash,
   ACTION_TYPE,
 } from 'actions/query-module';
-import { verifyColumns } from 'config/query-module';
 import { FormComponentProps } from 'antd/lib/form';
 import { forEach, head } from 'lodash';
 import qs from 'qs';
@@ -86,13 +85,22 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
 
   render() {
     let { queryModule, form } = this.props;
-    const { verifyData, loading, localHash, tableList, onlineHashs = [] } = queryModule;
+    const {
+      verifyData,
+      loading,
+      localHash,
+      tableList,
+      onlineHashs = [],
+    } = queryModule;
     const { getFieldDecorator } = form;
 
-    const dataSource = verifyData.map((item, index) => ({ ...item, onlineHash: onlineHashs[index] }))
+    const dataSource = verifyData.map((item, index) => ({
+      ...item,
+      onlineHash: onlineHashs[index],
+    }));
 
     if (localHash && dataSource && dataSource.length) {
-      dataSource[0] = { ...dataSource[0], localHash: localHash }
+      dataSource[0] = { ...dataSource[0], localHash: localHash };
     }
 
     return (
@@ -109,7 +117,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
           />
           <Table
             loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
-            columns={verifyColumns}
+            columns={[]}
             dataSource={dataSource}
             pagination={false}
             bordered
@@ -131,7 +139,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
               })(<TextArea autosize={{ minRows: 8, maxRows: 30 }} />)}
             </Item>
 
-            <Item >
+            <Item>
               <Button
                 type="primary"
                 loading={loading[ACTION_TYPE.CALCULATE_HASH]}
@@ -155,6 +163,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Form.create()(DataVerify)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(DataVerify));

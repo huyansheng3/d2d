@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import QueryForm from './QueryForm';
-import { Form, Table, Input, Button, Icon, Tooltip } from 'antd';
+import { Form, Table, Input, Button, Icon, Tooltip, message } from 'antd';
 import {
   queryVerifyData,
   calculateHash,
@@ -12,10 +12,22 @@ import {
   setHashForm,
   ACTION_TYPE,
 } from 'actions/query-module';
-import { verifyColumns } from 'config/query-module';
 import { FormComponentProps } from 'antd/lib/form';
 import { forEach, head } from 'lodash';
 import qs from 'qs';
+import api from 'config/api';
+import copy from 'copy-to-clipboard';
+
+function handleCopy(record) {
+  let copyText = '';
+  try {
+    copyText = JSON.stringify(record, null, 4);
+  } catch (e) {
+    console.error(e);
+  }
+  copy(copyText);
+  message.success('复制成功！');
+}
 
 const Item = Form.Item;
 const TextArea = Input.TextArea;
@@ -79,6 +91,100 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
     this.props.queryTables();
   }
 
+  get verifyColumns() {
+    const { hashForm } = this.props.queryModule;
+    const stateName =
+      hashForm && hashForm.stateName && hashForm.stateName.value;
+    return [
+      {
+        title: '主键',
+        dataIndex: 'keyfield',
+        key: 'keyfield',
+      },
+      {
+        title: '明文数据',
+        dataIndex: 'data',
+        key: 'data',
+        render: (data, record, index) => {
+          try {
+            const text = JSON.stringify(data, null, 2) || '';
+            return (
+              <div>
+                {text.split('\n').map((item, key) => {
+                  return (
+                    <span key={key}>
+                      {item}
+                      <br />
+                    </span>
+                  );
+                })}
+              </div>
+            );
+          } catch (e) {
+            console.error(e);
+          }
+          return '-';
+        },
+      },
+      {
+        title: '本地哈希',
+        dataIndex: 'localHash',
+        key: 'localHash',
+        render: (localHash, record, index) => {
+          if (localHash) {
+            return localHash;
+          }
+          return '-';
+        },
+      },
+      {
+        title: '链上哈希',
+        dataIndex: 'onlineHash',
+        key: 'onlineHash',
+        render: (onlineHash, record, index) => {
+          if (onlineHash && onlineHash.datahash) {
+            return onlineHash.datahash;
+          }
+          return '-';
+        },
+      },
+      {
+        title: '比对结果',
+        dataIndex: 'result',
+        key: 'result',
+        render: (result, record, index) => {
+          if (!record.onlineHash || !record.localHash) {
+            return '-';
+          }
+          return record.onlineHash.datahash === record.localHash
+            ? '匹配'
+            : '不匹配';
+        },
+      },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+        key: 'operate',
+        render: (operate, record, index) => {
+          return (
+            <div>
+              <Button type="primary" onClick={e => handleCopy(record.data)}>
+                复制
+              </Button>
+              <Button
+                href={`${api.calculateHash}?stateName=${stateName}&id=${
+                  record.keyfield
+                }`}
+                className="ml10">
+                导出
+              </Button>
+            </div>
+          );
+        },
+      },
+    ];
+  }
+
   validateJSON = (rule, value, callback) => {
     try {
       JSON.parse(value);
@@ -121,7 +227,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
           />
           <Table
             loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
-            columns={verifyColumns}
+            columns={this.verifyColumns}
             dataSource={dataSource}
             pagination={false}
             bordered

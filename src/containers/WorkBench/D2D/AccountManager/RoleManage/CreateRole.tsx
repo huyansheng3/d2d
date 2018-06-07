@@ -186,7 +186,6 @@ class CreateRole extends React.Component<Props, {}> {
 
             {getFieldDecorator('allRole', {
               initialValue: isCreateMode ? undefined : currentRole.allRole,
-              rules: [{ required: true, message: '不能为空' }],
             })(
               <CheckboxGroup
                 onChange={this.handleRoleChange}

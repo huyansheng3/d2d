@@ -5,6 +5,7 @@ import {
   queryProduct,
   queryPermission,
   queryAttachments,
+  queryTables,
   ACTION_TYPE,
 } from 'actions/query-module';
 import QueryForm from './QueryForm';
@@ -18,6 +19,7 @@ interface Props {
   queryProduct: (data: any) => any;
   queryPermission: (data: any) => any;
   queryAttachments: (params: any) => any;
+  queryTables: () => any;
   setInterval: (callback: Function, delay: number) => number;
   clearInterval: (id: number) => any;
   queryModule: any;
@@ -28,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
   queryPermission: value => dispatch(queryPermission(value)),
   queryAttachments: params => dispatch(queryAttachments(params)),
+  queryTables: () => dispatch(queryTables()),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
@@ -45,6 +48,7 @@ class Query extends React.Component<Props, any> {
 
   componentDidMount() {
     this.props.queryProduct({});
+    this.props.queryTables();
   }
 
   handleDownloadClick = record => {
@@ -163,10 +167,10 @@ class Query extends React.Component<Props, any> {
       },
       {
         title: '接口名称',
-        dataIndex: 'tableName',
-        key: 'tableName',
-        render: tableName => {
-          return tableName || '文件';
+        dataIndex: 'apiName',
+        key: 'apiName',
+        render: apiName => {
+          return apiName || '文件';
         },
       },
       {

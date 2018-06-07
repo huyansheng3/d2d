@@ -82,11 +82,11 @@ class CreateNode extends React.Component<Props, {}> {
         title={isCreate ? '创建节点' : '编辑节点'}
         onCancel={() => onCancel({ modalVisible: false })}>
         <Form layout="vertical">
-          <FormItem {...formItemLayout} label="产品名称">
+          <FormItem {...formItemLayout} label="节点名称">
             {getFieldDecorator('partyName', {
               initialValue: isCreate ? null : currentNode.partyName,
               rules: [{ required: true, message: '不能为空' }],
-            })(<Input placeholder="产品名称" />)}
+            })(<Input placeholder="节点名称" />)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="ip 地址">

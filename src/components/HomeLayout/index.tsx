@@ -26,10 +26,6 @@ const routes = [
     title: '数据详情',
   },
   {
-    id: '#contract',
-    title: '智能合约',
-  },
-  {
     id: '#latest-block',
     title: '最新区块',
   },

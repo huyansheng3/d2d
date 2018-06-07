@@ -49,9 +49,18 @@ export default (state = initState, action) => {
           const permission = action.payload.data || [];
           const product =
             find(state.products, { prjNo: +permission[0].pid }) || {};
+
+          const tablesMap = state.tables.reduce((prev, curr: any) => {
+            return {
+              ...prev,
+              [curr.type]: curr.productName,
+            };
+          }, {});
+
           const newPermission = permission.map(item => ({
             ...item,
             productName: product.prjName,
+            apiName: tablesMap[item.tableName],
           }));
           return { ...prevState, permission: newPermission };
         },

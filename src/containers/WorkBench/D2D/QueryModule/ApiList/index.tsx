@@ -6,6 +6,7 @@ import {
   queryProduct,
   queryPermission,
   queryNodeMainTain,
+  queryTables,
   ACTION_TYPE,
 } from 'actions/query-module';
 import { find } from 'lodash';
@@ -17,6 +18,7 @@ interface Props {
   queryProduct: (data: any) => any;
   queryPermission: (data: any) => any;
   queryNodeMainTain: () => any;
+  queryTables: () => any;
   ui: any;
 }
 
@@ -24,6 +26,7 @@ const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
   queryPermission: value => dispatch(queryPermission(value)),
   queryNodeMainTain: () => dispatch(queryNodeMainTain()),
+  queryTables: () => dispatch(queryTables()),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
@@ -52,6 +55,8 @@ class QueryRecord extends React.Component<Props, State> {
   componentDidMount() {
     this.props.queryProduct({});
     this.props.queryNodeMainTain();
+    this.props.queryTables();
+    
   }
 
   handleClick = record => {
@@ -82,10 +87,10 @@ class QueryRecord extends React.Component<Props, State> {
       },
       {
         title: '接口名称',
-        dataIndex: 'tableName',
-        key: 'tableName',
-        render: tableName => {
-          return tableName || '文件';
+        dataIndex: 'apiName',
+        key: 'apiName',
+        render: apiName => {
+          return apiName || '文件';
         },
       },
 

@@ -211,10 +211,10 @@ export const logManager: subMenuConfig = {
       id: 'login',
       title: '登录日志',
     },
-    {
-      id: 'upload',
-      title: '上传日志',
-    },
+    // {
+    //   id: 'upload',
+    //   title: '上传日志',
+    // },
 
     {
       id: 'dataApi',
