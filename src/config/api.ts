@@ -60,6 +60,16 @@ const api = {
   getAttachment: `${ABS}/getAttachment`,
   upload: `${ABS}/upload`,
   tables: `${ABS}/tables`,
+
+  // 订单
+  // 1.查询订单  queryGoods  get方式 参数 orderNo  goodsState
+  // 2.创建订单  createGoodsOrder post方式
+  // 3.确认订单  confirmGoodsOrder post方式
+  // 4.确认发货  deliverGoods  get方式 orderNo
+  queryGoods: `${ABS}/queryGoods`,
+  createGoodsOrder: `${ABS}/createGoodsOrder`,
+  confirmGoodsOrder: `${ABS}/confirmGoodsOrder`,
+  deliverGoods: `${ABS}/deliverGoods`,
 };
 
 export default api;

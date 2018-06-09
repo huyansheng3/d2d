@@ -1,7 +1,6 @@
 import * as React from 'react';
-import Subscribe from './Subscribe';
-import Upload from './Upload';
-import Node from './Node';
+import Buyer from './Buyer';
+import Seller from './Seller';
 import { Route, Link } from 'react-router-dom';
 
 // 根据环境变量来设置是否展示权限页面
@@ -10,11 +9,11 @@ export const NO_PERMISSION = process.env.REACT_APP_PERMISSION === 'false';
 let routes: any[] = [
   {
     id: 'buyer',
-    dom: Subscribe,
+    dom: Buyer,
   },
   {
     id: 'seller',
-    dom: Node,
+    dom: Seller,
   },
 ];
 
