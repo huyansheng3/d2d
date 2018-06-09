@@ -51,6 +51,14 @@ class PackAsset extends React.Component<Props, {}> {
         dataIndex: 'logTime',
         key: 'logTime',
       },
+      {
+        title: 'ip',
+        dataIndex: 'ip',
+        key: 'ip',
+        render: ip => {
+          return ip || '-';
+        },
+      },
     ];
   }
   render() {
@@ -75,4 +83,7 @@ class PackAsset extends React.Component<Props, {}> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PackAsset);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PackAsset);

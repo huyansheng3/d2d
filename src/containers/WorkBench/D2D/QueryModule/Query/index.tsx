@@ -6,6 +6,7 @@ import {
   queryPermission,
   queryAttachments,
   queryTables,
+  queryFileTypes,
   ACTION_TYPE,
 } from 'actions/query-module';
 import QueryForm from './QueryForm';
@@ -22,6 +23,7 @@ interface Props {
   queryTables: () => any;
   setInterval: (callback: Function, delay: number) => number;
   clearInterval: (id: number) => any;
+  queryFileTypes: (opts) => any;
   queryModule: any;
   ui: any;
 }
@@ -31,6 +33,7 @@ const mapDispatchToProps = dispatch => ({
   queryPermission: value => dispatch(queryPermission(value)),
   queryAttachments: params => dispatch(queryAttachments(params)),
   queryTables: () => dispatch(queryTables()),
+  queryFileTypes: opts => dispatch(queryFileTypes(opts)),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
@@ -49,6 +52,7 @@ class Query extends React.Component<Props, any> {
   componentDidMount() {
     this.props.queryProduct({});
     this.props.queryTables();
+    this.props.queryFileTypes({});
   }
 
   handleDownloadClick = record => {

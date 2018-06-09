@@ -7,6 +7,7 @@ import {
   queryPermission,
   queryNodeMainTain,
   queryTables,
+  queryFileTypes,
   ACTION_TYPE,
 } from 'actions/query-module';
 import { find } from 'lodash';
@@ -18,6 +19,7 @@ interface Props {
   queryProduct: (data: any) => any;
   queryPermission: (data: any) => any;
   queryNodeMainTain: () => any;
+  queryFileTypes: (opts) => any;
   queryTables: () => any;
   ui: any;
 }
@@ -26,6 +28,7 @@ const mapDispatchToProps = dispatch => ({
   queryProduct: value => dispatch(queryProduct(value)),
   queryPermission: value => dispatch(queryPermission(value)),
   queryNodeMainTain: () => dispatch(queryNodeMainTain()),
+  queryFileTypes: opts => dispatch(queryFileTypes(opts)),
   queryTables: () => dispatch(queryTables()),
 });
 
@@ -56,7 +59,7 @@ class QueryRecord extends React.Component<Props, State> {
     this.props.queryProduct({});
     this.props.queryNodeMainTain();
     this.props.queryTables();
-    
+    this.props.queryFileTypes({});
   }
 
   handleClick = record => {
@@ -174,4 +177,7 @@ class QueryRecord extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QueryRecord);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QueryRecord);

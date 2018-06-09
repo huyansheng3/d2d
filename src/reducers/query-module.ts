@@ -50,6 +50,13 @@ export default (state = initState, action) => {
           const product =
             find(state.products, { prjNo: +permission[0].pid }) || {};
 
+          const fileTypesMap = state.fileTypes.reduce((prev, curr: any) => {
+            return {
+              ...prev,
+              [curr.type]: curr.typeName,
+            };
+          }, {});
+
           const tablesMap = state.tables.reduce((prev, curr: any) => {
             return {
               ...prev,
@@ -57,10 +64,12 @@ export default (state = initState, action) => {
             };
           }, {});
 
+          const combineMap = { ...fileTypesMap, ...tablesMap };
+
           const newPermission = permission.map(item => ({
             ...item,
             productName: product.prjName,
-            apiName: tablesMap[item.tableName],
+            apiName: combineMap[item.tableName],
           }));
           return { ...prevState, permission: newPermission };
         },
