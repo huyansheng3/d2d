@@ -19,6 +19,48 @@ export enum SMS_TYPE {
 }
 
 export const login = data => {
+  const { userName = '' } = data;
+  if (userName.trim() === '卖家') {
+    return {
+      type: ACTION_TYPE.LOGIN,
+      promise: Promise.resolve({
+        code: 0,
+        data: {
+          address: '***************',
+          contactName: null,
+          corporateName: null,
+          email: 'xiaohuo200@gmail.com',
+          mobile: '***************',
+          roleName: '卖家',
+          token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE1MjgyOTMxNTIsInJvbGVOYW1lIjoi6LaF57qn566h55CG5ZGYIiwidXNlcklkIjoiMSJ9.wSkgg929IVOcqCkHF3sniow6eYbQrKSi4KOYIxMsDCk',
+          userName: '卖家',
+          visiblePages: [14],
+        },
+      }),
+    };
+  }
+  if (userName.trim() === '买家') {
+    return {
+      type: ACTION_TYPE.LOGIN,
+      promise: Promise.resolve({
+        code: 0,
+        data: {
+          address: '***************',
+          contactName: null,
+          corporateName: null,
+          email: 'xiaohuo200@gmail.com',
+          mobile: '***************',
+          roleName: '买家',
+          token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE1MjgyOTMxNTIsInJvbGVOYW1lIjoi6LaF57qn566h55CG5ZGYIiwidXNlcklkIjoiMSJ9.wSkgg929IVOcqCkHF3sniow6eYbQrKSi4KOYIxMsDCk',
+          userName: '买家',
+          visiblePages: [13],
+        },
+      }),
+    };
+  }
+
   return {
     type: ACTION_TYPE.LOGIN,
     promise: wrapServer({

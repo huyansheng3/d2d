@@ -9,6 +9,7 @@ import {
   LogManager,
   Permission,
   DataModule,
+  Order,
 } from 'containers/WorkBench/D2D';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
@@ -64,6 +65,14 @@ const pagesMap = [
   {
     id: 12,
     title: '用户管理日志',
+  },
+  {
+    id: 13,
+    title: '买家看板',
+  },
+  {
+    id: 14,
+    title: '卖家看板',
   },
 ];
 
@@ -232,6 +241,22 @@ export const logManager: subMenuConfig = {
   ],
 };
 
+export const order: subMenuConfig = {
+  id: 'order',
+  MenuIcon: <Icon type="credit-card" />,
+  title: '订单管理',
+  subItems: [
+    {
+      id: 'buyer',
+      title: '买家看板',
+    },
+    {
+      id: 'seller',
+      title: '卖家看板',
+    },
+  ],
+};
+
 const blockBrowserEntry: subMenuConfig = {
   id: 'blockBrowserEntry',
   noLink: true,
@@ -251,6 +276,7 @@ const allMenuItems = [
   permission,
   logManager,
   blockBrowserEntry,
+  order,
 ];
 
 export const getMenuItems = roleName => {
@@ -324,6 +350,10 @@ export const getMenuContent = roleName => {
     {
       id: 'logManager',
       dom: LogManager,
+    },
+    {
+      id: 'order',
+      dom: Order,
     },
   ];
 };
