@@ -6,6 +6,7 @@ import { Form, Input, Select, Button, DatePicker } from 'antd';
 import { forEach, isEmpty } from 'lodash';
 import { parseInitValue } from 'utils/Utils';
 import { options } from './QueryForm';
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -162,7 +163,9 @@ class CreateNode extends React.Component<Props, {}> {
 
           <FormItem {...formItemLayout} label="收货日期">
             {getFieldDecorator('deliveryDate', {
-              initialValue: currentOrder.deliveryDate,
+              initialValue: currentOrder.deliveryDate
+                ? moment(currentOrder.deliveryDate)
+                : undefined,
             })(<DatePicker placeholder="收货日期" />)}
           </FormItem>
         </Form>

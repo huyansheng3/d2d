@@ -51,7 +51,7 @@ class HomeLayout extends Component<Props, any> {
       <Layout className="layout home-layout">
         <Header>
           <div className="home-layout-logo">
-            <img className="hlayout__img" src={logo} alt="logo" />
+            {/* <img className="hlayout__img" src={logo} alt="logo" /> */}
             <span className="hlayout__logo ml20">德邦证券区块链</span>
           </div>
 
