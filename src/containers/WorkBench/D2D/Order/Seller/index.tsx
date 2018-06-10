@@ -32,7 +32,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = ({ ui, order }) => ({ ui, order });
 
 type nodeType = {
-  orderNo?: String;
+  orderNo?: string;
+  goodsState?: string;
 };
 
 const initNode: nodeType = {};
@@ -88,6 +89,15 @@ class Seller extends React.Component<Props, {}> {
         },
       },
       {
+        title: '所有方',
+        dataIndex: 'ownerParty',
+        key: 'ownerParty',
+        render: ownerParty => {
+          const opt = find(creditOptions, { value: ownerParty }) || {};
+          return opt.label || ownerParty;
+        },
+      },
+      {
         title: '商品名称',
         dataIndex: 'name',
         key: 'name',
@@ -140,8 +150,8 @@ class Seller extends React.Component<Props, {}> {
   }
 
   deliverGoods = e => {
-    const { orderNo } = this.state.currentOrder;
-    this.props.deliverGoods({ params: { orderNo } }).then(() => {
+    const { orderNo, goodsState } = this.state.currentOrder;
+    this.props.deliverGoods({ params: { orderNo, goodsState } }).then(() => {
       this.query();
     });
   };

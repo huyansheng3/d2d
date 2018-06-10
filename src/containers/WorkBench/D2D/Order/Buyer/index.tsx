@@ -9,6 +9,7 @@ import CreateNode from './CreateNode';
 import { RowSelectionType } from 'antd/lib/table';
 import { options } from './QueryForm';
 import { find, forEach } from 'lodash';
+import { creditOptions } from './CreateNode';
 
 interface Props {
   queryGoods: (opts: any) => any;
@@ -46,7 +47,7 @@ class Buyer extends React.Component<
 
   handleModalClose = state => {
     this.setState(state);
-    this.query();
+    this.queryGoods();
   };
 
   updateModalVisile = state => {
@@ -59,16 +60,37 @@ class Buyer extends React.Component<
         title: '买方',
         dataIndex: 'buyerParty',
         key: 'buyerParty',
+        render: buyerParty => {
+          const opt = find(creditOptions, { value: buyerParty }) || {};
+          return opt.label || buyerParty;
+        },
       },
       {
         title: '卖方',
         dataIndex: 'sellerParty',
         key: 'sellerParty',
+        render: sellerParty => {
+          const opt = find(creditOptions, { value: sellerParty }) || {};
+          return opt.label || sellerParty;
+        },
       },
       {
         title: '信任方',
         dataIndex: 'creditParty',
         key: 'creditParty',
+        render: creditParty => {
+          const opt = find(creditOptions, { value: creditParty }) || {};
+          return opt.label || creditParty;
+        },
+      },
+      {
+        title: '所有方',
+        dataIndex: 'ownerParty',
+        key: 'ownerParty',
+        render: ownerParty => {
+          const opt = find(creditOptions, { value: ownerParty }) || {};
+          return opt.label || ownerParty;
+        },
       },
       {
         title: '商品名称',
@@ -122,15 +144,13 @@ class Buyer extends React.Component<
     ];
   }
 
-  queryGoods = () => {};
-
   handleStateChange = changedFields => {
     this.setState(({ queryFileds }) => ({
       queryFileds: { ...queryFileds, ...changedFields },
     }));
   };
 
-  query = () => {
+  queryGoods = () => {
     const queryData = {};
     forEach(this.state.queryFileds, (filed, key) => {
       queryData[key] = filed.value;
