@@ -147,8 +147,8 @@ class CreateNode extends React.Component<Props, {}> {
           </FormItem>
 
           <FormItem {...formItemLayout} label="总金额">
-            {getFieldDecorator('partyName', {
-              initialValue: currentOrder.partyName,
+            {getFieldDecorator('totalAmt', {
+              initialValue: currentOrder.totalAmt,
             })(<Input disabled placeholder="总金额" />)}
           </FormItem>
 
