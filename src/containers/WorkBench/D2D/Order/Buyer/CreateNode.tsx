@@ -51,9 +51,11 @@ class CreateNode extends React.Component<Props, {}> {
 
     form.validateFields((errors, values) => {
       if (!errors) {
+        const { currentOrder } = this.props;
         this.props
           .confirmGoodsOrder({
             data: {
+              ...currentOrder,
               ...values,
               deliveryDate: values.deliveryDate.format('YYYY-MM-DD'),
             },
