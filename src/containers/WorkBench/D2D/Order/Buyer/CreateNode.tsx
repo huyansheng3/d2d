@@ -9,29 +9,30 @@ import { parseInitValue } from 'utils/Utils';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const formItemLayout = {
-  //    labelCol: {
-  //        xs: { span: 2 },
-  //        sm: { span: 2 },
-  //    },
-  //    wrapperCol: {
-  //        sm: { span: 4 },
-  //    },
-};
+const formItemLayout = {};
 
-const options = [
+export const creditOptions = [
   {
-    label: '启用',
-    value: 1,
+    label: 'buyerParty',
+    value: 'O=NormalPartyB, L=Paris, C=FR',
   },
   {
-    label: '停用',
-    value: 0,
+    label: 'creditParty',
+    value: 'O=IssuePartyA, L=London, C=GB',
+  },
+  {
+    label: 'sellerParty',
+    value: 'O=NormalPartyA, L=New York, C=US',
   },
 ];
 
+const selectCreditOptions = creditOptions.map(opt => {
+  return <Option key={opt.value}>{opt.label}</Option>;
+});
+
 interface Props extends FormComponentProps {
   confirmGoodsOrder: (value: any) => any;
+  queryGoods: () => any;
   onCancel: (state?: any) => any;
   onOk: (state?: any) => any;
   visible: boolean;
@@ -54,6 +55,7 @@ class CreateNode extends React.Component<Props, {}> {
           })
           .then(({ payload }) => {
             onOk && onOk({ modalVisible: false });
+            this.props.queryGoods();
           });
       }
     });
@@ -81,18 +83,18 @@ class CreateNode extends React.Component<Props, {}> {
           <FormItem {...formItemLayout} label="买方">
             {getFieldDecorator('buyerParty', {
               initialValue: currentOrder.buyerParty,
-            })(<Input disabled placeholder="买方" />)}
+            })(<Select placeholder="信任方">{selectCreditOptions}</Select>)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="卖方">
             {getFieldDecorator('sellerParty', {
               initialValue: currentOrder.sellerParty,
-            })(<Input disabled placeholder="卖方" />)}
+            })(<Select placeholder="信任方">{selectCreditOptions}</Select>)}
           </FormItem>
           <FormItem {...formItemLayout} label="信任方">
             {getFieldDecorator('creditParty', {
               initialValue: currentOrder.creditParty,
-            })(<Input disabled placeholder="信任方" />)}
+            })(<Select placeholder="信任方">{selectCreditOptions}</Select>)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="商品名称">

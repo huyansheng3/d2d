@@ -12,12 +12,20 @@ const { RangePicker } = DatePicker;
 
 const formItemLayout = {};
 
+export const options = [
+  { label: '待付款', value: 'PAYING' },
+  { label: '待发货', value: 'DELIVERING' },
+  { label: '交易已完成', value: 'COMPLETED' },
+];
+
 interface Props extends FormComponentProps {
   loading: boolean;
+  deliverLoading: boolean;
   deliverGoods: (opts: any) => any;
   queryGoods: (opts: any) => any;
   updateModalVisile: (state: any) => any;
   currentOrder: any;
+  onStateChange: (state: any) => any;
 }
 
 class QueryForm extends React.Component<Props, {}> {
@@ -36,14 +44,14 @@ class QueryForm extends React.Component<Props, {}> {
   };
 
   render() {
-    const { loading, form, deliverGoods, currentOrder } = this.props;
+    const {
+      loading,
+      form,
+      deliverGoods,
+      currentOrder,
+      deliverLoading,
+    } = this.props;
     const { getFieldDecorator } = form;
-
-    const options = [
-      { label: '待付款', value: 'PAYING' },
-      { label: '待发货', value: 'DELIVERING' },
-      { label: '交易已完成', value: 'COMPLETED' },
-    ];
 
     const selectOptions = options.map(opt => {
       return <Option key={opt.value}>{opt.label}</Option>;
@@ -88,6 +96,7 @@ class QueryForm extends React.Component<Props, {}> {
             className="ml20"
             disabled={isEmpty(currentOrder)}
             type="primary"
+            loading={deliverLoading}
             onClick={deliverGoods}>
             确认发货
           </Button>
@@ -97,4 +106,8 @@ class QueryForm extends React.Component<Props, {}> {
   }
 }
 
-export default Form.create()(QueryForm);
+export default Form.create({
+  onFieldsChange: (props: { onStateChange }, changedFields) => {
+    props.onStateChange(changedFields);
+  },
+})(QueryForm);

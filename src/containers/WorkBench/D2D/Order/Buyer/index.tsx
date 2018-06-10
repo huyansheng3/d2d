@@ -7,6 +7,8 @@ import api from 'config/api';
 import { head } from 'lodash';
 import CreateNode from './CreateNode';
 import { RowSelectionType } from 'antd/lib/table';
+import { options } from './QueryForm';
+import { find, forEach } from 'lodash';
 
 interface Props {
   queryGoods: (opts: any) => any;
@@ -26,12 +28,16 @@ type nodeType = {};
 
 const initNode: nodeType = {};
 
-class Buyer extends React.Component<Props, {}> {
+class Buyer extends React.Component<
+  Props,
+  { queryFileds: {}; currentOrder: any }
+> {
   state = {
     currentOrder: initNode,
     modalVisible: false,
     selectedRowKeys: [],
     isCreate: false,
+    queryFileds: {},
   };
 
   componentDidMount() {
@@ -40,6 +46,7 @@ class Buyer extends React.Component<Props, {}> {
 
   handleModalClose = state => {
     this.setState(state);
+    this.query();
   };
 
   updateModalVisile = state => {
@@ -92,6 +99,10 @@ class Buyer extends React.Component<Props, {}> {
         title: '订单状态',
         dataIndex: 'goodsState',
         key: 'goodsState',
+        render: goodsState => {
+          const opt = find(options, { value: goodsState }) || {};
+          return opt.label || goodsState;
+        },
       },
       {
         title: '总金额',
@@ -110,6 +121,26 @@ class Buyer extends React.Component<Props, {}> {
       },
     ];
   }
+
+  queryGoods = () => {};
+
+  handleStateChange = changedFields => {
+    this.setState(({ queryFileds }) => ({
+      queryFileds: { ...queryFileds, ...changedFields },
+    }));
+  };
+
+  query = () => {
+    const queryData = {};
+    forEach(this.state.queryFileds, (filed, key) => {
+      queryData[key] = filed.value;
+    });
+
+    this.props.queryGoods({
+      params: queryData,
+    });
+  };
+
   render() {
     let { ui, order } = this.props;
     const { loading } = ui;
@@ -134,17 +165,19 @@ class Buyer extends React.Component<Props, {}> {
           loading={loading[ACTION_TYPE.DELIVER_GOODS]}
           queryGoods={this.props.queryGoods}
           updateModalVisile={this.updateModalVisile}
+          onStateChange={this.handleStateChange}
         />
         <Table
           rowSelection={rowSelection}
           loading={loading[ACTION_TYPE.QUERY_GOODS]}
           columns={this.columns}
           dataSource={orders}
-          rowKey="id"
+          rowKey="orderNo"
         />
 
         <CreateNode
           confirmGoodsOrder={this.props.confirmGoodsOrder}
+          queryGoods={this.queryGoods}
           isLoading={loading[ACTION_TYPE.CONFIRM_GOODS_ORDER]}
           currentOrder={this.state.currentOrder}
           onCancel={this.handleModalClose}

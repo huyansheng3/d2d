@@ -18,4 +18,6 @@ export const EASY_PROJECT_HOST = '//110.80.142.87:10009';
 export const ABS = '//47.92.26.19:6003';
 export const ABS_HOST = '//47.92.26.19:6002';
 
+export const ORDER = '//47.92.26.19:6008';
+
 export const SERVER_TIMEOUT = 60000;

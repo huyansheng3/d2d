@@ -12,7 +12,9 @@ import api from 'config/api';
 import { head } from 'lodash';
 import CreateNode from './CreateNode';
 import { RowSelectionType } from 'antd/lib/table';
-
+import { find, forEach } from 'lodash';
+import { options } from './QueryForm';
+import { creditOptions } from './CreateNode';
 interface Props {
   queryGoods: (opts: any) => any;
   createGoodsOrder: (opts: any) => any;
@@ -40,6 +42,7 @@ class Seller extends React.Component<Props, {}> {
     currentOrder: initNode,
     modalVisible: false,
     selectedRowKeys: [],
+    queryFileds: {},
   };
 
   componentDidMount() {
@@ -48,6 +51,7 @@ class Seller extends React.Component<Props, {}> {
 
   handleModalClose = state => {
     this.setState(state);
+    this.query();
   };
 
   updateModalVisile = state => {
@@ -60,16 +64,28 @@ class Seller extends React.Component<Props, {}> {
         title: '买方',
         dataIndex: 'buyerParty',
         key: 'buyerParty',
+        render: buyerParty => {
+          const opt = find(creditOptions, { value: buyerParty }) || {};
+          return opt.label || buyerParty;
+        },
       },
       {
         title: '卖方',
         dataIndex: 'sellerParty',
         key: 'sellerParty',
+        render: sellerParty => {
+          const opt = find(creditOptions, { value: sellerParty }) || {};
+          return opt.label || sellerParty;
+        },
       },
       {
         title: '信任方',
         dataIndex: 'creditParty',
         key: 'creditParty',
+        render: creditParty => {
+          const opt = find(creditOptions, { value: creditParty }) || {};
+          return opt.label || creditParty;
+        },
       },
       {
         title: '商品名称',
@@ -100,6 +116,10 @@ class Seller extends React.Component<Props, {}> {
         title: '订单状态',
         dataIndex: 'goodsState',
         key: 'goodsState',
+        render: goodsState => {
+          const opt = find(options, { value: goodsState }) || {};
+          return opt.label || goodsState;
+        },
       },
       {
         title: '总金额',
@@ -121,7 +141,26 @@ class Seller extends React.Component<Props, {}> {
 
   deliverGoods = e => {
     const { orderNo } = this.state.currentOrder;
-    this.props.deliverGoods({ params: { orderNo } });
+    this.props.deliverGoods({ params: { orderNo } }).then(() => {
+      this.query();
+    });
+  };
+
+  handleStateChange = changedFields => {
+    this.setState({
+      queryFileds: { ...this.state.queryFileds, ...changedFields },
+    });
+  };
+
+  query = () => {
+    const queryData = {};
+    forEach(this.state.queryFileds, (filed, key) => {
+      queryData[key] = filed.value;
+    });
+
+    this.props.queryGoods({
+      params: queryData,
+    });
   };
 
   render() {
@@ -149,6 +188,8 @@ class Seller extends React.Component<Props, {}> {
           currentOrder={this.state.currentOrder}
           loading={loading[ACTION_TYPE.QUERY_GOODS]}
           updateModalVisile={this.updateModalVisile}
+          deliverLoading={loading[ACTION_TYPE.DELIVER_GOODS]}
+          onStateChange={this.handleStateChange}
         />
 
         <Table
@@ -156,7 +197,7 @@ class Seller extends React.Component<Props, {}> {
           loading={loading[ACTION_TYPE.QUERY_GOODS]}
           columns={this.columns}
           dataSource={orders}
-          rowKey="id"
+          rowKey="orderNo"
         />
 
         <CreateNode

@@ -22,6 +22,25 @@ const options = [
   },
 ];
 
+export const creditOptions = [
+  {
+    label: 'buyerParty',
+    value: 'O=NormalPartyB, L=Paris, C=FR',
+  },
+  {
+    label: 'creditParty',
+    value: 'O=IssuePartyA, L=London, C=GB',
+  },
+  {
+    label: 'sellerParty',
+    value: 'O=NormalPartyA, L=New York, C=US',
+  },
+];
+
+const selectCreditOptions = creditOptions.map(opt => {
+  return <Option key={opt.value}>{opt.label}</Option>;
+});
+
 interface Props extends FormComponentProps {
   createGoodsOrder: (value: any) => any;
   onCancel: (state?: any) => any;
@@ -43,18 +62,18 @@ class CreateNode extends React.Component<Props, {}> {
     });
   };
 
-  handleQuantityChange = value => {
+  handleQuantityChange = e => {
     const { form } = this.props;
     const { getFieldValue, setFieldsValue } = form;
     const goodsAmt = getFieldValue('goodsAmt') || 0;
-    setFieldsValue({ totalAmt: (value || 0) * goodsAmt });
+    setFieldsValue({ totalAmt: ((e.target.value || 0) * goodsAmt).toFixed(3) });
   };
 
-  handleGoodsAmtChange = value => {
+  handleGoodsAmtChange = e => {
     const { form } = this.props;
     const { getFieldValue, setFieldsValue } = form;
     const quantity = getFieldValue('quantity') || 0;
-    setFieldsValue({ totalAmt: (value || 0) * quantity });
+    setFieldsValue({ totalAmt: ((e.target.value || 0) * quantity).toFixed(3) });
   };
 
   render() {
@@ -70,15 +89,19 @@ class CreateNode extends React.Component<Props, {}> {
         onCancel={() => onCancel({ modalVisible: false })}>
         <Form layout="vertical">
           <FormItem {...formItemLayout} label="买方">
-            {getFieldDecorator('buyerParty', {})(<Input placeholder="买方" />)}
+            {getFieldDecorator('buyerParty', {})(
+              <Select placeholder="买方">{selectCreditOptions}</Select>
+            )}
           </FormItem>
 
           <FormItem {...formItemLayout} label="卖方">
-            {getFieldDecorator('sellerParty', {})(<Input placeholder="卖方" />)}
+            {getFieldDecorator('sellerParty', {})(
+              <Select placeholder="卖方">{selectCreditOptions}</Select>
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="信任方">
             {getFieldDecorator('creditParty', {})(
-              <Input placeholder="信任方" />
+              <Select placeholder="信任方">{selectCreditOptions}</Select>
             )}
           </FormItem>
 
@@ -101,7 +124,17 @@ class CreateNode extends React.Component<Props, {}> {
           </FormItem>
 
           <FormItem {...formItemLayout} label="总金额">
-            {getFieldDecorator('totalAmt', {})(<Input placeholder="总金额" />)}
+            {getFieldDecorator('totalAmt', {
+              rules: [
+                {
+                  type: 'number',
+                  min: 0,
+                  max: 1000000,
+                  transform: v => +v,
+                  message: '需小于100W',
+                },
+              ],
+            })(<Input disabled placeholder="总金额" />)}
           </FormItem>
         </Form>
       </Modal>

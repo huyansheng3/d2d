@@ -35,7 +35,7 @@ export const login = data => {
           token:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE1MjgyOTMxNTIsInJvbGVOYW1lIjoi6LaF57qn566h55CG5ZGYIiwidXNlcklkIjoiMSJ9.wSkgg929IVOcqCkHF3sniow6eYbQrKSi4KOYIxMsDCk',
           userName: '卖家',
-          visiblePages: [13, 14],
+          visiblePages: [14],
         },
       }),
     };
@@ -55,7 +55,7 @@ export const login = data => {
           token:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE1MjgyOTMxNTIsInJvbGVOYW1lIjoi6LaF57qn566h55CG5ZGYIiwidXNlcklkIjoiMSJ9.wSkgg929IVOcqCkHF3sniow6eYbQrKSi4KOYIxMsDCk',
           userName: '买家',
-          visiblePages: [13, 14],
+          visiblePages: [13],
         },
       }),
     };
