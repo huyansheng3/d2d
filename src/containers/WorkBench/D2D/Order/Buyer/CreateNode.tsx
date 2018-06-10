@@ -5,6 +5,7 @@ import { FormComponentProps } from 'antd/lib/form';
 import { Form, Input, Select, Button, DatePicker } from 'antd';
 import { forEach, isEmpty } from 'lodash';
 import { parseInitValue } from 'utils/Utils';
+import { options } from './QueryForm';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -27,6 +28,10 @@ export const creditOptions = [
 ];
 
 const selectCreditOptions = creditOptions.map(opt => {
+  return <Option key={opt.value}>{opt.label}</Option>;
+});
+
+const selectStateOption = options.map(opt => {
   return <Option key={opt.value}>{opt.label}</Option>;
 });
 
@@ -83,18 +88,30 @@ class CreateNode extends React.Component<Props, {}> {
           <FormItem {...formItemLayout} label="买方">
             {getFieldDecorator('buyerParty', {
               initialValue: currentOrder.buyerParty,
-            })(<Select placeholder="信任方">{selectCreditOptions}</Select>)}
+            })(
+              <Select disabled placeholder="信任方">
+                {selectCreditOptions}
+              </Select>
+            )}
           </FormItem>
 
           <FormItem {...formItemLayout} label="卖方">
             {getFieldDecorator('sellerParty', {
               initialValue: currentOrder.sellerParty,
-            })(<Select placeholder="信任方">{selectCreditOptions}</Select>)}
+            })(
+              <Select disabled placeholder="信任方">
+                {selectCreditOptions}
+              </Select>
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="信任方">
             {getFieldDecorator('creditParty', {
               initialValue: currentOrder.creditParty,
-            })(<Select placeholder="信任方">{selectCreditOptions}</Select>)}
+            })(
+              <Select disabled placeholder="信任方">
+                {selectCreditOptions}
+              </Select>
+            )}
           </FormItem>
 
           <FormItem {...formItemLayout} label="商品名称">
@@ -117,6 +134,16 @@ class CreateNode extends React.Component<Props, {}> {
             {getFieldDecorator('goodsAmt', {
               initialValue: currentOrder.goodsAmt,
             })(<Input disabled placeholder="单价" />)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="订单状态">
+            {getFieldDecorator('goodsState', {
+              initialValue: currentOrder.goodsState,
+            })(
+              <Select disabled placeholder="订单状态">
+                {selectStateOption}
+              </Select>
+            )}
           </FormItem>
 
           <FormItem {...formItemLayout} label="总金额">
