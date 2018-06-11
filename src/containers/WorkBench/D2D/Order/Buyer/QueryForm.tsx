@@ -87,7 +87,7 @@ class QueryForm extends React.Component<Props, {}> {
             type="primary"
             disabled={isEmpty(currentOrder)}
             onClick={this.handleUpdate}>
-            编辑
+            付款
           </Button>
         </div>
       </div>

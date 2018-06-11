@@ -19,8 +19,8 @@ class CustomFooter extends Component<Props, any> {
             <h2>帮助</h2>
             <ul>
               <li>
-                <a target="_blank" href="http://www.tebon.com.cn/">
-                  德邦证券链接
+                <a target="_blank" href="http://www.s-labs.cn/sy">
+                  链平方链接
                 </a>
               </li>
               <li>
@@ -35,8 +35,8 @@ class CustomFooter extends Component<Props, any> {
           <Col span={16} className="lfooter__info lfooter__service">
             <h2>客服支持</h2>
             <ul>
-              <li>客服：400-88888-128</li>
-              <li>地址: 上海市福山路500号城建国际中心29楼</li>
+              <li>客服：0592-5929720 </li>
+              <li>地址: 上海市静安区平型关路108创意广场37号品座6层</li>
             </ul>
           </Col>
           <Col span={4} className="lfooter__wechat">
@@ -44,7 +44,7 @@ class CustomFooter extends Component<Props, any> {
           </Col>
         </Row>
         <div className="lfooter__company">
-          <p> ©2018 德邦证券股份有限公司 </p>
+          <p> ©2018 链平方科技有限公司 </p>
         </div>
       </Footer>
     );

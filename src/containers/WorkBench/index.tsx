@@ -101,7 +101,7 @@ class WorkBench extends React.Component<Props, {}> {
       <Layout className="layout workbench-layout">
         <Header>
           <div className="wlayout__logo">
-            <img className="wllogo__img" src={logo} alt="logo" />
+              <img className="wllogo__img" src={logo} alt="logo" />
           </div>
 
           <Menu theme="dark" className="wlayout__menu" mode="horizontal">
@@ -131,10 +131,10 @@ class WorkBench extends React.Component<Props, {}> {
                 {getMenuItems(roleName).map(item => this.renderMenu(item))}
               </Menu>
 
-              <div className="tech-support">
-                <p>EverChain-D2D 1.0</p>
-                <p className="tech">技术支持—链平方</p>
-              </div>
+              {/*<div className="tech-support">*/}
+                {/*<p>EverChain-D2D 1.0</p>*/}
+                {/*<p className="tech">技术支持—链平方</p>*/}
+              {/*</div>*/}
             </Sider>
             <Content className="lcontent__content">
               <div className="lccontent__dashboard">

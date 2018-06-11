@@ -117,7 +117,18 @@ class Buyer extends React.Component<
         dataIndex: 'orderNo',
         key: 'orderNo',
       },
-      {
+        {
+            title: 'Token ID',
+            dataIndex: 'tokenTransId',
+            key: 'tokenTransId',
+        },
+        {
+            title: '交易ID',
+            dataIndex: 'transactionId',
+            key: 'transactionId',
+        },
+
+        {
         title: '订单状态',
         dataIndex: 'goodsState',
         key: 'goodsState',

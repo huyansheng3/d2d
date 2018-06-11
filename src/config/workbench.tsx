@@ -275,7 +275,7 @@ const allMenuItems = [
   accountManager,
   permission,
   logManager,
-  blockBrowserEntry,
+  // blockBrowserEntry,
   order,
 ];
 
@@ -316,7 +316,8 @@ export const getMenuItems = roleName => {
     return null;
   });
 
-  return showMenuitems.filter(item => item).concat(blockBrowserEntry);
+  // return showMenuitems.filter(item => item).concat(blockBrowserEntry);
+    return showMenuitems.filter(item => item);
 };
 
 const Test = () => <h3>待完成</h3>;

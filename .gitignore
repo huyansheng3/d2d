@@ -18,3 +18,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+.idea/typescript-compiler.xml
+.idea/vcs.xml
+.idea/workspace.xml
+build/dist/
+build/static/css/main.6e7eceb7.css
+build/static/css/main.6e7eceb7.css.map
+build/static/js/main.9fd8e4fb.js
+build/static/js/main.9fd8e4fb.js.map

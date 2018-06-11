@@ -15,21 +15,25 @@ const formItemLayout = {};
 
 export const creditOptions = [
   {
-    label: 'buyerParty',
-    value: 'O=NormalPartyB, L=Paris, C=FR',
-  },
-  {
     label: 'creditParty',
     value: 'O=IssuePartyA, L=London, C=GB',
   },
-  {
-    label: 'sellerParty',
-    value: 'O=NormalPartyA, L=New York, C=US',
-  },
+];
+
+
+export const sellerOptions = [
+    {
+        label: 'sellerParty',
+        value: 'O=NormalPartyA, L=New York, C=US',
+    },
 ];
 
 const selectCreditOptions = creditOptions.map(opt => {
   return <Option key={opt.value}>{opt.label}</Option>;
+});
+
+const selectSellerOptions = sellerOptions.map(opt => {
+    return <Option key={opt.value}>{opt.label}</Option>;
 });
 
 const selectStateOption = options.map(opt => {
@@ -85,25 +89,27 @@ class CreateNode extends React.Component<Props, {}> {
         visible={visible}
         confirmLoading={isLoading}
         onOk={this.handleOk}
-        title="编辑"
+        okText="确认付款"
+        title="付款"
+        cancelText="取消"
         onCancel={() => onCancel({ modalVisible: false })}>
         <Form layout="vertical">
-          <FormItem {...formItemLayout} label="买方">
-            {getFieldDecorator('buyerParty', {
-              initialValue: currentOrder.buyerParty,
-            })(
-              <Select disabled placeholder="信任方">
-                {selectCreditOptions}
-              </Select>
-            )}
-          </FormItem>
+          {/*<FormItem {...formItemLayout} label="买方">*/}
+            {/*{getFieldDecorator('buyerParty', {*/}
+              {/*initialValue: currentOrder.buyerParty,*/}
+            {/*})(*/}
+              {/*<Select disabled placeholder="买方">*/}
+                {/*{selectCreditOptions}*/}
+              {/*</Select>*/}
+            {/*)}*/}
+          {/*</FormItem>*/}
 
           <FormItem {...formItemLayout} label="卖方">
             {getFieldDecorator('sellerParty', {
               initialValue: currentOrder.sellerParty,
             })(
-              <Select disabled placeholder="信任方">
-                {selectCreditOptions}
+              <Select disabled placeholder="卖方">
+                {selectSellerOptions}
               </Select>
             )}
           </FormItem>

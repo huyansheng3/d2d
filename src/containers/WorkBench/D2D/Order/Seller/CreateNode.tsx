@@ -23,22 +23,26 @@ const options = [
 ];
 
 export const creditOptions = [
-  {
-    label: 'buyerParty',
-    value: 'O=NormalPartyB, L=Paris, C=FR',
-  },
+
   {
     label: 'creditParty',
     value: 'O=IssuePartyA, L=London, C=GB',
   },
-  {
-    label: 'sellerParty',
-    value: 'O=NormalPartyA, L=New York, C=US',
-  },
 ];
+export const buyerOptions = [
+    {
+        label: 'buyerParty',
+        value: 'O=NormalPartyB, L=Paris, C=FR',
+    },
+];
+
 
 const selectCreditOptions = creditOptions.map(opt => {
   return <Option key={opt.value}>{opt.label}</Option>;
+});
+
+const selectBuyerOptions = buyerOptions.map(opt => {
+    return <Option key={opt.value}>{opt.label}</Option>;
 });
 
 interface Props extends FormComponentProps {
@@ -85,20 +89,22 @@ class CreateNode extends React.Component<Props, {}> {
         visible={visible}
         confirmLoading={isLoading}
         onOk={this.handleOk}
-        title="编辑"
-        onCancel={() => onCancel({ modalVisible: false })}>
+        title="创建订单"
+        okText="创建"
+        onCancel={() => onCancel({ modalVisible: false })}
+        cancelText="取消">
         <Form layout="vertical">
           <FormItem {...formItemLayout} label="买方">
             {getFieldDecorator('buyerParty', {})(
-              <Select placeholder="买方">{selectCreditOptions}</Select>
+              <Select placeholder="买方">{selectBuyerOptions}</Select>
             )}
           </FormItem>
 
-          <FormItem {...formItemLayout} label="卖方">
-            {getFieldDecorator('sellerParty', {})(
-              <Select placeholder="卖方">{selectCreditOptions}</Select>
-            )}
-          </FormItem>
+          {/*<FormItem {...formItemLayout} label="卖方">*/}
+            {/*{getFieldDecorator('sellerParty', {})(*/}
+              {/*<Select placeholder="卖方">{selectCreditOptions}</Select>*/}
+            {/*)}*/}
+          {/*</FormItem>*/}
           <FormItem {...formItemLayout} label="信任方">
             {getFieldDecorator('creditParty', {})(
               <Select placeholder="信任方">{selectCreditOptions}</Select>
@@ -129,9 +135,9 @@ class CreateNode extends React.Component<Props, {}> {
                 {
                   type: 'number',
                   min: 0,
-                  max: 1000000,
+                  max: 10000000,
                   transform: v => +v,
-                  message: '需小于100W',
+                  message: '需大于0小于1000W',
                 },
               ],
             })(<Input disabled placeholder="总金额" />)}
