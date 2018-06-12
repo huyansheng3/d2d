@@ -1,6 +1,7 @@
 import { handle } from 'redux-pack';
 import { STORAGE_KEY, initState } from 'utils/Storage';
 import { USER } from 'actions';
+
 const { ACTION_TYPE } = USER;
 
 const initStates = {
@@ -16,7 +17,10 @@ export default (state = initStates, action) => {
       return handle(state, action, {
         start: prevState => prevState,
         success: prevState => {
-          return { ...prevState, user: action.payload.data };
+          return {
+            ...prevState,
+            user: action.payload.data,
+          };
         },
       });
     case ACTION_TYPE.QUERY_USERS:

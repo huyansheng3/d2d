@@ -1,14 +1,29 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table, Form, Input, Tooltip, Icon, Button, Row, Col } from 'antd';
+import {
+  Table,
+  Form,
+  Input,
+  Tooltip,
+  Icon,
+  Button,
+  Row,
+  Col,
+  notification,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { query } from 'actions/assets';
+import {
+  queryUserInfo,
+  updateUserInfo,
+  ACTION_TYPE,
+} from 'actions/account-manager';
 import './index.css';
 
 const Item = Form.Item;
 interface Props extends FormComponentProps {
-  query: (data: any) => any;
-  user: any;
+  queryUserInfo: (data: any) => any;
+  updateUserInfo: (data: any) => any;
+  accountManager: any;
   ui: any;
 }
 
@@ -20,23 +35,35 @@ const formItemLayout = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  query: value => dispatch(query(value)),
+  queryUserInfo: value => dispatch(queryUserInfo(value)),
+  updateUserInfo: value => dispatch(updateUserInfo(value)),
 });
 
-const mapStateToProps = ({ user, ui }) => ({ user, ui });
+const mapStateToProps = ({ accountManager, ui }) => ({ accountManager, ui });
 
 class BasicInfo extends React.Component<Props, {}> {
+  componentDidMount() {
+    this.props.queryUserInfo({});
+  }
+
   handleSave = e => {
     this.props.form.validateFieldsAndScroll((errors, values) => {
       if (!errors) {
         // 执行提交
+        this.props.updateUserInfo({ data: values }).then(() => {
+          notification.success({
+            message: 'Success',
+            description: '更新成功',
+          });
+        });
       }
     });
   };
 
   render() {
-    let { user, ui, form } = this.props;
-    const currentUser = user.user || {};
+    let { accountManager, ui, form } = this.props;
+    const { userInfo } = accountManager;
+    const { loading } = ui;
 
     const { getFieldDecorator } = form;
     return (
@@ -44,60 +71,61 @@ class BasicInfo extends React.Component<Props, {}> {
         <Form layout="horizontal">
           <Item {...formItemLayout} label="企业信息">
             {getFieldDecorator('corporateName', {
-              initialValue: currentUser.corporateName,
+              initialValue: userInfo.corporateName,
             })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="账号信息">
             {getFieldDecorator('userName', {
-              initialValue: currentUser.userName,
+              initialValue: userInfo.userName,
             })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="区块链地址">
             {getFieldDecorator('address', {
-              initialValue: currentUser.address,
+              initialValue: userInfo.address,
             })(<Input disabled />)}
           </Item>
 
           <Item {...formItemLayout} label="联系人姓名">
             {getFieldDecorator('contactName', {
-              initialValue: currentUser.contactName,
+              initialValue: userInfo.contactName,
               rules: [{ required: true, message: '不能为空' }],
-            })(<Input disabled />)}
+            })(<Input />)}
           </Item>
 
           <Item {...formItemLayout} label="手机">
             {getFieldDecorator('mobile', {
-              initialValue: currentUser.mobile,
-              rules: [
-                { type: 'phone', message: '手机号格式不正确' },
-                { required: true, message: '不能为空' },
-              ],
-            })(<Input disabled />)}
+              initialValue: userInfo.mobile,
+              rules: [{ required: true, message: '不能为空' }],
+            })(<Input />)}
           </Item>
 
           <Item {...formItemLayout} label="邮箱">
             {getFieldDecorator('email', {
-              initialValue: currentUser.email,
+              initialValue: userInfo.email,
               rules: [
                 { type: 'email', message: '邮箱格式不正确' },
                 { required: true, message: '不能为空' },
               ],
-            })(<Input disabled />)}
+            })(<Input />)}
           </Item>
 
-          {/* <Item wrapperCol={{ span: 8, offset: 2 }}>
-            <Button type="primary" onClick={this.handleSave}>
+          <Item wrapperCol={{ span: 8, offset: 2 }}>
+            <Button
+              type="primary"
+              onClick={this.handleSave}
+              loading={loading[ACTION_TYPE.UPDATE_USER_INFO]}>
               保存
             </Button>
-          </Item> */}
+          </Item>
         </Form>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Form.create()(BasicInfo)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(BasicInfo));

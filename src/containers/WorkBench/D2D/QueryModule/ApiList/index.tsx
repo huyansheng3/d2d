@@ -132,8 +132,9 @@ class QueryRecord extends React.Component<Props, State> {
 
   render() {
     let { queryModule, ui } = this.props;
-    const { apiList, permission, products } = queryModule;
+    const { apiList, permission, products, nodeMainTain } = queryModule;
     const { loading } = ui;
+
     return (
       <div>
         <QueryForm
@@ -160,13 +161,29 @@ class QueryRecord extends React.Component<Props, State> {
               <Row gutter={8}>
                 <Col span={8}>
                   <p>接口编号：{this.state.current.pid}</p>
-                  <p>接收方：{this.state.current.fromPartyName}</p>
+                  <p>
+                    接收方：{
+                      (
+                        find(nodeMainTain, {
+                          partyName: this.state.current.fromPartyName,
+                        }) || {}
+                      ).corporateInfo
+                    }
+                  </p>
                 </Col>
                 <Col span={8}>
                   <p>更新时间： {this.state.current.updateTime}</p>
                 </Col>
                 <Col span={8}>
-                  <p>发送方：{this.state.current.partyName}</p>
+                  <p>
+                    发送方：{
+                      (
+                        find(nodeMainTain, {
+                          partyName: this.state.current.partyName,
+                        }) || {}
+                      ).corporateInfo
+                    }
+                  </p>
                 </Col>
               </Row>
             </Card>

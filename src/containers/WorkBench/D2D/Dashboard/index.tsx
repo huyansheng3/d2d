@@ -11,6 +11,7 @@ import {
   parseCascader,
   parseDatePicker,
 } from 'utils/Form';
+import { queryProduct, queryTables } from 'actions/query-module';
 import './style.css';
 import {
   Chart,
@@ -32,33 +33,20 @@ interface Props extends FormComponentProps {
   switchMode: () => void;
   configs: ReadonlyArray<any>;
   parseInput: (config: {}, form: {}, formItemLayout?: {}) => any;
+  user: any;
+  queryProduct: (data: any) => any;
+  queryTables: () => any;
+  queryModule: any;
 }
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: value => dispatch(register(value)),
   sendVerify: value => dispatch(sendVerifyCode(value)),
+  queryProduct: value => dispatch(queryProduct(value)),
+  queryTables: () => dispatch(queryTables()),
 });
 
-const mapStateToProps = () => ({});
-
-const basicInfos = [
-  {
-    label: '基本信息',
-    value: '链平方科技',
-  },
-  {
-    label: '姓名',
-    value: '郑仁芳',
-  },
-  {
-    label: '角色',
-    value: '管理员',
-  },
-  {
-    label: '上次登录时间',
-    value: '2018-04-25 10:00:00',
-  },
-];
+const mapStateToProps = ({ user, queryModule }) => ({ user, queryModule });
 
 const data = [
   { country: '中标项目', year: '1750', value: 502 },
@@ -198,7 +186,35 @@ class CorpAccount extends React.Component<Props, any> {
     }
   };
 
+  componentDidMount() {
+    this.props.queryProduct({});
+    this.props.queryTables();
+  }
+
   render() {
+    const { user, queryModule } = this.props;
+    const { login_time } = user.user;
+    const { products, tables } = queryModule;
+
+    const basicInfos = [
+      {
+        label: '基本信息',
+        value: '德邦证券',
+      },
+      {
+        label: '姓名',
+        value: '崔经理',
+      },
+      {
+        label: '角色',
+        value: '管理员',
+      },
+      {
+        label: '上次登录时间',
+        value: login_time,
+      },
+    ];
+
     return (
       <div className="dashboard">
         <Row gutter={16}>
@@ -235,7 +251,7 @@ class CorpAccount extends React.Component<Props, any> {
                   span={8}
                   offset={2}
                   className="dcard__item dcard__item--second">
-                  <h3>已授权项目</h3>
+                  <h3>产品</h3>
                   <p>2</p>
                 </Col>
               </Row>
@@ -245,26 +261,22 @@ class CorpAccount extends React.Component<Props, any> {
 
         <div className="mt20">
           <Card title="权限清单" hoverable bordered={false}>
-            <Row type="flex" align="middle" justify="start">
+            <Row type="flex" align="top" justify="start">
               <Col span={6} className="dashboard-list">
                 <h3>数据表清单</h3>
                 <p>表名</p>
                 <ul>
-                  <li>XXXX</li>
-                  <li>XXXX</li>
-                  <li>XXXX</li>
-                  <li>XXXX</li>
+                  <ul>
+                    {tables.map(p => (
+                      <li key={p.productName}>{p.productName}</li>
+                    ))}
+                  </ul>
                 </ul>
               </Col>
               <Col span={6} offset={2} className="dashboard-list">
-                <h3>项目清单</h3>
+                <h3>产品清单</h3>
                 <p>项目名称</p>
-                <ul>
-                  <li>XXXX</li>
-                  <li>XXXX</li>
-                  <li>XXXX</li>
-                  <li>XXXX</li>
-                </ul>
+                <ul>{products.map(p => <li key={p.prjNo}>{p.prjName}</li>)}</ul>
               </Col>
             </Row>
           </Card>
@@ -342,4 +354,7 @@ class CorpAccount extends React.Component<Props, any> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CorpAccount);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CorpAccount);

@@ -1,4 +1,5 @@
 import { ACTION_TYPE as USER_ACTION } from 'actions/user';
+import moment from 'moment';
 
 export enum STORAGE_KEY {
   USER = 'user',
@@ -6,9 +7,17 @@ export enum STORAGE_KEY {
 
 export const storage = (key, { payload }) => {
   if (payload) {
-    let { data = null } = payload;
+    if (!payload.data) {
+      return;
+    }
+
+    payload.data = {
+      ...payload.data,
+      login_time: moment().format('YYYY-MM-DD HH:mm:ss'),
+    };
+
     try {
-      localStorage.setItem(key, JSON.stringify(data));
+      localStorage.setItem(key, JSON.stringify(payload.data));
     } catch (error) {
       console.error(error);
     }

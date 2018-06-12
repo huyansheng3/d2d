@@ -203,12 +203,8 @@ class FileUpload extends React.Component<Props, any> {
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
                 </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload.
-                </p>
+                <p className="ant-upload-text">点击或拖拽文件到此区域上传</p>
+                <p className="ant-upload-hint">支持单个或批量上传。</p>
               </Upload.Dragger>
             )}
           </Item>

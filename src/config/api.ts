@@ -48,6 +48,8 @@ const api = {
   logUser: `${ABS_HOST}/logUser`,
   logUserAudit: `${ABS_HOST}/logUser/audit`,
   logUserExport: `${ABS_HOST}/logUser/export`,
+  userInfo: `${ABS_HOST}/userInfo`,
+  updateUserInfo: `${ABS_HOST}/updateUserInfo`,
 
   products: `${ABS}/products`,
   fileTypes: `${ABS}/fileTypes`,

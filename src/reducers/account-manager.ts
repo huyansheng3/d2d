@@ -8,6 +8,7 @@ export const initState = {
   roles: [],
   corporateInfo: [],
   users: [],
+  userInfo: {},
 };
 
 export default (state = initState, action) => {
@@ -121,6 +122,24 @@ export default (state = initState, action) => {
           return {
             ...prevState,
             users: newUsers,
+          };
+        },
+      });
+    case ACTION_TYPE.QUERY_USER_INFO:
+      return handle(state, action, {
+        success: prevState => {
+          return {
+            ...prevState,
+            userInfo: action.payload.data,
+          };
+        },
+      });
+    case ACTION_TYPE.UPDATE_USER_INFO:
+      return handle(state, action, {
+        success: prevState => {
+          return {
+            ...prevState,
+            userInfo: action.payload.data,
           };
         },
       });

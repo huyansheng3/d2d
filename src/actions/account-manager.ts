@@ -12,6 +12,8 @@ export enum ACTION_TYPE {
   UPDATE_USER = 'UPDATE_USER',
   UPDATE_USER_STATUS = 'UPDATE_USER_STATUS',
   RESET_PASSWORD = 'RESET_PASSWORD',
+  QUERY_USER_INFO = 'QUERY_USER_INFO',
+  UPDATE_USER_INFO = 'UPDATE_USER_INFO',
 }
 
 export const queryRoles = () => {
@@ -129,6 +131,27 @@ export const resetPassword = opts => {
     promise: wrapServer({
       method: 'patch',
       url: api.userPassword,
+      ...opts,
+    }),
+  };
+};
+
+export const queryUserInfo = opts => {
+  return {
+    type: ACTION_TYPE.QUERY_USER_INFO,
+    promise: wrapServer({
+      method: 'get',
+      url: api.userInfo,
+      ...opts,
+    }),
+  };
+};
+
+export const updateUserInfo = opts => {
+  return {
+    type: ACTION_TYPE.UPDATE_USER_INFO,
+    promise: wrapServer({
+      url: api.updateUserInfo,
       ...opts,
     }),
   };

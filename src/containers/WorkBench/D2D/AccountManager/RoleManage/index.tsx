@@ -116,7 +116,7 @@ class UserManage extends React.Component<Props, any> {
         key: 'createTime',
       },
       {
-        title: '操作',
+        title: '是否启用',
         dataIndex: 'operate',
         key: 'operate',
         render: (operate, record, index) => {

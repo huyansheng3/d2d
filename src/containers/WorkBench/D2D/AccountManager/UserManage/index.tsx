@@ -139,7 +139,7 @@ class UserManage extends React.Component<Props, {}> {
         },
       },
       {
-        title: '操作',
+        title: '是否启用',
         dataIndex: 'operate',
         key: 'operate',
         render: (operate, record, index) => {
