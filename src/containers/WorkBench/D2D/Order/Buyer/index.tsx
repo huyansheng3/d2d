@@ -96,11 +96,13 @@ class Buyer extends React.Component<
         title: '商品名称',
         dataIndex: 'name',
         key: 'name',
+        width: 100,
       },
       {
         title: '数量',
         dataIndex: 'quantity',
         key: 'quantity',
+        width: 100,
       },
       {
         title: '单位',
@@ -111,24 +113,26 @@ class Buyer extends React.Component<
         title: '单价',
         dataIndex: 'goodsAmt',
         key: 'goodsAmt',
+        width: 100,
       },
       {
         title: '订单号',
         dataIndex: 'orderNo',
         key: 'orderNo',
+        width: 200,
       },
-        {
-            title: 'Token ID',
-            dataIndex: 'tokenTransId',
-            key: 'tokenTransId',
-        },
-        {
-            title: '交易ID',
-            dataIndex: 'transactionId',
-            key: 'transactionId',
-        },
+      {
+        title: 'Token ID',
+        dataIndex: 'tokenTransId',
+        key: 'tokenTransId',
+      },
+      {
+        title: '交易ID',
+        dataIndex: 'transactionId',
+        key: 'transactionId',
+      },
 
-        {
+      {
         title: '订单状态',
         dataIndex: 'goodsState',
         key: 'goodsState',
@@ -204,6 +208,7 @@ class Buyer extends React.Component<
           columns={this.columns}
           dataSource={orders}
           rowKey="orderNo"
+          scroll={{ x: 2000 }}
         />
 
         <CreateNode
