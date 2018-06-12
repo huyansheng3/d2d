@@ -141,6 +141,7 @@ class Seller extends React.Component<Props, {}> {
         title: '订单状态',
         dataIndex: 'goodsState',
         key: 'goodsState',
+        width: 150,
         render: goodsState => {
           const opt = find(options, { value: goodsState }) || {};
           return opt.label || goodsState;
@@ -150,16 +151,19 @@ class Seller extends React.Component<Props, {}> {
         title: '总金额',
         dataIndex: 'totalAmt',
         key: 'totalAmt',
+        width: 100,
       },
       {
         title: '收货地址',
         dataIndex: 'buyerAddress',
         key: 'buyerAddress',
+        width: 100,
       },
       {
         title: '收货日期',
         dataIndex: 'deliveryDate',
         key: 'deliveryDate',
+        width: 100,
       },
     ];
   }
@@ -223,7 +227,7 @@ class Seller extends React.Component<Props, {}> {
           columns={this.columns}
           dataSource={orders}
           rowKey="orderNo"
-          scroll={{ x: 2000 }}
+          scroll={{ x: 2500 }}
         />
 
         <CreateNode

@@ -5,7 +5,7 @@ import { Layout, Menu, Icon, Row, Col, Button } from 'antd';
 import { LoginPage } from 'containers';
 import { getMenuItems, getMenuContent } from 'config/workbench';
 import { LogoutMenuItem } from 'components/WrapMenuItem';
-import { tail } from 'lodash';
+import { tail, last, find, findIndex } from 'lodash';
 import { wechat, yiLogo, logo } from 'images';
 import CustomFooter from 'components/Footer';
 import './style.css';
@@ -97,11 +97,43 @@ class WorkBench extends React.Component<Props, {}> {
         </Layout>
       );
     }
+
+    const currentId = last(location.pathname.split('/'));
+
+    const menuItems = getMenuItems(roleName);
+    const currentItem = find(menuItems, item => {
+      if (!item.subItems) {
+        return false;
+      }
+      const index = findIndex(item.subItems, { id: currentId });
+      return index !== -1;
+    });
+
+    if (!currentItem) {
+      if (
+        menuItems &&
+        menuItems[0] &&
+        menuItems[0]!.subItems &&
+        menuItems[0]!.subItems[0]
+      ) {
+        return (
+          <Redirect
+            to={{
+              pathname: `/d2d/${menuItems[0]!.id}/${
+                menuItems[0]!.subItems[0].id
+              }`,
+            }}
+          />
+        );
+      }
+    }
+
+    // Redirect
     return (
       <Layout className="layout workbench-layout">
         <Header>
           <div className="wlayout__logo">
-              <img className="wllogo__img" src={logo} alt="logo" />
+            <img className="wllogo__img" src={logo} alt="logo" />
           </div>
 
           <Menu theme="dark" className="wlayout__menu" mode="horizontal">
@@ -127,13 +159,14 @@ class WorkBench extends React.Component<Props, {}> {
               <Menu
                 mode="inline"
                 onClick={this.handleMenuClick}
+                defaultOpenKeys={currentItem ? [currentItem.id] : []}
                 selectedKeys={[location.pathname]}>
                 {getMenuItems(roleName).map(item => this.renderMenu(item))}
               </Menu>
 
               {/*<div className="tech-support">*/}
-                {/*<p>EverChain-D2D 1.0</p>*/}
-                {/*<p className="tech">技术支持—链平方</p>*/}
+              {/*<p>EverChain-D2D 1.0</p>*/}
+              {/*<p className="tech">技术支持—链平方</p>*/}
               {/*</div>*/}
             </Sider>
             <Content className="lcontent__content">
@@ -149,4 +182,7 @@ class WorkBench extends React.Component<Props, {}> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkBench);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WorkBench);
