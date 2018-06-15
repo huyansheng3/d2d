@@ -89,13 +89,21 @@ class QueryRecord extends React.Component<Props, State> {
         },
       },
       {
-        title: '接口名称',
+        title: '名称',
         dataIndex: 'apiName',
         key: 'apiName',
         render: apiName => {
           return apiName || '文件';
         },
       },
+        {
+            title: '类型',
+            dataIndex: 'type',
+            key: 'type',
+            render: (type, record, index) => {
+                return type === 'interface' ? '接口' : '文件';
+            },
+        },
 
       {
         title: '发送方',

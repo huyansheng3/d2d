@@ -62,7 +62,8 @@ class Query extends React.Component<Props, any> {
 
   handleFileClick = record => {
     this.setState({ fileModalVisible: true });
-    this.props.queryAttachments({ pid: record.pid });
+    console.log(record)
+    this.props.queryAttachments({ pid: record.pid, tableName: record.tableName });
   };
 
   onOk = e => {
@@ -170,7 +171,7 @@ class Query extends React.Component<Props, any> {
         },
       },
       {
-        title: '接口名称',
+        title: '名称',
         dataIndex: 'apiName',
         key: 'apiName',
         render: apiName => {
@@ -182,7 +183,7 @@ class Query extends React.Component<Props, any> {
         dataIndex: 'type',
         key: 'type',
         render: (type, record, index) => {
-          return type === 'interface' ? '数据表' : '文件';
+          return type === 'interface' ? '接口' : '文件';
         },
       },
       {

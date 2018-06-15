@@ -162,7 +162,7 @@ class CreateRole extends React.Component<Props, {}> {
               indeterminate={this.state.corpIndeterminate}
               onChange={this.onCorpAllChange}
               checked={this.state.corpCheckAll}>
-              全部企业
+              全部页面
             </Checkbox>
 
             {getFieldDecorator('corpManage', {

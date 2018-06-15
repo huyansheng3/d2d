@@ -302,6 +302,15 @@ class Subscribe extends React.Component<Props, State> {
           return tableName;
         },
       },
+        {
+            title: '类型',
+            dataIndex: 'type',
+            key: 'type',
+            render: (type, record, index) => {
+                return type === 'interface' ? '接口' : '文件';
+            },
+        },
+
       {
         title: '订阅方',
         dataIndex: 'partyName',
