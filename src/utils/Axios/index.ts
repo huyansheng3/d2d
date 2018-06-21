@@ -38,7 +38,7 @@ export const server = axios.create({
   timeout: TIMEOUT,
   // withCredentials: true,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json;charset=UTF-8',
   },
 });
 
