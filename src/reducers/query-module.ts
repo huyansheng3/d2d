@@ -1,6 +1,6 @@
 import { handle } from 'redux-pack';
 import { ACTION_TYPE } from 'actions/query-module';
-import { findIndex, forEach, find } from 'lodash';
+import { findIndex, forEach, find, isArray } from 'lodash';
 import produce from 'immer';
 
 export const initState = {
@@ -18,7 +18,7 @@ export const initState = {
   localHash: '',
   tableList: [],
   queryForm: {},
-  onlineHashs: [],
+  onlineHashs: {},
   nodes: [],
   hashForm: {},
   currentKey: '',
@@ -217,7 +217,16 @@ export default (state = initState, action) => {
           },
         }),
         success: prevState => {
-          return { ...prevState, onlineHashs: action.payload.data };
+          const { keyfield } = action.meta;
+          return {
+            ...prevState,
+            onlineHashs: {
+              ...prevState.onlineHashs,
+              [keyfield]: isArray(action.payload.data)
+                ? action.payload.data[0]
+                : action.payload.data,
+            },
+          };
         },
         finish: prevState => {
           return {

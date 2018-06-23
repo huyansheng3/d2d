@@ -153,6 +153,7 @@ export const queryTableList = ({ data }) => {
 export const queryHash = ({ data }) => {
   return {
     type: ACTION_TYPE.QUERY_HASH,
+    meta: data,
     promise: wrapServer({
       method: 'post',
       url: api.getHashByKeyfield,

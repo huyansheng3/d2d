@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import QueryForm from './QueryForm';
-import { Form, Table, Input, Button, Icon, Tooltip, message } from 'antd';
+import { Form, Table, Input, Button, Icon, Tooltip, message, Tabs } from 'antd';
 import {
   queryVerifyData,
   calculateHash,
@@ -29,6 +29,7 @@ function handleCopy(record) {
   message.success('复制成功！');
 }
 
+const TabPane = Tabs.TabPane;
 const Item = Form.Item;
 const TextArea = Input.TextArea;
 
@@ -201,7 +202,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
       loading,
       localHash,
       tableList,
-      onlineHashs = [],
+      onlineHashs = {},
       tables,
       hashForm,
     } = queryModule;
@@ -209,64 +210,123 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
 
     const dataSource = verifyData.map((item, index) => ({
       ...item,
-      onlineHash: onlineHashs[index],
+      onlineHash: onlineHashs[item.keyfield],
     }));
 
     return (
       <div className="data-verify">
-        <div>
-          <h2>数据验证</h2>
-          <QueryForm
-            hashForm={hashForm}
-            verifyData={verifyData}
-            isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
-            queryVerifyData={this.props.queryVerifyData}
-            queryHash={this.props.queryHash}
-            tableList={tables}
-            onChange={this.handleQueryFormChange}
-          />
-          <Table
-            loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
-            columns={this.verifyColumns}
-            dataSource={dataSource}
-            pagination={false}
-            bordered
-            rowKey="id"
-          />
-        </div>
-        <div className="mt20">
-          <h2>本地明文哈希值计算</h2>
-          <Form layout="vertical">
-            <Item {...formItemLayout} label="输入">
-              {getFieldDecorator('data', {
-                rules: [
-                  { required: true, message: '不能为空' },
-                  {
-                    validator: this.validateJSON,
-                  },
-                ],
-              })(<TextArea autosize={{ minRows: 8, maxRows: 30 }} />)}
-            </Item>
+        <Tabs defaultActiveKey="data">
+          <TabPane tab="数据验证" key="data">
+            <div>
+              <h2>数据验证</h2>
+              <QueryForm
+                hashForm={hashForm}
+                verifyData={verifyData}
+                isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
+                queryVerifyData={this.props.queryVerifyData}
+                queryHash={this.props.queryHash}
+                tableList={tables}
+                onChange={this.handleQueryFormChange}
+              />
+              <Table
+                loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
+                columns={this.verifyColumns}
+                dataSource={dataSource}
+                pagination={false}
+                bordered
+                rowKey="id"
+              />
+            </div>
+            <div className="mt20">
+              <h2>本地明文哈希值计算</h2>
+              <Form layout="vertical">
+                <Item {...formItemLayout} label="输入">
+                  {getFieldDecorator('data', {
+                    rules: [
+                      { required: true, message: '不能为空' },
+                      {
+                        validator: this.validateJSON,
+                      },
+                    ],
+                  })(<TextArea autosize={{ minRows: 8, maxRows: 30 }} />)}
+                </Item>
 
-            <Item>
-              <Button
-                type="primary"
-                loading={loading[ACTION_TYPE.CALCULATE_HASH]}
-                onClick={this.handleCalculate}>
-                计算
-              </Button>
-              <Tooltip
-                placement="top"
-                title="计算出来的哈希值可与区块浏览器中的数值进行对比，以判断原始数据是否被篡改">
-                <Icon className="ml20" type="question-circle" />
-              </Tooltip>
-            </Item>
+                <Item>
+                  <Button
+                    type="primary"
+                    loading={loading[ACTION_TYPE.CALCULATE_HASH]}
+                    onClick={this.handleCalculate}>
+                    计算
+                  </Button>
+                  <Tooltip
+                    placement="top"
+                    title="计算出来的哈希值可与区块浏览器中的数值进行对比，以判断原始数据是否被篡改">
+                    <Icon className="ml20" type="question-circle" />
+                  </Tooltip>
+                </Item>
 
-            <Item {...formItemLayout} label="计算结果">
-              <div>{localHash}</div>
-            </Item>
-          </Form>
-        </div>
+                <Item {...formItemLayout} label="计算结果">
+                  <div>{localHash}</div>
+                </Item>
+              </Form>
+            </div>
+          </TabPane>
+          <TabPane tab="文件验证" key="file">
+            <div>
+              <h2>文件验证</h2>
+              <QueryForm
+                hashForm={hashForm}
+                verifyData={verifyData}
+                isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
+                queryVerifyData={this.props.queryVerifyData}
+                queryHash={this.props.queryHash}
+                tableList={tables}
+                onChange={this.handleQueryFormChange}
+              />
+              <Table
+                loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
+                columns={this.verifyColumns}
+                dataSource={dataSource}
+                pagination={false}
+                bordered
+                rowKey="id"
+              />
+            </div>
+            <div className="mt20">
+              <h2>本地明文哈希值计算</h2>
+              <Form layout="vertical">
+                <Item {...formItemLayout} label="输入">
+                  {getFieldDecorator('data', {
+                    rules: [
+                      { required: true, message: '不能为空' },
+                      {
+                        validator: this.validateJSON,
+                      },
+                    ],
+                  })(<TextArea autosize={{ minRows: 8, maxRows: 30 }} />)}
+                </Item>
+
+                <Item>
+                  <Button
+                    type="primary"
+                    loading={loading[ACTION_TYPE.CALCULATE_HASH]}
+                    onClick={this.handleCalculate}>
+                    计算
+                  </Button>
+                  <Tooltip
+                    placement="top"
+                    title="计算出来的哈希值可与区块浏览器中的数值进行对比，以判断原始数据是否被篡改">
+                    <Icon className="ml20" type="question-circle" />
+                  </Tooltip>
+                </Item>
+
+                <Item {...formItemLayout} label="计算结果">
+                  <div>{localHash}</div>
+                </Item>
+              </Form>
+            </div>
+          </TabPane>
+        </Tabs>
       </div>
     );
   }

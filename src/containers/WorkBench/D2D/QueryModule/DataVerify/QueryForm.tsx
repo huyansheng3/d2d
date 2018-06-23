@@ -30,12 +30,16 @@ class QueryForm extends React.Component<Props, {}> {
   query = e => {
     this.props.form.validateFields((err, fieldValues) => {
       if (!err) {
-        this.props.queryVerifyData({ params: fieldValues });
-        const data = {
-          keyfield: fieldValues.id,
-          tableName: fieldValues.stateName,
-        };
-        this.props.queryHash({ data: data });
+        this.props.queryVerifyData({ params: fieldValues }).then(action => {
+          (action.payload.data || []).map(({ keyfield }) => {
+            this.props.queryHash({
+              data: {
+                keyfield: keyfield,
+                tableName: fieldValues.stateName,
+              },
+            });
+          });
+        });
       }
     });
   };
