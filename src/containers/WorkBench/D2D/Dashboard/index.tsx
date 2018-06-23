@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-
-import { Divider, Row, Col, message, Card } from 'antd';
+import { Divider, Row, Col, message, Card, Carousel } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { register, sendVerifyCode, SMS_TYPE } from 'actions/user';
 import {
@@ -12,6 +11,7 @@ import {
   parseDatePicker,
 } from 'utils/Form';
 import { queryProduct, queryTables } from 'actions/query-module';
+import { clone, isArray, random } from 'lodash';
 import './style.css';
 import {
   Chart,
@@ -47,70 +47,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = ({ user, queryModule }) => ({ user, queryModule });
-
-const data = [
-  { country: '中标项目', year: '1750', value: 502 },
-  { country: '中标项目', year: '1800', value: 635 },
-  { country: '中标项目', year: '1850', value: 809 },
-  { country: '中标项目', year: '1900', value: 5268 },
-  { country: '中标项目', year: '1950', value: 4400 },
-  { country: '中标项目', year: '1999', value: 3634 },
-  { country: '中标项目', year: '2050', value: 947 },
-  { country: '公司资质', year: '1750', value: 106 },
-  { country: '公司资质', year: '1800', value: 107 },
-  { country: '公司资质', year: '1850', value: 111 },
-  { country: '公司资质', year: '1900', value: 1766 },
-  { country: '公司资质', year: '1950', value: 221 },
-  { country: '公司资质', year: '1999', value: 767 },
-  { country: '公司资质', year: '2050', value: 133 },
-  { country: '公司荣誉', year: '1750', value: 163 },
-  { country: '公司荣誉', year: '1800', value: 203 },
-  { country: '公司荣誉', year: '1850', value: 276 },
-  { country: '公司荣誉', year: '1900', value: 628 },
-  { country: '公司荣誉', year: '1950', value: 547 },
-  { country: '公司荣誉', year: '1999', value: 729 },
-  { country: '公司荣誉', year: '2050', value: 408 },
-  { country: '采购订单信息', year: '1750', value: 200 },
-  { country: '采购订单信息', year: '1800', value: 200 },
-  { country: '采购订单信息', year: '1850', value: 200 },
-  { country: '采购订单信息', year: '1900', value: 460 },
-  { country: '采购订单信息', year: '1950', value: 230 },
-  { country: '采购订单信息', year: '1999', value: 300 },
-  { country: '采购订单信息', year: '2050', value: 300 },
-];
-const cols = {
-  year: {
-    type: 'linear',
-    tickInterval: 50,
-  },
-};
-
-const { Html } = Guide;
-
-const percentData = [
-  { item: '中标项目', count: 40 },
-  { item: '公司资质', count: 21 },
-  { item: '采购订单信息', count: 17 },
-  { item: '销售订单信息', count: 13 },
-  { item: '供应商基础信息', count: 9 },
-];
-const dv = new DataView();
-
-dv.source(percentData).transform({
-  type: 'percent',
-  field: 'count',
-  dimension: 'item',
-  as: 'percent',
-});
-
-const percentCols = {
-  percent: {
-    formatter: val => {
-      val = val * 100 + '%';
-      return val;
-    },
-  },
-};
 
 class CorpAccount extends React.Component<Props, any> {
   state = {
@@ -215,6 +151,27 @@ class CorpAccount extends React.Component<Props, any> {
       },
     ];
 
+    let offset = 4,
+      showTables: any[] = [],
+      j = 0;
+    for (let i = 0, len = tables.length; i < len; i++) {
+      if (showTables[j]) {
+        showTables[j].push(tables[i]);
+      } else {
+        showTables[j] = [tables[i]];
+      }
+      if ((i + 1) % offset === 0) {
+        j += 1;
+      }
+    }
+
+    const data = tables.map(table => {
+      return {
+        product: table.productName,
+        count: random(20, 100),
+      };
+    });
+
     return (
       <div className="dashboard">
         <Row gutter={16}>
@@ -245,14 +202,14 @@ class CorpAccount extends React.Component<Props, any> {
               <Row gutter={16}>
                 <Col span={8} className="dcard__item">
                   <h3>数据表</h3>
-                  <p>10</p>
+                  <p>{tables.length}</p>
                 </Col>
                 <Col
                   span={8}
                   offset={2}
                   className="dcard__item dcard__item--second">
                   <h3>产品</h3>
-                  <p>2</p>
+                  <p>{products.length}</p>
                 </Col>
               </Row>
             </Card>
@@ -265,13 +222,21 @@ class CorpAccount extends React.Component<Props, any> {
               <Col span={6} className="dashboard-list">
                 <h3>数据表清单</h3>
                 <p>表名</p>
-                <ul>
-                  <ul>
-                    {tables.map(p => (
-                      <li key={p.productName}>{p.productName}</li>
-                    ))}
-                  </ul>
-                </ul>
+                <div>
+                  <Carousel autoplay>
+                    {showTables.map((item, index) => {
+                      return (
+                        <div className="dlcarousel__item" key={index}>
+                          <ul>
+                            {(item as any).map(p => (
+                              <li key={p.productName}>{p.productName}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    })}
+                  </Carousel>
+                </div>
               </Col>
               <Col span={6} offset={2} className="dashboard-list">
                 <h3>产品清单</h3>
@@ -284,69 +249,12 @@ class CorpAccount extends React.Component<Props, any> {
 
         <div className="mt20">
           <Card title="图表" hoverable bordered={false}>
-            <Row gutter={16} type="flex" align="middle" justify="space-around">
-              <Col span={12}>
-                <Chart
-                  height={500}
-                  data={dv}
-                  padding={[80, 100, 80, 80]}
-                  forceFit>
-                  <Coord type={'theta'} radius={0.75} innerRadius={0.6} />
-                  <Axis name="percent" />
-                  <Legend
-                    position="right"
-                    offsetY={-window.innerHeight / 2 + 120}
-                    offsetX={-100}
-                  />
-                  <Tooltip
-                    showTitle={false}
-                    itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"
-                  />
-                  <Geom
-                    type="intervalStack"
-                    position="percent"
-                    color="item"
-                    tooltip={[
-                      'item*percent',
-                      (item, percent) => {
-                        percent = percent * 100 + '%';
-                        return {
-                          name: item,
-                          value: percent,
-                        };
-                      },
-                    ]}
-                    style={{ lineWidth: 1, stroke: '#fff' }}>
-                    <Label
-                      content="percent"
-                      formatter={(val, item) => {
-                        return item.point.item + ': ' + val;
-                      }}
-                    />
-                  </Geom>
-                </Chart>
-              </Col>
-              <Col span={12}>
-                <Chart
-                  width={400}
-                  height={300}
-                  style={{ maxWidth: '90%' }}
-                  data={data}
-                  forceFit>
-                  <Axis name="year" />
-                  <Axis name="value" />
-                  <Legend />
-                  <Tooltip />
-                  <Geom type="area" position="year*value" color="country" />
-                  <Geom
-                    type="line"
-                    position="year*value"
-                    size={2}
-                    color="country"
-                  />
-                </Chart>
-              </Col>
-            </Row>
+            <Chart height={400} data={data} forceFit>
+              <Axis name="product" />
+              <Axis name="count" />
+              <Tooltip crosshairs={{ type: 'y' }} />
+              <Geom type="interval" position="product*count" />
+            </Chart>
           </Card>
         </div>
       </div>

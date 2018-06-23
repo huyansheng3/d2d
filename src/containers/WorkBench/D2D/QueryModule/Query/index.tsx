@@ -5,8 +5,10 @@ import {
   queryProduct,
   queryPermission,
   queryAttachments,
+  queryNodeMainTain,
   queryTables,
   queryFileTypes,
+  setPid,
   ACTION_TYPE,
 } from 'actions/query-module';
 import QueryForm from './QueryForm';
@@ -24,6 +26,8 @@ interface Props {
   setInterval: (callback: Function, delay: number) => number;
   clearInterval: (id: number) => any;
   queryFileTypes: (opts) => any;
+  queryNodeMainTain: () => any;
+  setPid: (id) => any;
   queryModule: any;
   ui: any;
 }
@@ -34,6 +38,8 @@ const mapDispatchToProps = dispatch => ({
   queryAttachments: params => dispatch(queryAttachments(params)),
   queryTables: () => dispatch(queryTables()),
   queryFileTypes: opts => dispatch(queryFileTypes(opts)),
+  queryNodeMainTain: () => dispatch(queryNodeMainTain()),
+  setPid: id => dispatch(setPid(id)),
 });
 
 const mapStateToProps = ({ queryModule, ui }) => ({ queryModule, ui });
@@ -53,17 +59,15 @@ class Query extends React.Component<Props, any> {
     this.props.queryProduct({});
     this.props.queryTables();
     this.props.queryFileTypes({});
+    this.props.queryNodeMainTain();
   }
-
-  handleDownloadClick = record => {
-    this.setState({ modalVisible: true, table: record.tableName });
-    this.interval = this.props.setInterval(this.updateProgerss, 100);
-  };
 
   handleFileClick = record => {
     this.setState({ fileModalVisible: true });
-    console.log(record)
-    this.props.queryAttachments({ pid: record.pid, tableName: record.tableName });
+    this.props.queryAttachments({
+      pid: record.pid,
+      tableName: record.tableName,
+    });
   };
 
   onOk = e => {
@@ -76,21 +80,14 @@ class Query extends React.Component<Props, any> {
     this.props.clearInterval(this.interval);
   };
 
-  updateProgerss = () => {
-    if (this.state.percent < 100) {
-      this.setState({
-        percent: Number(+this.state.percent + +Math.random() * 2).toFixed(1),
-      });
-    } else {
-      this.props.clearInterval(this.interval);
-    }
-  };
-
   handleQueryChange = val => {
     this.setState(val);
+    this.props.setPid(val);
   };
 
   get filesColumns() {
+    const { fileTypes } = this.props.queryModule;
+
     return [
       {
         title: '序号',
@@ -98,14 +95,6 @@ class Query extends React.Component<Props, any> {
         key: 'index',
         render: (updateOwner, record, index) => {
           return index + 1;
-        },
-      },
-      {
-        title: '更新人',
-        dataIndex: 'updateOwner',
-        key: 'updateOwner',
-        render: (updateOwner, record, index) => {
-          return updateOwner || 'XXX';
         },
       },
       {
@@ -117,6 +106,9 @@ class Query extends React.Component<Props, any> {
         title: '文件类型',
         dataIndex: 'fileType',
         key: 'fileType',
+        render: fileType => {
+          return (find(fileTypes, { type: fileType }) || {}).typeName || '-';
+        },
       },
       {
         title: '文件名称',
@@ -158,8 +150,19 @@ class Query extends React.Component<Props, any> {
 
   render() {
     let { queryModule, ui } = this.props;
-    const { products, permission, attachments } = queryModule;
+    const {
+      products,
+      permission,
+      attachments,
+      nodeMainTain,
+      pid,
+    } = queryModule;
     const { loading, isLoading } = ui;
+
+    const { table } = this.state;
+
+    const downloadUrl =
+      api.productDownload + '?' + qs.stringify({ table: table, pid: pid });
 
     const permissionColumns = [
       {
@@ -192,6 +195,24 @@ class Query extends React.Component<Props, any> {
         key: 'updateTime',
       },
       {
+        title: '发送方',
+        dataIndex: 'partyName',
+        key: 'partyName',
+        render: partyName => {
+          const item = find(nodeMainTain, { partyName: partyName }) || {};
+          return item.corporateInfo || '-';
+        },
+      },
+      {
+        title: '接收方',
+        dataIndex: 'fromPartyName',
+        key: 'fromPartyName',
+        render: fromPartyName => {
+          const item = find(nodeMainTain, { partyName: fromPartyName }) || {};
+          return item.corporateInfo || '-';
+        },
+      },
+      {
         title: '操作',
         dataIndex: 'operate',
         key: 'operate',
@@ -199,9 +220,7 @@ class Query extends React.Component<Props, any> {
         render: (operate, record, index) => {
           if (record.type === 'interface') {
             return (
-              <Button
-                type="primary"
-                onClick={() => this.handleDownloadClick(record)}>
+              <Button type="primary" href={downloadUrl}>
                 下载
               </Button>
             );
@@ -218,16 +237,13 @@ class Query extends React.Component<Props, any> {
       },
     ];
 
-    const { table, pid } = this.state;
-    const downloadUrl =
-      api.productDownload + '?' + qs.stringify({ table: table, pid: pid });
     return (
       <div>
         <QueryForm
           isLoading={loading[ACTION_TYPE.QUERY_PERMISSION]}
           queryPermission={this.props.queryPermission}
           products={products}
-          pid={this.state.pid}
+          pid={pid}
           onChange={this.handleQueryChange}
         />
 
@@ -238,53 +254,12 @@ class Query extends React.Component<Props, any> {
         />
 
         <Modal
-          visible={this.state.modalVisible}
-          onOk={this.onOk}
-          onCancel={this.onCancel}
-          maskClosable={false}
-          footer={null}>
-          <div className="download-modal-content">
-            <h2>{this.state.percent < 100 ? '导出中' : '导出成功'}</h2>
-            <Progress
-              className="mt20"
-              type="circle"
-              percent={this.state.percent}
-            />
-
-            <div className="mt20">
-              {this.state.percent >= 100 && (
-                <Button className="mt20" type="primary" href={downloadUrl}>
-                  下载
-                </Button>
-              )}
-            </div>
-          </div>
-        </Modal>
-
-        <Modal
           title="查看文件"
           width={1200}
           onOk={e => this.setState({ fileModalVisible: false })}
           onCancel={e => this.setState({ fileModalVisible: false })}
           visible={this.state.fileModalVisible}>
           <div>
-            <Card title="概述">
-              <Row gutter={8}>
-                <Col span={8}>
-                  <p>产品编号：XXXXX</p>
-                  <p>查询主键：XXXXX</p>
-                </Col>
-                <Col span={8}>
-                  <p>产品名称：XXXXX</p>
-                  <p>创建者：XXXXX</p>
-                </Col>
-                <Col span={8}>
-                  <p>文件名称：XXXXX</p>
-                  <p>创建日期：XXXXX</p>
-                </Col>
-              </Row>
-            </Card>
-
             <Card title="版本信息">
               <Table
                 loading={loading[ACTION_TYPE.QUERY_ATTACHMENTS]}

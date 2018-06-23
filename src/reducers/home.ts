@@ -72,6 +72,9 @@ export default (state = home, action) => {
     case ACTION_TYPE.SEARCH:
       return handle(state, action, {
         success: prevState => {
+          const newLastBlock = action.payload.data.sort((a, b) => {
+            return Number(moment(b.creattime)) - Number(moment(a.creattime));
+          });
           return { ...prevState, lastBlock: action.payload.data };
         },
       });

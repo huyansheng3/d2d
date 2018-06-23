@@ -22,6 +22,7 @@ export const initState = {
   nodes: [],
   hashForm: {},
   currentKey: '',
+  pid: '',
 };
 
 export default (state = initState, action) => {
@@ -263,6 +264,8 @@ export default (state = initState, action) => {
       });
     case ACTION_TYPE.SET_HASH_FORM:
       return { ...state, hashForm: { ...state.hashForm, ...action.payload } };
+    case ACTION_TYPE.SET_PID:
+      return { ...state, pid: action.payload.pid };
     default:
       return state;
   }

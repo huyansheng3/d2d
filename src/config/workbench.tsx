@@ -135,10 +135,10 @@ export const queryModule: subMenuConfig = {
       id: 'dataVerify',
       title: '数据验证',
     },
-    {
-      id: 'apiList',
-      title: '接口列表',
-    },
+    // {
+    //   id: 'apiList',
+    //   title: '接口列表',
+    // },
   ],
 };
 

@@ -19,6 +19,7 @@ export enum ACTION_TYPE {
   SET_HASH_FORM = 'SET_HASH_FORM',
   QUERY_FILE_TYPES = 'QUERY_FILE_TYPES',
   SET_CURRENT_KEY = 'SET_CURRENT_KEY',
+  SET_PID = 'SET_PID',
 }
 
 export const queryProduct = data => {
@@ -196,5 +197,12 @@ export const setHashForm = form => {
   return {
     type: ACTION_TYPE.SET_HASH_FORM,
     payload: form,
+  };
+};
+
+export const setPid = pid => {
+  return {
+    type: ACTION_TYPE.SET_PID,
+    payload: pid,
   };
 };

@@ -62,6 +62,7 @@ class QueryForm extends React.Component<Props, {}> {
         <Form layout="inline">
           <FormItem {...formItemLayout} label="产品名称">
             {getFieldDecorator('pid', {
+              initialValue: pid,
               rules: [{ required: true, message: '不能为空' }],
             })(
               <Select placeholder="请选择" className="query-form-select">

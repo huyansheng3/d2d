@@ -171,13 +171,13 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
               <Button type="primary" onClick={e => handleCopy(record.data)}>
                 复制
               </Button>
-              <Button
+              {/* <Button
                 href={`${api.calculateHash}?stateName=${stateName}&id=${
                   record.keyfield
                 }`}
                 className="ml10">
                 导出
-              </Button>
+              </Button> */}
             </div>
           );
         },

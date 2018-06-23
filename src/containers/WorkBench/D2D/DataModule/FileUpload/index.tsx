@@ -109,8 +109,9 @@ class FileUpload extends React.Component<Props, any> {
   handleFileTypeChange = value => {
     const { form } = this.props;
     const fileType = form.getFieldValue('fileType');
+    const files = form.getFieldValue('files');
     // 初次选择时 不弹出提示
-    if (!fileType && value) {
+    if ((!fileType && value) || !files.length) {
       return;
     }
 
