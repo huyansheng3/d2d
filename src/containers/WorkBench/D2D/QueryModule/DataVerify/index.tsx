@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import QueryForm from './QueryForm';
+import FileQueryForm from './FileQueryForm';
 import { Form, Table, Input, Button, Icon, Tooltip, message, Tabs } from 'antd';
 import {
   queryVerifyData,
   calculateHash,
   queryTableList,
+  queryFileTypes,
   queryTables,
   queryHash,
   setCurrentKey,
@@ -47,6 +49,7 @@ interface Props extends FormComponentProps {
   queryTables: () => any;
   setHashForm: (data: any) => any;
   setCurrentKey: (data: any) => any;
+  queryFileTypes: (data: any) => any;
   queryModule: any;
 }
 
@@ -58,6 +61,7 @@ const mapDispatchToProps = dispatch => ({
   queryTables: () => dispatch(queryTables()),
   setHashForm: value => dispatch(setHashForm(value)),
   setCurrentKey: key => dispatch(setCurrentKey(key)),
+  queryFileTypes: key => dispatch(queryFileTypes(key)),
 });
 
 const mapStateToProps = ({ queryModule }) => ({ queryModule });
@@ -90,6 +94,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
 
   componentDidMount() {
     this.props.queryTables();
+    this.props.queryFileTypes({});
   }
 
   get verifyColumns() {
@@ -205,6 +210,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
       onlineHashs = {},
       tables,
       hashForm,
+      fileTypes,
     } = queryModule;
     const { getFieldDecorator } = form;
 
@@ -226,6 +232,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
                 queryVerifyData={this.props.queryVerifyData}
                 queryHash={this.props.queryHash}
                 tableList={tables}
+                fileTypes={fileTypes}
                 onChange={this.handleQueryFormChange}
               />
               <Table
@@ -274,13 +281,14 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
           <TabPane tab="文件验证" key="file">
             <div>
               <h2>文件验证</h2>
-              <QueryForm
+              <FileQueryForm
                 hashForm={hashForm}
                 verifyData={verifyData}
                 isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
                 queryVerifyData={this.props.queryVerifyData}
                 queryHash={this.props.queryHash}
                 tableList={tables}
+                fileTypes={fileTypes}
                 onChange={this.handleQueryFormChange}
               />
               <Table

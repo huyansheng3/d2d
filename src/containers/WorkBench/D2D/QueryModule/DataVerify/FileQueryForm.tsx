@@ -49,10 +49,6 @@ class QueryForm extends React.Component<Props, {}> {
     const { isLoading, tableList, hashForm, fileTypes } = this.props;
     const { getFieldDecorator } = this.props.form;
 
-    const projectOptions = tableList.map(project => (
-      <Option key={project.type}>{project.productName}</Option>
-    ));
-
     const fileTypesOptions = fileTypes.map(product => {
       return <Option key={product.type}>{product.typeName}</Option>;
     });
@@ -62,7 +58,7 @@ class QueryForm extends React.Component<Props, {}> {
         <Form layout="horizontal">
           <Row gutter={16}>
             <Col span={12}>
-              <FormItem {...formItemLayout} label="选择表">
+              <FormItem {...formItemLayout} label="选择文件类型">
                 {getFieldDecorator('stateName', {
                   initialValue: get(hashForm, 'stateName.value'),
                   rules: [
@@ -73,7 +69,7 @@ class QueryForm extends React.Component<Props, {}> {
                   ],
                 })(
                   <Select placeholder="请选择" className="query-form-select">
-                    {projectOptions}
+                    {fileTypesOptions}
                   </Select>
                 )}
               </FormItem>

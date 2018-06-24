@@ -86,7 +86,7 @@ class Query extends React.Component<Props, any> {
   };
 
   get filesColumns() {
-    const { fileTypes } = this.props.queryModule;
+    const { fileTypes, nodeMainTain } = this.props.queryModule;
 
     return [
       {
@@ -101,6 +101,10 @@ class Query extends React.Component<Props, any> {
         title: '上传节点',
         dataIndex: 'upload',
         key: 'upload',
+        render: upload => {
+          const item = find(nodeMainTain, { partyName: upload }) || {};
+          return item.corporateInfo || '-';
+        },
       },
       {
         title: '文件类型',
@@ -139,7 +143,7 @@ class Query extends React.Component<Props, any> {
           return (
             <Button
               type="primary"
-              href={api.attachment + '?' + 'hash=' + record.hash}>
+              href={api.calculateHash + '?' + 'hash=' + record.hash}>
               下载
             </Button>
           );
@@ -161,18 +165,7 @@ class Query extends React.Component<Props, any> {
 
     const { table } = this.state;
 
-    const downloadUrl =
-      api.productDownload + '?' + qs.stringify({ table: table, pid: pid });
-
     const permissionColumns = [
-      {
-        title: '产品名称',
-        dataIndex: 'productName',
-        key: 'productName',
-        render: (productName, record, index) => {
-          return productName;
-        },
-      },
       {
         title: '名称',
         dataIndex: 'apiName',
@@ -218,6 +211,11 @@ class Query extends React.Component<Props, any> {
         key: 'operate',
         width: '20%',
         render: (operate, record, index) => {
+          const downloadUrl =
+            api.calculateHash +
+            '?' +
+            qs.stringify({ stateName: record.tableName, id: pid });
+
           if (record.type === 'interface') {
             return (
               <Button type="primary" href={downloadUrl}>
