@@ -244,9 +244,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
           if (!record.hash || !record.localHash) {
             return '-';
           }
-          return record.localHash === record.hash
-            ? '匹配'
-            : '不匹配';
+          return record.localHash === record.hash ? '匹配' : '不匹配';
         },
       },
       {
