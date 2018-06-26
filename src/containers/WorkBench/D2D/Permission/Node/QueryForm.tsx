@@ -33,9 +33,7 @@ class QueryForm extends React.Component<Props, {}> {
   query = e => {
     this.props.form.validateFields((err, values) => {
       const params = {
-        pid: values.pid,
-        leftTime: +values.range[0] || '',
-        rightTime: +values.range[1] || '',
+        corporateInfo: values.corporateInfo,
       };
       this.props.query({ params });
     });
@@ -72,24 +70,8 @@ class QueryForm extends React.Component<Props, {}> {
       <div>
         <div className="query-form">
           <Form layout="inline">
-            <FormItem {...formItemLayout} label="产品名称">
-              {getFieldDecorator('pid', {})(
-                <Select placeholder="请选择" className="query-form-select">
-                  {options}
-                </Select>
-              )}
-            </FormItem>
-
-            <FormItem {...formItemLayout} label="登录时间">
-              {getFieldDecorator('range', {
-                initialValue: [],
-              })(
-                <RangePicker
-                  showTime={{ format: 'HH:mm' }}
-                  format="YYYY-MM-DD HH:mm"
-                  placeholder={['开始时间', '结束时间']}
-                />
-              )}
+            <FormItem {...formItemLayout} label="节点名称">
+              {getFieldDecorator('corporateInfo', {})(<Input />)}
             </FormItem>
 
             <div className="query-form-operate">

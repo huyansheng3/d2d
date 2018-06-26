@@ -5,6 +5,7 @@ import { FormComponentProps } from 'antd/lib/form';
 import { Form, Input, Select, Button } from 'antd';
 import { forEach, isEmpty } from 'lodash';
 import { parseInitValue } from 'utils/Utils';
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -48,7 +49,11 @@ class CreateNode extends React.Component<Props, {}> {
     form.validateFields((errors, values) => {
       if (!errors) {
         if (isCreate) {
-          this.props.createNode({ data: values }).then(({ payload }) => {
+          const data = {
+            ...values,
+            createTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+          };
+          this.props.createNode({ data }).then(({ payload }) => {
             onOk && onOk({ modalVisible: false });
           });
         } else {

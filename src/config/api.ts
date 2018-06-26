@@ -27,7 +27,7 @@ const api = {
   login: `${ABS_HOST}/login`,
   logout: `${ABS_HOST}/logout`,
   nodes: `${ABS_HOST}/nodes`,
-  nodeMainTain: `${ABS_HOST}/nodeMainTain`,
+  nodeMainTain: `${ABS}/nodeMainTain`,
   changePassword: `${ABS_HOST}/user/changePassword`,
   roles: `${ABS_HOST}/roles`,
   findRoles: `${ABS_HOST}/roles/findRoles`,

@@ -46,7 +46,7 @@ class PackAsset extends React.Component<Props, {}> {
 
   componentDidMount() {
     this.props.queryProduct({});
-    this.props.queryNode({});
+    this.props.queryNode({ params: { corporateInfo: '' } });
   }
 
   handleModalClose = state => {
@@ -59,11 +59,6 @@ class PackAsset extends React.Component<Props, {}> {
 
   get columns() {
     return [
-      {
-        title: '序号',
-        dataIndex: 'id',
-        key: 'id',
-      },
       {
         title: '节点名称',
         dataIndex: 'partyName',
@@ -122,7 +117,6 @@ class PackAsset extends React.Component<Props, {}> {
           loading={loading[ACTION_TYPE.QUERY_NODE]}
           columns={this.columns}
           dataSource={nodes}
-          rowKey="id"
         />
 
         <CreateNode
@@ -142,4 +136,7 @@ class PackAsset extends React.Component<Props, {}> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PackAsset);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PackAsset);
