@@ -2,7 +2,17 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import QueryForm from './QueryForm';
 import FileQueryForm from './FileQueryForm';
-import { Form, Table, Input, Button, Icon, Tooltip, message, Tabs } from 'antd';
+import {
+  Form,
+  Table,
+  Input,
+  Button,
+  Icon,
+  Tooltip,
+  message,
+  Tabs,
+  Upload,
+} from 'antd';
 import {
   queryVerifyData,
   calculateHash,
@@ -12,6 +22,7 @@ import {
   queryHash,
   setCurrentKey,
   setHashForm,
+  queryFileVerify,
   ACTION_TYPE,
 } from 'actions/query-module';
 import { FormComponentProps } from 'antd/lib/form';
@@ -19,6 +30,8 @@ import { forEach, head } from 'lodash';
 import qs from 'qs';
 import api from 'config/api';
 import copy from 'copy-to-clipboard';
+import { customRequest } from 'utils/Utils';
+import { get } from 'lodash';
 
 function handleCopy(record) {
   let copyText = '';
@@ -50,6 +63,7 @@ interface Props extends FormComponentProps {
   setHashForm: (data: any) => any;
   setCurrentKey: (data: any) => any;
   queryFileTypes: (data: any) => any;
+  queryFileVerify: (opts: any) => any;
   queryModule: any;
 }
 
@@ -62,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
   setHashForm: value => dispatch(setHashForm(value)),
   setCurrentKey: key => dispatch(setCurrentKey(key)),
   queryFileTypes: key => dispatch(queryFileTypes(key)),
+  queryFileVerify: opts => dispatch(queryFileVerify(opts)),
 });
 
 const mapStateToProps = ({ queryModule }) => ({ queryModule });
@@ -191,6 +206,68 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
     ];
   }
 
+  get fileVerifyColumns() {
+    return [
+      {
+        title: '主键',
+        dataIndex: 'keyfield',
+        key: 'keyfield',
+      },
+
+      {
+        title: '文件',
+        dataIndex: 'fileName',
+        key: 'fileName',
+      },
+
+      {
+        title: '本地哈希',
+        dataIndex: 'localHash',
+        key: 'localHash',
+        render: (localHash, record, index) => {
+          return localHash || '-';
+        },
+      },
+      {
+        title: '链上哈希',
+        dataIndex: 'hash',
+        key: 'hash',
+        render: (hash, record, index) => {
+          return hash || '-';
+        },
+      },
+      {
+        title: '比对结果',
+        dataIndex: 'result',
+        key: 'result',
+        render: (result, record, index) => {
+          if (!record.hash || !record.localHash) {
+            return '-';
+          }
+          return record.localHash === record.hash
+            ? '匹配'
+            : '不匹配';
+        },
+      },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+        key: 'operate',
+        render: (operate, record, index) => {
+          return (
+            <div>
+              <Button
+                type="primary"
+                href={`${api.attachment}?hash=${record.hash}`}>
+                下载
+              </Button>
+            </div>
+          );
+        },
+      },
+    ];
+  }
+
   validateJSON = (rule, value, callback) => {
     try {
       JSON.parse(value);
@@ -198,6 +275,13 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
       callback('格式不正确，必须是 JSON 格式');
     }
     callback();
+  };
+
+  normFile = e => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
 
   render() {
@@ -211,6 +295,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
       tables,
       hashForm,
       fileTypes,
+      fileVerify,
     } = queryModule;
     const { getFieldDecorator } = form;
 
@@ -218,6 +303,15 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
       ...item,
       onlineHash: onlineHashs[item.keyfield],
     }));
+
+    const files = form.getFieldValue('files') || [];
+    const file = files[0] || {};
+    const fileVerifyDataSource = fileVerify.map(item => {
+      return {
+        ...item,
+        localHash: file.response && file.response.data,
+      };
+    });
 
     return (
       <div className="data-verify">
@@ -283,53 +377,46 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
               <h2>文件验证</h2>
               <FileQueryForm
                 hashForm={hashForm}
-                verifyData={verifyData}
-                isLoading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
-                queryVerifyData={this.props.queryVerifyData}
-                queryHash={this.props.queryHash}
+                isLoading={loading[ACTION_TYPE.FILE_VERIFY]}
+                queryVerifyData={this.props.queryFileVerify}
                 tableList={tables}
                 fileTypes={fileTypes}
                 onChange={this.handleQueryFormChange}
               />
               <Table
-                loading={loading[ACTION_TYPE.QUERY_VERIFY_DATA]}
-                columns={this.verifyColumns}
-                dataSource={dataSource}
+                loading={loading[ACTION_TYPE.FILE_VERIFY]}
+                columns={this.fileVerifyColumns}
+                dataSource={fileVerifyDataSource}
                 pagination={false}
                 bordered
-                rowKey="id"
               />
             </div>
             <div className="mt20">
               <h2>本地明文哈希值计算</h2>
               <Form layout="vertical">
-                <Item {...formItemLayout} label="输入">
-                  {getFieldDecorator('data', {
-                    rules: [
-                      { required: true, message: '不能为空' },
-                      {
-                        validator: this.validateJSON,
-                      },
-                    ],
-                  })(<TextArea autosize={{ minRows: 8, maxRows: 30 }} />)}
-                </Item>
+                <Item label="上传本地文件" {...formItemLayout}>
+                  {getFieldDecorator('files', {
+                    initialValue: [],
+                    valuePropName: 'fileList',
+                    validateTrigger: 'onBlur',
+                    getValueFromEvent: this.normFile,
+                  })(
+                    <Upload.Dragger
+                      customRequest={customRequest}
+                      multiple
+                      name="file"
+                      action={api.upload}>
+                      <p className="ant-upload-drag-icon">
+                        <Icon type="inbox" />
+                      </p>
+                      <p className="ant-upload-text">
+                        点击或拖拽文件到此区域上传
+                      </p>
+                      <p className="ant-upload-hint">支持单个或批量上传。</p>
 
-                <Item>
-                  <Button
-                    type="primary"
-                    loading={loading[ACTION_TYPE.CALCULATE_HASH]}
-                    onClick={this.handleCalculate}>
-                    计算
-                  </Button>
-                  <Tooltip
-                    placement="top"
-                    title="计算出来的哈希值可与区块浏览器中的数值进行对比，以判断原始数据是否被篡改">
-                    <Icon className="ml20" type="question-circle" />
-                  </Tooltip>
-                </Item>
-
-                <Item {...formItemLayout} label="计算结果">
-                  <div>{localHash}</div>
+                      <Button type="primary">校验</Button>
+                    </Upload.Dragger>
+                  )}
                 </Item>
               </Form>
             </div>

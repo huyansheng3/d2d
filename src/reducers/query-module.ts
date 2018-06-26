@@ -23,6 +23,7 @@ export const initState = {
   hashForm: {},
   currentKey: '',
   pid: '',
+  fileVerify: [],
 };
 
 export default (state = initState, action) => {
@@ -275,6 +276,15 @@ export default (state = initState, action) => {
       return { ...state, hashForm: { ...state.hashForm, ...action.payload } };
     case ACTION_TYPE.SET_PID:
       return { ...state, pid: action.payload.pid };
+    case ACTION_TYPE.FILE_VERIFY:
+      return handle(state, action, {
+        success: prevState => {
+          return {
+            ...prevState,
+            fileVerify: action.payload.data,
+          };
+        },
+      });
     default:
       return state;
   }

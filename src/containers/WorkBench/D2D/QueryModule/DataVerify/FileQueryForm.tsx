@@ -18,9 +18,7 @@ const formItemLayout = {
 
 interface Props extends FormComponentProps {
   queryVerifyData: (data: any) => any;
-  queryHash: (data: any) => any;
   onChange?: (fields) => any;
-  verifyData: any;
   tableList: any;
   isLoading: boolean;
   hashForm: any;
@@ -31,16 +29,7 @@ class QueryForm extends React.Component<Props, {}> {
   query = e => {
     this.props.form.validateFields((err, fieldValues) => {
       if (!err) {
-        this.props.queryVerifyData({ params: fieldValues }).then(action => {
-          (action.payload.data || []).map(({ keyfield }) => {
-            this.props.queryHash({
-              data: {
-                keyfield: keyfield,
-                tableName: fieldValues.stateName,
-              },
-            });
-          });
-        });
+        this.props.queryVerifyData({ params: fieldValues });
       }
     });
   };
@@ -59,8 +48,8 @@ class QueryForm extends React.Component<Props, {}> {
           <Row gutter={16}>
             <Col span={12}>
               <FormItem {...formItemLayout} label="选择文件类型">
-                {getFieldDecorator('stateName', {
-                  initialValue: get(hashForm, 'stateName.value'),
+                {getFieldDecorator('fileType', {
+                  initialValue: get(hashForm, 'fileType.value'),
                   rules: [
                     {
                       required: true,
@@ -76,8 +65,8 @@ class QueryForm extends React.Component<Props, {}> {
             </Col>
             <Col span={12}>
               <FormItem {...formItemLayout} label="查询条件">
-                {getFieldDecorator('id', {
-                  initialValue: get(hashForm, 'id.value'),
+                {getFieldDecorator('keyfield', {
+                  initialValue: get(hashForm, 'keyfield.value'),
                   rules: [
                     {
                       required: true,

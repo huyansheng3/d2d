@@ -62,6 +62,7 @@ const api = {
   getAttachment: `${ABS}/getAttachment`,
   upload: `${ABS}/upload`,
   tables: `${ABS}/tables`,
+  fileVerify: `${ABS}/fileVerify`,
 };
 
 export default api;

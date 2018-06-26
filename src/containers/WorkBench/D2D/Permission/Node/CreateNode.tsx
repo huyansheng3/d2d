@@ -95,7 +95,7 @@ class CreateNode extends React.Component<Props, {}> {
           </FormItem>
 
           <FormItem {...formItemLayout} label="ip 地址">
-            {getFieldDecorator('ipAdress', {
+            {getFieldDecorator('ipAddress', {
               initialValue: isCreate ? null : currentNode.ipAdress,
               rules: [{ required: true, message: '不能为空' }],
             })(<Input placeholder="ip 地址" />)}

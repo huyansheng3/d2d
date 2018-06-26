@@ -20,6 +20,7 @@ export enum ACTION_TYPE {
   QUERY_FILE_TYPES = 'QUERY_FILE_TYPES',
   SET_CURRENT_KEY = 'SET_CURRENT_KEY',
   SET_PID = 'SET_PID',
+  FILE_VERIFY = 'FILE_VERIFY',
 }
 
 export const queryProduct = data => {
@@ -205,5 +206,16 @@ export const setPid = pid => {
   return {
     type: ACTION_TYPE.SET_PID,
     payload: pid,
+  };
+};
+
+export const queryFileVerify = opts => {
+  return {
+    type: ACTION_TYPE.FILE_VERIFY,
+    promise: wrapServer({
+      method: 'get',
+      url: api.fileVerify,
+      ...opts,
+    }),
   };
 };
