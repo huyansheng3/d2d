@@ -188,7 +188,7 @@ class Query extends React.Component<Props, any> {
         key: 'updateTime',
       },
       {
-        title: '发送方',
+        title: '接收方',
         dataIndex: 'partyName',
         key: 'partyName',
         render: partyName => {
@@ -197,7 +197,7 @@ class Query extends React.Component<Props, any> {
         },
       },
       {
-        title: '接收方',
+        title: '发送方',
         dataIndex: 'fromPartyName',
         key: 'fromPartyName',
         render: fromPartyName => {

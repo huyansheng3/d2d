@@ -60,14 +60,19 @@ class PackAsset extends React.Component<Props, {}> {
   get columns() {
     return [
       {
+        title: '序号',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
         title: '节点名称',
         dataIndex: 'partyName',
         key: 'partyName',
       },
       {
         title: 'IP地址',
-        dataIndex: 'ipAdress',
-        key: 'ipAdress',
+        dataIndex: 'ipAddress',
+        key: 'ipAddress',
       },
       {
         title: '端口',

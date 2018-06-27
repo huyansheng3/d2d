@@ -54,14 +54,14 @@ class PackAsset extends React.Component<Props, {}> {
         dataIndex: 'logTime',
         key: 'logTime',
       },
-      {
-        title: '操作',
-        dataIndex: 'operate',
-        key: 'operate',
-        render: (operate, record, index) => {
-          return <Button type="primary">查看</Button>;
-        },
-      },
+      // {
+      //   title: '操作',
+      //   dataIndex: 'operate',
+      //   key: 'operate',
+      //   render: (operate, record, index) => {
+      //     return <Button type="primary">查看</Button>;
+      //   },
+      // },
     ];
   }
   render() {
