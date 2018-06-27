@@ -410,7 +410,7 @@ class DataVerify extends React.Component<Props, { queryFileds: {} }> {
                       <p className="ant-upload-text">
                         点击或拖拽文件到此区域上传
                       </p>
-                      <p className="ant-upload-hint">支持单个或批量上传。</p>
+                      {/*<p className="ant-upload-hint">支持单个或批量上传。</p>*/}
 
                       <Button type="primary">校验</Button>
                     </Upload.Dragger>

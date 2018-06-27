@@ -134,7 +134,7 @@ class CorpAccount extends React.Component<Props, any> {
 
     const basicInfos = [
       {
-        label: '基本信息',
+        label: '节点',
         value: '德邦证券',
       },
       {
@@ -217,7 +217,7 @@ class CorpAccount extends React.Component<Props, any> {
         </Row>
 
         <div className="mt20">
-          <Card title="权限清单" hoverable bordered={false}>
+          <Card title="产品概览" hoverable bordered={false}>
             <Row type="flex" align="top" justify="start">
               <Col span={6} className="dashboard-list">
                 <h3>数据表清单</h3>
