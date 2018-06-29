@@ -38,21 +38,21 @@ class PackAsset extends React.Component<Props, {}> {
         key: 'productName',
       },
 
-      {
-        title: '类型',
-        dataIndex: 'dataType',
-        key: 'dataType',
-      },
+      // {
+      //   title: '类型',
+      //   dataIndex: 'dataType',
+      //   key: 'dataType',
+      // },
       {
         title: '发送方',
         dataIndex: 'sender',
         key: 'sender',
       },
-      {
-        title: '接收方',
-        dataIndex: 'acceptor',
-        key: 'acceptor',
-      },
+      // {
+      //   title: '接收方',
+      //   dataIndex: 'acceptor',
+      //   key: 'acceptor',
+      // },
       {
         title: '操作时间',
         dataIndex: 'logTime',

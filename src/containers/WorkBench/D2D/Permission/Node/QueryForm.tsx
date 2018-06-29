@@ -100,13 +100,13 @@ class QueryForm extends React.Component<Props, {}> {
             onClick={this.handleUpdate}>
             编辑
           </Button>
-          <Button
-            disabled={isEmpty(currentNode)}
-            className="ml20"
-            type="danger"
-            onClick={this.handleDelete}>
-            删除
-          </Button>
+          {/*<Button*/}
+            {/*disabled={isEmpty(currentNode)}*/}
+            {/*className="ml20"*/}
+            {/*type="danger"*/}
+            {/*onClick={this.handleDelete}>*/}
+            {/*删除*/}
+          {/*</Button>*/}
         </div>
       </div>
     );

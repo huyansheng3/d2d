@@ -65,7 +65,7 @@ class QueryForm extends React.Component<Props, {}> {
                 initialValue: '',
               })(<Input placeholder="产品名称" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="登录时间">
+            <FormItem {...formItemLayout} label="操作时间">
               {getFieldDecorator('range', {
                 initialValue: [],
               })(

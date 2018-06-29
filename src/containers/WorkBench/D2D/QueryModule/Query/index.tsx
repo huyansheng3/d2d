@@ -143,7 +143,7 @@ class Query extends React.Component<Props, any> {
           return (
             <Button
               type="primary"
-              href={api.calculateHash + '?' + 'hash=' + record.hash}>
+              href={api.attachment + '?' + 'hash=' + record.hash}>
               下载
             </Button>
           );
