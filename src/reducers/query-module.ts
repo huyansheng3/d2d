@@ -168,7 +168,9 @@ export default (state = initState, action) => {
             return item.data.contNo === prevState.currentKey;
           });
           const newVerifyData = produce(prevState.verifyData, draft => {
-            draft[index].localHash = localHash;
+            if (index !== -1) {
+              draft[index].localHash = localHash;
+            }
           });
           return {
             ...prevState,
@@ -263,7 +265,9 @@ export default (state = initState, action) => {
           const index = findIndex(prevState.nodes, { id: newNode.id });
 
           const newNodes = produce(prevState.nodes, draftNodes => {
-            draftNodes[index] = newNode;
+            if (index !== -1) {
+              draftNodes[index] = newNode;
+            }
           });
 
           return {
